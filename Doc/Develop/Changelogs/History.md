@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.10-26.2] - 2026-06-19
+
+### Changed
+- **AI/Movement**: Softened flocking by introducing a random horizontal wandering force to prevent literal/mechanical Boids steering.
+- **AI/Wandering**: Enforced a minimum flight speed (0.15 blocks/tick) for active flying bats so they never hover or stop in mid-air.
+
 ## [1.1.9-26.2] - 2026-06-19
 
 ### Changed

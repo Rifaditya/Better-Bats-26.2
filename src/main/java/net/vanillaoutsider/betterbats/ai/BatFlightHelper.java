@@ -103,7 +103,13 @@ public class BatFlightHelper {
             }
         }
 
-        // 4. Light Preference (Day time seeks lower sky light, Night time seeks higher sky light)
+        // 4. Random Organic Wandering (steers the flock dynamically day/night)
+        double wanderStrength = 0.05;
+        double rx = (level.getRandom().nextDouble() - 0.5) * wanderStrength;
+        double rz = (level.getRandom().nextDouble() - 0.5) * wanderStrength;
+        newVelocity = newVelocity.add(rx, 0.0, rz);
+
+        // 5. Light Preference (Day time seeks lower sky light, Night time seeks higher sky light)
         BlockPos bestPos = null;
         int bestSkyLight = level.isBrightOutside() ? 16 : -1;
 
@@ -136,7 +142,19 @@ public class BatFlightHelper {
             }
         }
 
-        // 5. Clamp velocity to maximum speed
+        // 6. Enforce Minimum Speed ("never stop" flying/moving)
+        double minSpeed = 0.15;
+        if (newVelocity.lengthSqr() < minSpeed * minSpeed) {
+            if (newVelocity.lengthSqr() > 0.001) {
+                newVelocity = newVelocity.normalize().scale(minSpeed);
+            } else {
+                // Completely stopped, give a random horizontal push and upward velocity
+                double angle = level.getRandom().nextDouble() * Math.PI * 2.0;
+                newVelocity = new Vec3(Math.cos(angle) * minSpeed, minSpeed, Math.sin(angle) * minSpeed);
+            }
+        }
+
+        // 7. Clamp velocity to maximum speed
         double maxSpeed = 0.4;
         if (newVelocity.lengthSqr() > maxSpeed * maxSpeed) {
             newVelocity = newVelocity.normalize().scale(maxSpeed);
