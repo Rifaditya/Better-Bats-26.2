@@ -69,6 +69,9 @@ public class BatHuntLightGoal extends Goal {
             this.targetCenterY = this.targetLight.getY() + 0.5;
             this.targetCenterZ = this.targetLight.getZ() + 0.5;
         }
+        if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
+            accessor.betterbats$setGoalActive(true);
+        }
     }
 
     @Override
@@ -79,6 +82,9 @@ public class BatHuntLightGoal extends Goal {
     @Override
     public void stop() {
         this.targetLight = null;
+        if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
+            accessor.betterbats$setGoalActive(false);
+        }
     }
 
     @Override

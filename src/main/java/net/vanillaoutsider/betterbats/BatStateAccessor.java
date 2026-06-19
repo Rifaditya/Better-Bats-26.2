@@ -13,4 +13,6 @@ public interface BatStateAccessor {
     int betterbats$getPanicTicks();
     void betterbats$setPanicTicks(int ticks);
     Vec3 betterbats$getPanicSource();
+    boolean betterbats$isGoalActive();
+    void betterbats$setGoalActive(boolean active);
 }

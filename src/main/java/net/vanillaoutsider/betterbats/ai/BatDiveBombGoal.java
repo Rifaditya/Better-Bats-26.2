@@ -44,6 +44,9 @@ public class BatDiveBombGoal extends Goal {
         if (this.bat instanceof net.dasik.social.api.group.GroupMember gm) {
             gm.setLeader(null); 
         }
+        if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
+            accessor.betterbats$setGoalActive(true);
+        }
     }
 
     @Override
@@ -54,6 +57,9 @@ public class BatDiveBombGoal extends Goal {
     @Override
     public void stop() {
         this.targetPest = null;
+        if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
+            accessor.betterbats$setGoalActive(false);
+        }
     }
 
     @Override

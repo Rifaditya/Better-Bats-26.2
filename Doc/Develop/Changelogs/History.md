@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.11-26.2] - 2026-06-19
+
+### Added
+- **Goal Isolation**: Added a goal active flag so that when a bat runs a custom goal (lantern circling, sleep seeking, dive-bombing, or panicking), it skips murmuration/Boids math and day/night environment steering. This prevents Boids from fighting or corrupting the goal's trajectory.
+- **AI/Movement**: Re-engineered Day/Night light preference steering to scan a wider range (24 blocks). Bats in sunlight will now actively steer and descend (-0.12 Y) towards cave shade/ceilings, and bats in caves at night will actively steer and climb (+0.08 Y) towards sky openings.
+
 ## [1.1.10-26.2] - 2026-06-19
 
 ### Changed

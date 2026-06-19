@@ -42,6 +42,18 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     private int betterbats$panicTicks = 0;
     @Unique
     private Vec3 betterbats$panicSource;
+    @Unique
+    private boolean betterbats$goalActive = false;
+
+    @Override
+    public boolean betterbats$isGoalActive() {
+        return this.betterbats$goalActive;
+    }
+
+    @Override
+    public void betterbats$setGoalActive(boolean active) {
+        this.betterbats$goalActive = active;
+    }
 
     @Override
     public LivingEntity getLeader() { return null; }

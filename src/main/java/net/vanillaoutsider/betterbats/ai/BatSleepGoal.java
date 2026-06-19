@@ -81,6 +81,9 @@ public class BatSleepGoal extends Goal {
         if (this.bat instanceof net.dasik.social.api.group.GroupMember gm) {
             gm.setLeader(null);
         }
+        if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
+            accessor.betterbats$setGoalActive(true);
+        }
     }
 
     @Override
@@ -102,5 +105,8 @@ public class BatSleepGoal extends Goal {
     @Override
     public void stop() {
         this.roostPos = null;
+        if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
+            accessor.betterbats$setGoalActive(false);
+        }
     }
 }
