@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.9-26.2] - 2026-06-19
+
+### Changed
+- **AI/Movement**: Replaced the leader-follower hierarchy with a true leaderless BOIDs murmuration model. All bats now run independent local cohesion, alignment, and separation calculations from their neighbors.
+- **AI/Wandering**: Restored standard vanilla wandering AI as the base individual intent when not influenced by neighbors.
+
 ## [1.1.8-26.2] - 2026-06-19
 
 ### Fixed

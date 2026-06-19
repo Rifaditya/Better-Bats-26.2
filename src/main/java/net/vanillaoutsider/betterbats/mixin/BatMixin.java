@@ -35,11 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BatMixin implements GroupMember, BatStateAccessor {
 
     @Unique
-    private LivingEntity betterbats$leader;
-    @Unique
     private FlockType betterbats$flockType = FlockType.AERIAL;
-    @Unique
-    private FlockState betterbats$flockState;
     @Unique
     private int betterbats$guanoTicks = 0;
     @Unique
@@ -48,33 +44,30 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     private Vec3 betterbats$panicSource;
 
     @Override
-    public LivingEntity getLeader() { return this.betterbats$leader; }
+    public LivingEntity getLeader() { return null; }
 
     @Override
-    public boolean hasLeader() { return this.betterbats$leader != null; }
+    public boolean hasLeader() { return false; }
 
     @Override
-    public void setLeader(LivingEntity leader) { this.betterbats$leader = leader; }
+    public void setLeader(LivingEntity leader) {}
 
     @Override
-    public int getGroupSize() {
-        return this.betterbats$flockState != null ? this.betterbats$flockState.getMemberCount() : 1;
-    }
+    public int getGroupSize() { return 1; }
 
     public int getMaxSpawnClusterSize() {
         Bat self = (Bat)(Object)this;
         return self.level().isClientSide() ? 5 : net.dasik.social.api.gamerule.DynamicGameRuleManager.getInt(self.level(), BetterBatsFabric.BAT_SWARM_SIZE);
     }
 
-
     @Override
     public FlockType getFlockType() { return this.betterbats$flockType; }
 
     @Override
-    public FlockState getFlockState() { return this.betterbats$flockState; }
+    public FlockState getFlockState() { return null; }
 
     @Override
-    public void setFlockState(FlockState state) { this.betterbats$flockState = state; }
+    public void setFlockState(FlockState state) {}
 
     @Override
     public void betterbats$resetGuanoTicks() {
@@ -113,7 +106,6 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
         if (!level.isClientSide()) {
             ((MobAccessor)self).getGoalSelector().addGoal(1, new net.vanillaoutsider.betterbats.ai.BatPanicGoal(self));
             ((MobAccessor)self).getGoalSelector().addGoal(2, new net.vanillaoutsider.betterbats.ai.BatSleepGoal(self));
-            ((MobAccessor)self).getGoalSelector().addGoal(3, new net.vanillaoutsider.betterbats.ai.BatFollowLeaderGoal(self));
             ((MobAccessor)self).getGoalSelector().addGoal(4, new net.vanillaoutsider.betterbats.ai.BatHuntLightGoal(self));
             ((MobAccessor)self).getGoalSelector().addGoal(5, new net.vanillaoutsider.betterbats.ai.BatDiveBombGoal(self));
         }
@@ -125,7 +117,7 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
         if (self.isResting() && !level.isBrightOutside() && self.getRandom().nextInt(200) == 0) {
             self.setResting(false);
         }
-        if (!self.isResting() && !this.hasLeader()) {
+        if (!self.isResting()) {
             net.vanillaoutsider.betterbats.ai.BatFlightHelper.applyFlightForces(self);
             Vec3 newMovement = self.getDeltaMovement();
             if (newMovement.lengthSqr() > 0.001) {
@@ -134,21 +126,6 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                 self.zza = 0.5F;
                 self.setYRot(self.getYRot() + rotDiff);
             }
-        }
-    }
-
-    @Inject(method = "customServerAiStep", at = @At("HEAD"), cancellable = true)
-    private void betterbats$cancelVanillaAiWhenFlocking(ServerLevel level, CallbackInfo ci) {
-        if (this.hasLeader()) {
-            Bat self = (Bat)(Object)this;
-            Vec3 newMovement = self.getDeltaMovement();
-            if (newMovement.lengthSqr() > 0.001) {
-                float yRotD = (float)(Mth.atan2(newMovement.z, newMovement.x) * 180.0F / (float)Math.PI) - 90.0F;
-                float rotDiff = Mth.wrapDegrees(yRotD - self.getYRot());
-                self.zza = 0.5F;
-                self.setYRot(self.getYRot() + rotDiff);
-            }
-            ci.cancel();
         }
     }
 
