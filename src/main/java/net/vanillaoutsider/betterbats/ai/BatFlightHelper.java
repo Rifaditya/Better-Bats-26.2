@@ -126,26 +126,39 @@ public class BatFlightHelper {
 
             if (isDay) {
                 if (mySkyLight > 0) {
-                    // Search for a dark cover block (Sky Light 0) in a wide 24-block range
+                    // Search for a dark cover block (canSeeSky is false) in a wide 24-block range
                     BlockPos darkPos = null;
-                    double closestDistSq = Double.MAX_VALUE;
+                    int lowestSkyLight = mySkyLight;
                     int searchRangeH = 24;
-                    int searchRangeV = 12;
-                    for (int i = 0; i < 40; i++) {
+                    for (int i = 0; i < 60; i++) {
                         int dx = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
-                        int dy = level.getRandom().nextInt(searchRangeV * 2 + 1) - searchRangeV;
+                        int dy = level.getRandom().nextInt(25) - 16; // Bias search downwards (-16 to +8)
                         int dz = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
                         BlockPos check = myPos.offset(dx, dy, dz);
-                        if (level.isEmptyBlock(check) && level.getBrightness(LightLayer.SKY, check) == 0) {
-                            double distSq = check.distSqr(myPos);
-                            if (distSq < closestDistSq) {
-                                closestDistSq = distSq;
+                        if (level.isEmptyBlock(check) && !level.canSeeSky(check)) {
+                            int light = level.getBrightness(LightLayer.SKY, check);
+                            if (light < lowestSkyLight) {
+                                lowestSkyLight = light;
                                 darkPos = check;
                             }
                         }
                     }
                     if (darkPos != null) {
-                        envSteer = Vec3.atCenterOf(darkPos).subtract(bat.position()).normalize().scale(0.15);
+                        Vec3 toTarget = Vec3.atCenterOf(darkPos).subtract(bat.position());
+                        double dx = toTarget.x;
+                        double dz = toTarget.z;
+                        double horizontalDist = Math.sqrt(dx * dx + dz * dz);
+                        double steerX = 0.0;
+                        double steerZ = 0.0;
+                        if (horizontalDist > 0.01) {
+                            steerX = (dx / horizontalDist) * 0.15;
+                            steerZ = (dz / horizontalDist) * 0.15;
+                        }
+                        double steerY = 0.0;
+                        if (Math.abs(toTarget.y) > 0.01) {
+                            steerY = Math.signum(toTarget.y) * 0.12;
+                        }
+                        envSteer = new Vec3(steerX, steerY, steerZ);
                     } else {
                         // No cover found: steer downward and randomly horizontally to descend to the ground
                         double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;
@@ -157,27 +170,37 @@ public class BatFlightHelper {
                 if (mySkyLight < 15) {
                     // Search for a brighter spot/exit in a wide 24-block range
                     BlockPos brightPos = null;
-                    double closestDistSq = Double.MAX_VALUE;
+                    int highestSkyLight = mySkyLight;
                     int searchRangeH = 24;
-                    int searchRangeV = 12;
-                    for (int i = 0; i < 40; i++) {
+                    for (int i = 0; i < 60; i++) {
                         int dx = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
-                        int dy = level.getRandom().nextInt(searchRangeV * 2 + 1) - searchRangeV;
+                        int dy = level.getRandom().nextInt(25) - 8; // Bias search upwards (-8 to +16)
                         int dz = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
                         BlockPos check = myPos.offset(dx, dy, dz);
                         if (level.isEmptyBlock(check)) {
                             int light = level.getBrightness(LightLayer.SKY, check);
-                            if (light > mySkyLight) {
-                                double distSq = check.distSqr(myPos);
-                                if (distSq < closestDistSq) {
-                                    closestDistSq = distSq;
-                                    brightPos = check;
-                                }
+                            if (light > highestSkyLight) {
+                                highestSkyLight = light;
+                                brightPos = check;
                             }
                         }
                     }
                     if (brightPos != null) {
-                        envSteer = Vec3.atCenterOf(brightPos).subtract(bat.position()).normalize().scale(0.15);
+                        Vec3 toTarget = Vec3.atCenterOf(brightPos).subtract(bat.position());
+                        double dx = toTarget.x;
+                        double dz = toTarget.z;
+                        double horizontalDist = Math.sqrt(dx * dx + dz * dz);
+                        double steerX = 0.0;
+                        double steerZ = 0.0;
+                        if (horizontalDist > 0.01) {
+                            steerX = (dx / horizontalDist) * 0.15;
+                            steerZ = (dz / horizontalDist) * 0.15;
+                        }
+                        double steerY = 0.0;
+                        if (Math.abs(toTarget.y) > 0.01) {
+                            steerY = Math.signum(toTarget.y) * 0.08;
+                        }
+                        envSteer = new Vec3(steerX, steerY, steerZ);
                     } else {
                         // No brighter spot found: steer upward and randomly horizontally to escape pockets
                         double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;

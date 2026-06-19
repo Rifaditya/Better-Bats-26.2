@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.12-26.2] - 2026-06-19
+
+### Changed
+- **AI/Movement**: Improved Day/Night light-seeking steering logic to search for covered blocks using `canSeeSky` instead of strict 0 sky light. Integrated a light-gradient following system to smoothly guide bats into the darkest parts of caves during the day and towards the bright sky at night.
+- **AI/Movement**: Biased vertical sampling downward during the day (-16 to +8 Y) and upward at night (-8 to +16 Y) to match bats' natural vertical migrations.
+
 ## [1.1.11-26.2] - 2026-06-19
 
 ### Added
