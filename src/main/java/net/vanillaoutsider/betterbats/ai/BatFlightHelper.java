@@ -1,10 +1,11 @@
 package net.vanillaoutsider.betterbats.ai;
 
-// Verified against: Level.java (26.2+), Bat.java (26.2+)
+// Verified against: Level.java (26.2+), Bat.java (26.2+), Heightmap.java (26.2+)
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 import net.vanillaoutsider.betterbats.BetterBatsFabric;
@@ -13,8 +14,22 @@ import java.util.List;
 
 /**
  * Helper class to calculate and apply environmental forces and individual BOIDs flocking to bats.
+ * Includes altitude cap, night comfort zone, and two-phase daytime cave-return logic.
  */
 public class BatFlightHelper {
+
+    /** Maximum blocks above terrain surface a bat may fly (hard cap). */
+    private static final int MAX_ALTITUDE_ABOVE_SURFACE = 30;
+
+    /** Night comfort zone: minimum blocks above terrain surface. */
+    private static final int NIGHT_COMFORT_MIN = 5;
+
+    /** Night comfort zone: maximum blocks above terrain surface. */
+    private static final int NIGHT_COMFORT_MAX = 20;
+
+    /** Below this height above surface, daytime bats switch from descending to cave-probing. */
+    private static final int DAY_PROBE_THRESHOLD = 15;
+
     public static void applyFlightForces(Bat bat) {
         if (bat.level().isClientSide() || bat.isResting()) {
             return;
@@ -52,8 +67,21 @@ public class BatFlightHelper {
             newVelocity = newVelocity.add(0.0, ceilingForce, 0.0);
         }
 
+        // 2.5. Hard Altitude Cap - ALWAYS APPLIED (even when a goal is active)
+        // Verified against: Heightmap.java (26.2+)
+        int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE, myPos.getX(), myPos.getZ());
+        double currentY = bat.getY();
+        int maxAltitude = surfaceY + MAX_ALTITUDE_ABOVE_SURFACE;
+        if (currentY > maxAltitude) {
+            double excess = currentY - maxAltitude;
+            // Strong proportional downward force — scales with distance above cap
+            double capForce = -Math.min(0.25, excess * 0.05);
+            newVelocity = newVelocity.add(0.0, capForce, 0.0);
+        }
+
         // Check if the bat has an active custom goal or is panicked.
-        // If so, we skip Boids, Wandering, and Day/Night Environment Steering, but keep ground/ceiling avoidance and basic clamp.
+        // If so, we skip Boids, Wandering, and Day/Night Environment Steering,
+        // but keep ground/ceiling avoidance, altitude cap, and basic clamp.
         boolean hasActiveGoal = false;
         if (bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             if (accessor.betterbats$isGoalActive() || accessor.betterbats$isPanicked()) {
@@ -122,53 +150,69 @@ public class BatFlightHelper {
             // 5. Day/Night Environment Steering (Cave / Surface seek)
             Vec3 envSteer = Vec3.ZERO;
             boolean isDay = level.isBrightOutside();
-            int mySkyLight = level.getBrightness(LightLayer.SKY, myPos);
+            double heightAboveSurface = currentY - surfaceY;
 
             if (isDay) {
-                if (mySkyLight > 0) {
-                    // Search for a dark cover block (canSeeSky is false) in a wide 24-block range
-                    BlockPos darkPos = null;
-                    int lowestSkyLight = mySkyLight;
-                    int searchRangeH = 24;
-                    for (int i = 0; i < 60; i++) {
-                        int dx = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
-                        int dy = level.getRandom().nextInt(25) - 16; // Bias search downwards (-16 to +8)
-                        int dz = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
-                        BlockPos check = myPos.offset(dx, dy, dz);
-                        if (level.isEmptyBlock(check) && !level.canSeeSky(check)) {
-                            int light = level.getBrightness(LightLayer.SKY, check);
-                            if (light < lowestSkyLight) {
-                                lowestSkyLight = light;
-                                darkPos = check;
+                // ── DAYTIME: Two-phase descent-then-seek ──
+                if (level.canSeeSky(myPos)) {
+                    // Bat is exposed to sky
+                    if (heightAboveSurface > DAY_PROBE_THRESHOLD) {
+                        // Phase 1: Far above surface — strong deterministic descent
+                        // Don't bother probing for caves; just get down near surface level first
+                        double descentForce = -Math.min(0.15, heightAboveSurface * 0.01);
+                        double wrx = (level.getRandom().nextDouble() - 0.5) * 0.08;
+                        double wrz = (level.getRandom().nextDouble() - 0.5) * 0.08;
+                        envSteer = new Vec3(wrx, descentForce, wrz);
+                    } else {
+                        // Phase 2: Near surface — focused probe for dark/covered spots (16-block radius)
+                        BlockPos darkPos = null;
+                        int lowestSkyLight = level.getBrightness(LightLayer.SKY, myPos);
+                        int searchRangeH = 16;
+                        for (int i = 0; i < 40; i++) {
+                            int dx = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
+                            int dy = level.getRandom().nextInt(20) - 14; // Heavy downward bias (-14 to +5)
+                            int dz = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
+                            BlockPos check = myPos.offset(dx, dy, dz);
+                            if (level.isEmptyBlock(check) && !level.canSeeSky(check)) {
+                                int light = level.getBrightness(LightLayer.SKY, check);
+                                if (light < lowestSkyLight) {
+                                    lowestSkyLight = light;
+                                    darkPos = check;
+                                }
                             }
                         }
-                    }
-                    if (darkPos != null) {
-                        Vec3 toTarget = Vec3.atCenterOf(darkPos).subtract(bat.position());
-                        double dx = toTarget.x;
-                        double dz = toTarget.z;
-                        double horizontalDist = Math.sqrt(dx * dx + dz * dz);
-                        double steerX = 0.0;
-                        double steerZ = 0.0;
-                        if (horizontalDist > 0.01) {
-                            steerX = (dx / horizontalDist) * 0.15;
-                            steerZ = (dz / horizontalDist) * 0.15;
+                        if (darkPos != null) {
+                            Vec3 toTarget = Vec3.atCenterOf(darkPos).subtract(bat.position());
+                            double dx = toTarget.x;
+                            double dz = toTarget.z;
+                            double horizontalDist = Math.sqrt(dx * dx + dz * dz);
+                            double steerX = 0.0;
+                            double steerZ = 0.0;
+                            if (horizontalDist > 0.01) {
+                                steerX = (dx / horizontalDist) * 0.15;
+                                steerZ = (dz / horizontalDist) * 0.15;
+                            }
+                            double steerY = 0.0;
+                            if (Math.abs(toTarget.y) > 0.01) {
+                                steerY = Math.signum(toTarget.y) * 0.12;
+                            }
+                            envSteer = new Vec3(steerX, steerY, steerZ);
+                        } else {
+                            // No cover found nearby: steer downward to keep descending
+                            double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;
+                            double wrz = (level.getRandom().nextDouble() - 0.5) * 0.1;
+                            envSteer = new Vec3(wrx, -0.12, wrz);
                         }
-                        double steerY = 0.0;
-                        if (Math.abs(toTarget.y) > 0.01) {
-                            steerY = Math.signum(toTarget.y) * 0.12;
-                        }
-                        envSteer = new Vec3(steerX, steerY, steerZ);
-                    } else {
-                        // No cover found: steer downward and randomly horizontally to descend to the ground
-                        double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;
-                        double wrz = (level.getRandom().nextDouble() - 0.5) * 0.1;
-                        envSteer = new Vec3(wrx, -0.12, wrz);
                     }
                 }
+                // If !canSeeSky (already under cover), no envSteer needed — BatSleepGoal handles roosting
             } else {
-                if (mySkyLight < 15) {
-                    // Search for a brighter spot/exit in a wide 24-block range
+                // ── NIGHTTIME: Exit caves, then roam within comfort zone ──
+                boolean canSeeSky = level.canSeeSky(myPos);
+
+                if (!canSeeSky) {
+                    // Underground / in cave — seek exit (brighter skylight)
+                    int mySkyLight = level.getBrightness(LightLayer.SKY, myPos);
                     BlockPos brightPos = null;
                     int highestSkyLight = mySkyLight;
                     int searchRangeH = 24;
@@ -202,10 +246,24 @@ public class BatFlightHelper {
                         }
                         envSteer = new Vec3(steerX, steerY, steerZ);
                     } else {
-                        // No brighter spot found: steer upward and randomly horizontally to escape pockets
+                        // No brighter spot found: steer upward to escape pockets
                         double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;
                         double wrz = (level.getRandom().nextDouble() - 0.5) * 0.1;
                         envSteer = new Vec3(wrx, 0.08, wrz);
+                    }
+                } else {
+                    // Already outside in open sky — maintain comfort zone altitude
+                    double steerY = 0.0;
+                    if (heightAboveSurface > NIGHT_COMFORT_MAX) {
+                        // Too high — push back down toward comfort zone
+                        steerY = -0.06;
+                    } else if (heightAboveSurface < NIGHT_COMFORT_MIN) {
+                        // Too low — rise up a bit
+                        steerY = 0.06;
+                    }
+                    // Horizontal: no extra envSteer — BOIDs + wander handle roaming
+                    if (steerY != 0.0) {
+                        envSteer = new Vec3(0.0, steerY, 0.0);
                     }
                 }
             }

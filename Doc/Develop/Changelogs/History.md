@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.14-26.2] - 2026-06-19
+
+### Changed
+- **AI/Movement**: Added a hard altitude cap — bats can never fly more than 30 blocks above the terrain surface. A proportional downward force is applied when exceeding the cap.
+- **AI/Movement**: Added a nighttime comfort zone (5–20 blocks above terrain). Bats in open sky at night are gently steered back into this band instead of climbing indefinitely.
+- **AI/Movement**: Replaced the daytime cave-seeking random probe with a two-phase system: bats first deterministically descend to near-surface level, then switch to a focused 16-block dark-spot probe. This ensures high-altitude bats reliably return to caves during the day.
+- **AI/Movement**: Nighttime sky-seeking now only activates when the bat is actually underground. Bats already in open sky at night no longer receive upward steering.
+
 ## [1.1.13-26.2] - 2026-06-19
 
 ### Changed
