@@ -1,10 +1,10 @@
-// Verified against: NaturalSpawner.java (26.1.2)
+// Verified against: NaturalSpawner.java (26.2)
 package net.vanillaoutsider.betterbats.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.StructureManager;
@@ -37,7 +37,7 @@ public class NaturalSpawnerMixin {
             if (original != null && !original.isEmpty()) {
                 boolean hasBat = false;
                 for (Weighted<MobSpawnSettings.SpawnerData> item : original.unwrap()) {
-                    if (item.value().type() == EntityType.BAT) {
+                    if (item.value().type() == EntityTypes.BAT) {
                         hasBat = true;
                         break;
                     }
@@ -46,7 +46,7 @@ public class NaturalSpawnerMixin {
                     int customWeight = DynamicGameRuleManager.getInt(level, BetterBatsFabric.BAT_SPAWN_WEIGHT);
                     List<Weighted<MobSpawnSettings.SpawnerData>> newList = new ArrayList<>();
                     for (Weighted<MobSpawnSettings.SpawnerData> item : original.unwrap()) {
-                        if (item.value().type() == EntityType.BAT) {
+                        if (item.value().type() == EntityTypes.BAT) {
                             if (customWeight > 0) {
                                 newList.add(new Weighted<>(item.value(), customWeight));
                             }

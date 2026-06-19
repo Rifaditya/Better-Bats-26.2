@@ -86,7 +86,7 @@ public class BatSleepGoal extends Goal {
     @Override
     public void tick() {
         if (this.roostPos != null) {
-            Vec3 target = this.roostPos.getCenter();
+            Vec3 target = Vec3.atCenterOf(this.roostPos);
             Vec3 dir = target.subtract(this.bat.position());
             
             double distSqr = dir.lengthSqr();
