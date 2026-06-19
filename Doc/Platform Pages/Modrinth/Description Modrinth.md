@@ -31,13 +31,13 @@
 
 ## ✨ Features
 
-### 🌪️ Hive Mind (Social Swarms)
+### 🌪️ Hive Mind (Social Swarms / Murmuration)
 
-Bats no longer fly in erratic, individual patterns. They organize into cohesive swarms using the **DasikLibrary** flocking strategy. Witness groups of bats moving together in coordination through cave corridors.
+Bats no longer fly in erratic, individual patterns. They organize into coordinated, leaderless swarms (murmurations) using a dynamic Boids flocking strategy. Each bat behaves independently, adjusting its flight to stick close to, align with, and avoid colliding with its immediate neighbors.
 
 > [!NOTE]
 > **Boids Steering**: Swarm flight is powered by a dynamic Boids murmuration algorithm.  
-> Flocking Range: **16 blocks** — Bats dynamically elect a leader and align their movement vectors.
+> Flocking Range: **12 blocks** — Cohesion, alignment, and separation steer bats naturally without any designated leader.
 
 ### 💩 Guano Fertility (Natural Growth)
 
@@ -73,6 +73,21 @@ Better Bats is fully compatible with multiplayer environments. The flocking and 
 
 ---
 
+## 🎭 Behavior Scenarios
+
+Here is how bats naturally react in various environmental and player-driven scenarios:
+
+*   **Daytime in Caves**: Bats steer towards dark areas (lowest sky light) to find deep cave pockets. If they find a suitable ceiling, they will roost and start producing guano.
+*   **Daylight Avoidance**: If bats get near a cave exit during the day, the sky light steering force will guide them back into the dark interior.
+*   **Nighttime Exploration**: At night, their preference reverses, steering them towards the highest sky light. Roosting bats will wake up and fly out of cave mouths to swarm under the open night sky.
+*   **Murmuration Merging**: When solitary bats fly near each other, they seamlessly merge into a cohesive murmuring flock due to cohesion and alignment forces.
+*   **Water & Ground Avoidance**: Bats constantly scan below and apply an upward steering force to avoid falling, crashing, or drowning in water.
+*   **Acoustic Panic**: Loud noises (mining, player sprinting, explosions) wake resting bats, forcing them to scatter in panic before eventually regrouping.
+*   **Predation (Silverfish/Endermites)**: Bats will swoop down from their flock to eliminate nearby Silverfish and Endermites, then rejoin the murmuration.
+*   **Artificial Light Attraction**: At night, bats are drawn to lanterns and torches (brightness > 12) to hunt bugs, circling the light source before returning to the flock.
+
+---
+
 ## ⚙️ Config
 
 The mod works out of the box with zero setup.
@@ -85,6 +100,7 @@ The mod works out of the box with zero setup.
   * `bat_alignment`: Strength of matching velocity direction with the swarm (0-100). (Default: 5)
   * `bat_cohesion`: Strength of pull towards the swarm's center of mass (0-100). (Default: 5)
   * `bat_separation`: Strength of collision avoidance from neighboring bats (0-100). (Default: 10)
+  * `bat_spawn_weight`: Spawn weight of bats relative to vanilla (0-100). (Default: 10)
 
 > [!IMPORTANT]
 > **Recommended Mod**: Since this mod generates 6+ GameRules, it is highly recommended to use **[Collapsible Game Rules](https://modrinth.com/mod/collapsible-gamerules)** for a cleaner UI.

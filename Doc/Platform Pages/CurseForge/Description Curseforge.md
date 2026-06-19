@@ -31,45 +31,65 @@
 
 ## ✨ Features
 
-### 🌪️ Hive Mind (Social Swarms)
+### 🌪️ Hive Mind (Social Swarms / Murmuration)
 
-Bats no longer fly in erratic, individual patterns. They organize into cohesive swarms using the **DasikLibrary** flocking strategy. Witness groups of bats moving together in coordination through cave corridors.
+Bats no longer fly in erratic, individual patterns. They organize into coordinated, leaderless swarms (murmurations) using a dynamic Boids flocking strategy. Each bat behaves independently, adjusting its flight to stick close to, align with, and avoid colliding with its immediate neighbors.
 
-> [!NOTE]
-> **Boids Steering**: Swarm flight is powered by a dynamic Boids murmuration algorithm.  
-> Flocking Range: **16 blocks** — Bats dynamically elect a leader and align their movement vectors.
+<blockquote>
+<strong>Boids Steering</strong>: Swarm flight is powered by a dynamic Boids murmuration algorithm.<br>
+Flocking Range: <strong>12 blocks</strong> — Cohesion, alignment, and separation steer bats naturally without any designated leader.
+</blockquote>
 
 ### 💩 Guano Fertility (Natural Growth)
 
 While roosting upside down in the dark, bats slowly accumulate guano. Every 10 minutes, they drop guano to fertilize soil and crops far below.
 
-> [!TIP]
-> **Farmland Enrichment**: If a bat roosts above crops, it scans up to **20 blocks down** to apply a bone meal growth tick.
+<blockquote>
+<strong>Farmland Enrichment</strong>: If a bat roosts above crops, it scans up to <strong>20 blocks down</strong> to apply a bone meal growth tick.
+</blockquote>
 
 ### 💡 Phototaxis (Lantern Hunting)
 
 During the night, bats are attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches, simulating the hunting of insects attracted to the glow.
 
-> [!NOTE]
-> **Insect Feeding**: Bats will circle light sources with a brightness level **>12**, emitting `crit` particles to represent feeding.
+<blockquote>
+<strong>Insect Feeding</strong>: Bats will circle light sources with a brightness level <strong>&gt;12</strong>, emitting <code>crit</code> particles to represent feeding.
+</blockquote>
 
 ### 🛡️ Pest Control (Symbiotic Defense)
 
 Bats are natural allies in pest management. They will aggressively dive-bomb and one-shot crawling pests that enter their vicinity.
 
-> [!TIP]
-> **Predatory Prey**: Bats target **Silverfish** and **Endermites** in a **10-block radius** and instantly defeat them.
+<blockquote>
+<strong>Predatory Prey</strong>: Bats target <strong>Silverfish</strong> and <strong>Endermites</strong> in a <strong>10-block radius</strong> and instantly defeat them.
+</blockquote>
 
 ### 📢 Acoustic Panic
 
 Caves are quiet for a reason. Loud noises (sprinting players, block mining, explosions) nearby will wake sleeping bat swarms instantly, sending them into a frantic, high-speed scatter and resetting their guano timers.
 
-> [!WARNING]
-> **Sleep Interruption**: Noise events within **16 blocks** trigger immediate panic flight and clear the bat's flocking state.
+<blockquote>
+<strong>Sleep Interruption</strong>: Noise events within <strong>16 blocks</strong> trigger immediate panic flight and clear the bat's flocking state.
+</blockquote>
 
 ### ⚖️ Multiplayer
 
 Better Bats is fully compatible with multiplayer environments. The flocking and guano algorithms run entirely server-side, ensuring vanilla clients can connect without issues.
+
+---
+
+## 🎭 Behavior Scenarios
+
+Here is how bats naturally react in various environmental and player-driven scenarios:
+
+*   **Daytime in Caves**: Bats steer towards dark areas (lowest sky light) to find deep cave pockets. If they find a suitable ceiling, they will roost and start producing guano.
+*   **Daylight Avoidance**: If bats get near a cave exit during the day, the sky light steering force will guide them back into the dark interior.
+*   **Nighttime Exploration**: At night, their preference reverses, steering them towards the highest sky light. Roosting bats will wake up and fly out of cave mouths to swarm under the open night sky.
+*   **Murmuration Merging**: When solitary bats fly near each other, they seamlessly merge into a cohesive murmuring flock due to cohesion and alignment forces.
+*   **Water & Ground Avoidance**: Bats constantly scan below and apply an upward steering force to avoid falling, crashing, or drowning in water.
+*   **Acoustic Panic**: Loud noises (mining, player sprinting, explosions) wake resting bats, forcing them to scatter in panic before eventually regrouping.
+*   **Predation (Silverfish/Endermites)**: Bats will swoop down from their flock to eliminate nearby Silverfish and Endermites, then rejoin the murmuration.
+*   **Artificial Light Attraction**: At night, bats are drawn to lanterns and torches (brightness > 12) to hunt bugs, circling the light source before returning to the flock.
 
 ---
 
@@ -85,9 +105,11 @@ The mod works out of the box with zero setup.
   * `bat_alignment`: Strength of matching velocity direction with the swarm (0-100). (Default: 5)
   * `bat_cohesion`: Strength of pull towards the swarm's center of mass (0-100). (Default: 5)
   * `bat_separation`: Strength of collision avoidance from neighboring bats (0-100). (Default: 10)
+  * `bat_spawn_weight`: Spawn weight of bats relative to vanilla (0-100). (Default: 10)
 
-> [!IMPORTANT]
-> **Recommended Mod**: Since this mod generates 6+ GameRules, it is highly recommended to use **[Collapsible Game Rules](https://modrinth.com/mod/collapsible-gamerules)** for a cleaner UI.
+<blockquote>
+<strong>Recommended Mod</strong>: Since this mod generates 6+ GameRules, it is highly recommended to use <a href="https://modrinth.com/mod/collapsible-gamerules">Collapsible Game Rules</a> for a cleaner UI.
+</blockquote>
 
 ---
 
@@ -129,12 +151,13 @@ For the best experience, we recommend installing:
 
 If you enjoy **Better Bats** and the **Vanilla Outsider** philosophy, consider fueling the next update with a coffee!
 
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/dasikigaijin/tip)
-[![SocioBuzz](https://img.shields.io/badge/SocioBuzz-Local_Support-7BB32E?style=for-the-badge)](https://sociabuzz.com/dasikigaijin/tribe)
-[![Saweria](https://img.shields.io/badge/Saweria-Local_Support-FFA500?style=for-the-badge)](https://saweria.co/DasikIgaijinn)
+<a href="https://ko-fi.com/dasikigaijin/tip"><img src="https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-fi"></a>
+<a href="https://sociabuzz.com/dasikigaijin/tribe"><img src="https://img.shields.io/badge/SocioBuzz-Local_Support-7BB32E?style=for-the-badge" alt="SocioBuzz"></a>
+<a href="https://saweria.co/DasikIgaijinn"><img src="https://img.shields.io/badge/Saweria-Local_Support-FFA500?style=for-the-badge" alt="Saweria"></a>
 
-> [!NOTE]
-> **Indonesian Users:** SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
+<blockquote>
+<strong>Indonesian Users:</strong> SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
+</blockquote>
 
 ---
 
@@ -148,13 +171,13 @@ If you enjoy **Better Bats** and the **Vanilla Outsider** philosophy, consider f
 
 ---
 
-> [!IMPORTANT]
-> This mod is part of the **Vanilla Outsider** collection. You are free to use it in modpacks, videos, and servers.
->
-> > [!IMPORTANT]
-> > **Modpack Permissions:** You are free to include this mod in modpacks, **provided the modpack is hosted on the same platform** (e.g. CurseForge).
-> >
-> > **Cross-platform distribution is not permitted.** If you download this mod from CurseForge, your modpack must also be published on CurseForge.
+<blockquote>
+This mod is part of the <strong>Vanilla Outsider</strong> collection. You are free to use it in modpacks, videos, and servers.
+<br><br>
+<strong>Modpack Permissions:</strong> You are free to include this mod in modpacks, <strong>provided the modpack is hosted on the same platform</strong> (e.g. CurseForge).
+<br><br>
+<strong>Cross-platform distribution is not permitted.</strong> If you download this mod from CurseForge, your modpack must also be published on CurseForge.
+</blockquote>
 
 ---
 
