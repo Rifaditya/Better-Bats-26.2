@@ -36,6 +36,31 @@ public class BatFollowLeaderGoal extends FollowLeaderGoal<Bat> {
     }
 
     @Override
+    public boolean canUse() {
+        if (this.mob == null) {
+            return false;
+        }
+        if (this.ticksSinceManagerCheck++ > 30 + this.mob.getRandom().nextInt(20)) {
+            this.ticksSinceManagerCheck = 0;
+            double receiveRange = this.mob.getAttributes().hasAttribute(Attributes.WAYPOINT_RECEIVE_RANGE)
+                ? this.mob.getAttributeValue(Attributes.WAYPOINT_RECEIVE_RANGE)
+                : this.searchRadius;
+            GroupManager.findAndSetLeader(this.mob, receiveRange);
+        }
+        Bat leader = (Bat) ((GroupMember) this.mob).getLeader();
+        return this.isValidLeader(leader);
+    }
+
+    @Override
+    public boolean canContinueToUse() {
+        if (this.mob == null) {
+            return false;
+        }
+        Bat leader = (Bat) ((GroupMember) this.mob).getLeader();
+        return this.isValidLeader(leader);
+    }
+
+    @Override
     public void tick() {
         if (this.mob == null) {
             return;
@@ -66,6 +91,7 @@ public class BatFollowLeaderGoal extends FollowLeaderGoal<Bat> {
 
         // Execute the flocking strategy every tick for smooth flying boids behavior
         this.defaultStrategy.execute(this.mob, leader, this.parameters);
+        BatFlightHelper.applyFlightForces(this.mob);
     }
 
     private void syncParameters() {

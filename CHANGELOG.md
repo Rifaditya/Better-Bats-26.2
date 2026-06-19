@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.7-26.1.2] - 2026-06-19
+## [1.1.8-26.2] - 2026-06-19
+
+### Fixed
+- **AI/Movement**: Fixed follower bats losing AI movement, falling, drowning, and teleporting by overriding distance checks to keep follow leader goal active continuously.
+- **Flight Mechanics**: Integrated ground/water avoidance, ceiling avoidance, and sky-seeking (night) / cave-seeking (day) light preference steering forces.
+
+## [1.1.7-26.2] - 2026-06-19
 
 ### Fixed
 - **AI/Movement**: Fixed bats constantly teleporting to the leader instead of flying smoothly. Follower bats now execute boids flocking steering vectors every tick, and the default teleportation threshold has been increased to 32 blocks (1024.0f distance squared).

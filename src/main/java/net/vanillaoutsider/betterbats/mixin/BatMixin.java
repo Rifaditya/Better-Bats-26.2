@@ -125,6 +125,16 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
         if (self.isResting() && !level.isBrightOutside() && self.getRandom().nextInt(200) == 0) {
             self.setResting(false);
         }
+        if (!self.isResting() && !this.hasLeader()) {
+            net.vanillaoutsider.betterbats.ai.BatFlightHelper.applyFlightForces(self);
+            Vec3 newMovement = self.getDeltaMovement();
+            if (newMovement.lengthSqr() > 0.001) {
+                float yRotD = (float)(Mth.atan2(newMovement.z, newMovement.x) * 180.0F / (float)Math.PI) - 90.0F;
+                float rotDiff = Mth.wrapDegrees(yRotD - self.getYRot());
+                self.zza = 0.5F;
+                self.setYRot(self.getYRot() + rotDiff);
+            }
+        }
     }
 
     @Inject(method = "customServerAiStep", at = @At("HEAD"), cancellable = true)
@@ -172,29 +182,32 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     @Inject(method = "tick", at = @At("TAIL"))
     private void betterbats$onTick(CallbackInfo ci) {
         Bat self = (Bat)(Object)this;
-        if (!self.level().isClientSide() && self.isResting()) {
-            this.betterbats$guanoTicks++;
-            int threshold = net.dasik.social.api.gamerule.DynamicGameRuleManager.getInt(self.level(), BetterBatsFabric.BAT_GUANO_THRESHOLD);
-            if (this.betterbats$guanoTicks >= threshold) {
-                this.betterbats$guanoTicks = 0;
-                BlockPos pos = self.blockPosition();
-                net.minecraft.world.level.Level level = self.level();
-                
-                for (int i = 1; i < 20; i++) {
-                    BlockPos target = pos.below(i);
-                    net.minecraft.world.level.block.state.BlockState state = level.getBlockState(target);
-                    if (!state.isAir()) {
-                        if (state.getBlock() instanceof net.minecraft.world.level.block.FarmlandBlock) {
-                            BlockPos cropPos = target.above();
-                            net.minecraft.world.level.block.state.BlockState cropState = level.getBlockState(cropPos);
-                            if (cropState.getBlock() instanceof BonemealableBlock crop) {
-                                if (crop.isValidBonemealTarget(level, cropPos, cropState)) {
-                                    crop.performBonemeal((ServerLevel)level, level.getRandom(), cropPos, cropState);
-                                    level.levelEvent(2005, cropPos, 0);
+        if (!self.level().isClientSide()) {
+            self.setNoGravity(!self.isResting());
+            if (self.isResting()) {
+                this.betterbats$guanoTicks++;
+                int threshold = net.dasik.social.api.gamerule.DynamicGameRuleManager.getInt(self.level(), BetterBatsFabric.BAT_GUANO_THRESHOLD);
+                if (this.betterbats$guanoTicks >= threshold) {
+                    this.betterbats$guanoTicks = 0;
+                    BlockPos pos = self.blockPosition();
+                    net.minecraft.world.level.Level level = self.level();
+                    
+                    for (int i = 1; i < 20; i++) {
+                        BlockPos target = pos.below(i);
+                        net.minecraft.world.level.block.state.BlockState state = level.getBlockState(target);
+                        if (!state.isAir()) {
+                            if (state.getBlock() instanceof net.minecraft.world.level.block.FarmlandBlock) {
+                                BlockPos cropPos = target.above();
+                                net.minecraft.world.level.block.state.BlockState cropState = level.getBlockState(cropPos);
+                                if (cropState.getBlock() instanceof BonemealableBlock crop) {
+                                    if (crop.isValidBonemealTarget(level, cropPos, cropState)) {
+                                        crop.performBonemeal((ServerLevel)level, level.getRandom(), cropPos, cropState);
+                                        level.levelEvent(2005, cropPos, 0);
+                                    }
                                 }
                             }
+                            break;
                         }
-                        break;
                     }
                 }
             }
