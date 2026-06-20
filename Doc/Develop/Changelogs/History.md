@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.16-26.2] - 2026-06-20
+
+### Changed
+- **AI/Lantern Circling**: "Moth Effect" Overhaul. Bats no longer get permanently stuck to one lantern. They will circle a lantern for 10-30 seconds, drop it, go on cooldown, and eventually discover a new lantern to fly to.
+- **AI/Lantern Circling**: Flight paths improved. Bats now use a curved banking approach to lanterns, and bob vertically in a sine-wave pattern while circling to mimic real bat flight.
+- **AI/Lantern Circling**: Replaced custom random probe with native deterministic `BlockPos.findClosestMatch` for guaranteed light detection within a 10-block radius without RNG misses.
+- **AI/Movement**: Replaced flat upward/downward steering forces with smoothed parabolic curves (lerping) based on altitude for a more natural flight feel.
+- **AI/Movement**: Twilight Funneling. At dusk (12000-14000) and dawn (22000-24000), Boids parameters shift dramatically (Alignment/Cohesion up 2.5x, Separation down 60%) to cause bats to stream together closely when entering or leaving caves.
+
 ## [1.1.15-26.2] - 2026-06-19
 
 ### Fixed

@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.Mth;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 import net.vanillaoutsider.betterbats.BetterBatsFabric;
 
@@ -14,7 +15,8 @@ import java.util.List;
 
 /**
  * Helper class to calculate and apply environmental forces and individual BOIDs flocking to bats.
- * Includes altitude cap, night comfort zone, and two-phase daytime cave-return logic.
+ * Includes altitude cap, night comfort zone, two-phase daytime cave-return logic,
+ * and 1.1.16 organic twilight funneling.
  */
 public class BatFlightHelper {
 
@@ -68,7 +70,6 @@ public class BatFlightHelper {
         }
 
         // 2.5. Hard Altitude Cap - ALWAYS APPLIED (even when a goal is active)
-        // Verified against: Heightmap.java (26.2+)
         int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE, myPos.getX(), myPos.getZ());
         double currentY = bat.getY();
         int maxAltitude = surfaceY + MAX_ALTITUDE_ABOVE_SURFACE;
@@ -80,8 +81,6 @@ public class BatFlightHelper {
         }
 
         // Check if the bat has an active custom goal or is panicked.
-        // If so, we skip Boids, Wandering, and Day/Night Environment Steering,
-        // but keep ground/ceiling avoidance, altitude cap, and basic clamp.
         boolean hasActiveGoal = false;
         if (bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             if (accessor.betterbats$isGoalActive() || accessor.betterbats$isPanicked()) {
@@ -90,6 +89,10 @@ public class BatFlightHelper {
         }
 
         if (!hasActiveGoal) {
+            // Check for Twilight (Dusk 12000-14000, Dawn 22000-24000)
+            long dayTime = level.getDefaultClockTime() % 24000;
+            boolean isTwilight = (dayTime >= 12000 && dayTime <= 14000) || (dayTime >= 22000 && dayTime <= 24000);
+
             // 3. True BOIDs Math (Cohesion, Alignment, Separation from local neighbors)
             List<Bat> neighbors = level.getEntitiesOfClass(
                 Bat.class, 
@@ -101,6 +104,14 @@ public class BatFlightHelper {
                 double alignmentWeight = DynamicGameRuleManager.getInt(level, BetterBatsFabric.BAT_ALIGNMENT) * 0.01;
                 double cohesionWeight = DynamicGameRuleManager.getInt(level, BetterBatsFabric.BAT_COHESION) * 0.01;
                 double separationWeight = DynamicGameRuleManager.getInt(level, BetterBatsFabric.BAT_SEPARATION) * 0.01;
+
+                // 1.1.16: Twilight Funneling/Streaming
+                if (isTwilight && level.canSeeSky(myPos)) {
+                    // Bats stream together closely when entering/leaving caves
+                    alignmentWeight *= 2.5;
+                    cohesionWeight *= 2.5;
+                    separationWeight *= 0.4;
+                }
 
                 Vec3 avgPos = Vec3.ZERO;
                 Vec3 avgVel = Vec3.ZERO;
@@ -119,20 +130,20 @@ public class BatFlightHelper {
                     }
                 }
 
-                // Cohesion: pull towards center of mass of neighbors
+                // Cohesion
                 avgPos = avgPos.scale(1.0 / neighbors.size());
                 Vec3 cohesionDir = avgPos.subtract(bat.position());
                 if (cohesionDir.lengthSqr() > 0.001) {
                     newVelocity = newVelocity.add(cohesionDir.normalize().scale(cohesionWeight));
                 }
 
-                // Alignment: align velocity with neighbors' average velocity
+                // Alignment
                 avgVel = avgVel.scale(1.0 / neighbors.size());
                 if (avgVel.lengthSqr() > 0.001) {
                     newVelocity = newVelocity.add(avgVel.normalize().scale(alignmentWeight));
                 }
 
-                // Separation: steer away from neighbors that are too close
+                // Separation
                 if (separationCount > 0) {
                     separationVec = separationVec.scale(1.0 / separationCount);
                     if (separationVec.lengthSqr() > 0.001) {
@@ -141,7 +152,7 @@ public class BatFlightHelper {
                 }
             }
 
-            // 4. Random Organic Wandering (steers the flock dynamically day/night)
+            // 4. Random Organic Wandering
             double wanderStrength = 0.05;
             double rx = (level.getRandom().nextDouble() - 0.5) * wanderStrength;
             double rz = (level.getRandom().nextDouble() - 0.5) * wanderStrength;
@@ -155,16 +166,14 @@ public class BatFlightHelper {
             if (isDay) {
                 // ── DAYTIME: Two-phase descent-then-seek ──
                 if (level.canSeeSky(myPos)) {
-                    // Bat is exposed to sky
                     if (heightAboveSurface > DAY_PROBE_THRESHOLD) {
-                        // Phase 1: Far above surface — strong deterministic descent
-                        // Don't bother probing for caves; just get down near surface level first
-                        double descentForce = -Math.min(0.15, heightAboveSurface * 0.01);
+                        // Phase 1: Far above surface — smooth parabolic descent
+                        double descentForce = -Mth.clamp(heightAboveSurface * 0.006, 0.05, 0.18);
                         double wrx = (level.getRandom().nextDouble() - 0.5) * 0.08;
                         double wrz = (level.getRandom().nextDouble() - 0.5) * 0.08;
                         envSteer = new Vec3(wrx, descentForce, wrz);
                     } else {
-                        // Phase 2: Near surface — focused probe for dark/covered spots (16-block radius)
+                        // Phase 2: Near surface — focused probe for dark/covered spots
                         BlockPos darkPos = null;
                         int lowestSkyLight = level.getBrightness(LightLayer.SKY, myPos);
                         int searchRangeH = 16;
@@ -198,20 +207,19 @@ public class BatFlightHelper {
                             }
                             envSteer = new Vec3(steerX, steerY, steerZ);
                         } else {
-                            // No cover found nearby: steer downward to keep descending
+                            // No cover found nearby: smooth downward steer
                             double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;
                             double wrz = (level.getRandom().nextDouble() - 0.5) * 0.1;
-                            envSteer = new Vec3(wrx, -0.12, wrz);
+                            envSteer = new Vec3(wrx, -0.10, wrz);
                         }
                     }
                 }
-                // If !canSeeSky (already under cover), no envSteer needed — BatSleepGoal handles roosting
             } else {
                 // ── NIGHTTIME: Exit caves, then roam within comfort zone ──
                 boolean canSeeSky = level.canSeeSky(myPos);
 
                 if (!canSeeSky) {
-                    // Underground / in cave — seek exit (brighter skylight)
+                    // Underground / in cave — seek exit
                     int mySkyLight = level.getBrightness(LightLayer.SKY, myPos);
                     BlockPos brightPos = null;
                     int highestSkyLight = mySkyLight;
@@ -242,26 +250,26 @@ public class BatFlightHelper {
                         }
                         double steerY = 0.0;
                         if (Math.abs(toTarget.y) > 0.01) {
-                            steerY = Math.signum(toTarget.y) * 0.08;
+                            // Smooth climb force
+                            steerY = Math.signum(toTarget.y) * Mth.clamp(Math.abs(toTarget.y) * 0.01, 0.04, 0.12);
                         }
                         envSteer = new Vec3(steerX, steerY, steerZ);
                     } else {
-                        // No brighter spot found: steer upward to escape pockets
+                        // Smooth escape upwards
                         double wrx = (level.getRandom().nextDouble() - 0.5) * 0.1;
                         double wrz = (level.getRandom().nextDouble() - 0.5) * 0.1;
-                        envSteer = new Vec3(wrx, 0.08, wrz);
+                        envSteer = new Vec3(wrx, 0.06, wrz);
                     }
                 } else {
-                    // Already outside in open sky — maintain comfort zone altitude
+                    // Already outside in open sky — smooth comfort zone bounding (Parabolic)
                     double steerY = 0.0;
                     if (heightAboveSurface > NIGHT_COMFORT_MAX) {
-                        // Too high — push back down toward comfort zone
-                        steerY = -0.06;
+                        double excess = heightAboveSurface - NIGHT_COMFORT_MAX;
+                        steerY = -Mth.clamp(excess * 0.01, 0.01, 0.08);
                     } else if (heightAboveSurface < NIGHT_COMFORT_MIN) {
-                        // Too low — rise up a bit
-                        steerY = 0.06;
+                        double deficit = NIGHT_COMFORT_MIN - heightAboveSurface;
+                        steerY = Mth.clamp(deficit * 0.01, 0.01, 0.08);
                     }
-                    // Horizontal: no extra envSteer — BOIDs + wander handle roaming
                     if (steerY != 0.0) {
                         envSteer = new Vec3(0.0, steerY, 0.0);
                     }
@@ -269,7 +277,7 @@ public class BatFlightHelper {
             }
             newVelocity = newVelocity.add(envSteer);
 
-            // 6. Enforce Minimum Speed ("never stop" flying/moving)
+            // 6. Enforce Minimum Speed
             double minSpeed = 0.15;
             if (newVelocity.lengthSqr() < minSpeed * minSpeed) {
                 if (newVelocity.lengthSqr() > 0.001) {
