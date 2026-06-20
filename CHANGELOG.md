@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.15-26.2] - 2026-06-19
+
+### Fixed
+- **AI/Lantern Circling**: Lowered light detection threshold from >12 to >8 so bats can detect lanterns within ~7 blocks instead of requiring ~2 blocks proximity.
+- **AI/Lantern Circling**: Increased approach steering force from 0.05/dist (~0.005/tick) to 0.12 with separated X/Z and Y axes, strong enough to overcome ground avoidance forces.
+- **AI/Lantern Circling**: Expanded search from 10 probes in 16×8 volume to 25 probes in 24×30 volume with heavy downward bias (-24 to +5 Y), so flying bats can detect light sources on the ground below them.
+
 ## [1.1.14-26.2] - 2026-06-19
 
 ### Changed

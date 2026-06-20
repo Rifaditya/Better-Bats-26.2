@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-// Verified against: Level.java (26.1.2)
+// Verified against: Level.java (26.2+)
 package net.vanillaoutsider.betterbats.ai;
 
 import net.minecraft.core.BlockPos;
@@ -21,6 +21,15 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
+/**
+ * AI Goal: At night, bats seek out and circle nearby light sources (lanterns, torches, etc.).
+ * Detection uses BLOCK light layer to find artificial light sources.
+ *
+ * Previous issues fixed in 1.1.15:
+ * - Detection threshold was too high (>12 = within 2 blocks of lantern — unreachable for flying bats)
+ * - Approach force was too weak (0.05/dist ≈ 0.005/tick, overwhelmed by ground avoidance)
+ * - Search volume was too small (10 probes in 16×8 area, biased toward bat altitude not ground)
+ */
 public class BatHuntLightGoal extends Goal {
     private final Bat bat;
     private BlockPos targetLight;
@@ -29,6 +38,19 @@ public class BatHuntLightGoal extends Goal {
     private double targetCenterY;
     private double targetCenterZ;
 
+    /**
+     * Minimum BLOCK light to count as a light source worth investigating.
+     * Lantern = 15, Torch = 14, Soul Lantern = 10. At 8 blocks from a lantern, light = 7.
+     * Threshold of 8 means detection within ~7 blocks of a lantern or ~6 blocks of a torch.
+     */
+    private static final int LIGHT_DETECT_THRESHOLD = 8;
+
+    /**
+     * Minimum BLOCK light at the target to keep circling.
+     * Slightly lower than detection to avoid immediate stop after locking on.
+     */
+    private static final int LIGHT_CONTINUE_THRESHOLD = 6;
+
     public BatHuntLightGoal(Bat bat) {
         this.bat = bat;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
@@ -36,21 +58,28 @@ public class BatHuntLightGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.bat.isResting() || this.bat.getRandom().nextInt(40) != 0) {
+        if (this.bat.isResting() || this.bat.getRandom().nextInt(30) != 0) {
             return false;
         }
         Level level = this.bat.level();
         if (level.isClientSide() || level.isBrightOutside()) return false;
         
         BlockPos pos = this.bat.blockPosition();
-        if (level.getBrightness(LightLayer.BLOCK, pos) > 12) {
+
+        // Quick self-check: is the bat already near a light?
+        if (level.getBrightness(LightLayer.BLOCK, pos) > LIGHT_DETECT_THRESHOLD) {
             this.targetLight = pos;
             return true;
         }
         
-        for (int i = 0; i < 10; i++) {
-            BlockPos checkPos = pos.offset(this.bat.getRandom().nextInt(16) - 8, this.bat.getRandom().nextInt(8) - 4, this.bat.getRandom().nextInt(16) - 8);
-            if (level.getBrightness(LightLayer.BLOCK, checkPos) > 12) {
+        // Probe for light sources — 25 samples, wider range, heavy downward bias
+        // Bats fly above terrain so lights are almost always below them
+        for (int i = 0; i < 25; i++) {
+            int dx = this.bat.getRandom().nextInt(24) - 12;
+            int dy = this.bat.getRandom().nextInt(30) - 24; // Heavy downward bias: -24 to +5
+            int dz = this.bat.getRandom().nextInt(24) - 12;
+            BlockPos checkPos = pos.offset(dx, dy, dz);
+            if (level.getBrightness(LightLayer.BLOCK, checkPos) > LIGHT_DETECT_THRESHOLD) {
                 this.targetLight = checkPos;
                 return true;
             }
@@ -76,7 +105,10 @@ public class BatHuntLightGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.targetLight != null && this.circlingTicks < 200 && !this.bat.isResting() && this.bat.level().getBrightness(LightLayer.BLOCK, this.targetLight) > 12;
+        return this.targetLight != null
+            && this.circlingTicks < 200
+            && !this.bat.isResting()
+            && this.bat.level().getBrightness(LightLayer.BLOCK, this.targetLight) > LIGHT_CONTINUE_THRESHOLD;
     }
 
     @Override
@@ -104,24 +136,33 @@ public class BatHuntLightGoal extends Goal {
 
             if (dist > 1.0E-4) {
                 Vec3 currentMovement = this.bat.getDeltaMovement();
-                if (dist > 1.5) {
-                    double scale = 0.05 / dist;
-                    double addX = dx * scale;
-                    double addY = dy * scale;
-                    double addZ = dz * scale;
-                    this.bat.setDeltaMovement(currentMovement.add(addX, addY, addZ));
+                if (dist > 2.5) {
+                    // Approach phase: strong steering force toward the light source
+                    // Separate horizontal and vertical to prevent Y-distance suppression
+                    double horizDist = Math.sqrt(dx * dx + dz * dz);
+                    double steerX = 0.0;
+                    double steerZ = 0.0;
+                    if (horizDist > 0.01) {
+                        steerX = (dx / horizDist) * 0.12;
+                        steerZ = (dz / horizDist) * 0.12;
+                    }
+                    double steerY = 0.0;
+                    if (Math.abs(dy) > 0.01) {
+                        steerY = Math.signum(dy) * 0.10;
+                    }
+                    this.bat.setDeltaMovement(currentMovement.add(steerX, steerY, steerZ));
                 } else {
+                    // Circling phase: orbit around the light source
                     // cross product with (0,1,0):
                     // cross.x = dy * 0 - dz * 1 = -dz
                     // cross.y = dz * 0 - dx * 0 = 0
                     // cross.z = dx * 1 - dy * 0 = dx
                     double crossX = -dz;
-                    double crossY = 0.0;
                     double crossZ = dx;
                     double crossLen = Math.sqrt(crossX * crossX + crossZ * crossZ);
 
                     if (crossLen > 1.0E-4) {
-                        double scale = 0.1 / crossLen;
+                        double scale = 0.12 / crossLen;
                         double finalX = (currentMovement.x + crossX * scale) * 0.9;
                         double finalY = currentMovement.y * 0.9;
                         double finalZ = (currentMovement.z + crossZ * scale) * 0.9;
@@ -138,4 +179,3 @@ public class BatHuntLightGoal extends Goal {
         }
     }
 }
-
