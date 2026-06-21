@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/Minecraft-26.1+-brightgreen?style=for-the-badge" alt="Minecraft 26.1+">
 </p>
 
-# 🦇 Better Bats: The "Acoustic & Sleep" Update (Build 4)
+# 🦇 Better Bats: The "Acoustic & Sleep" Update (v1.1.16)
 
 **No Backports:** I will **NOT** backport this mod to older versions (1.21, 1.20, etc.). Please do not ask.
 
