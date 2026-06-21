@@ -33,7 +33,7 @@
 
 ### 🌪️ Hive Mind (Social Swarms / Murmuration)
 
-Bats no longer fly in erratic, individual patterns. They organize into coordinated, leaderless swarms (murmurations) using a dynamic Boids flocking strategy. Each bat behaves independently, adjusting its flight to stick close to, align with, and avoid colliding with its immediate neighbors.
+Bats no longer fly in erratic, individual patterns. They organize into coordinated, leaderless swarms (murmurations) using a dynamic Boids flocking strategy. Each bat behaves independently, adjusting its flight to stick close to, align with, and avoid colliding with its immediate neighbors. During dusk and dawn, the swarm funnels tightly together, creating breathtaking cinematic streams as they exit and return to their caves!
 
 <blockquote>
 <strong>Boids Steering</strong>: Swarm flight is powered by a dynamic Boids murmuration algorithm.<br>
@@ -50,10 +50,10 @@ While roosting upside down in the dark, bats slowly accumulate guano. Every 10 m
 
 ### 💡 Phototaxis (Lantern Hunting)
 
-During the night, bats are attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches, simulating the hunting of insects attracted to the glow.
+During the night, bats are dynamically attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches using smooth curved approaches and vertical bobbing, simulating the hunting of insects attracted to the glow. Rather than getting stuck forever, they exhibit a natural "Moth Effect"—circling for a brief period before getting bored and hopping to a new light source!
 
 <blockquote>
-<strong>Insect Feeding</strong>: Bats will circle light sources with a brightness level <strong>&gt;12</strong>, emitting <code>crit</code> particles to represent feeding.
+<strong>Insect Feeding</strong>: Bats will dynamically track light sources with a brightness level <strong>&gt;8</strong> within a 10-block radius, emitting <code>crit</code> particles to represent feeding before flying off to find their next meal.
 </blockquote>
 
 ### 🛡️ Pest Control (Symbiotic Defense)
