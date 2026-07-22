@@ -1,0 +1,58 @@
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
+package net.vanillaoutsider.betterbats.ai;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.SpeleothemBlock;
+import net.minecraft.world.level.block.state.BlockState;
+
+/**
+ * Centralized helper for checking if a block position is a valid roosting spot for bats.
+ * Supports solid ceilings, pointed dripstone (stalactites), hanging lanterns, chains, fences, walls, and leaves.
+ */
+public class BatRoostHelper {
+
+    public static boolean isSuitableRoost(Level level, BlockPos pos, BlockPos above) {
+        if (!level.isEmptyBlock(pos)) {
+            return false;
+        }
+
+        BlockState aboveState = level.getBlockState(above);
+        if (aboveState.isAir()) {
+            return false;
+        }
+
+        // 1. Standard sturdy bottom face (solid blocks, slabs, stairs) or redstone conductor
+        if (aboveState.isFaceSturdy(level, above, Direction.DOWN) || aboveState.isRedstoneConductor(level, pos)) {
+            return true;
+        }
+
+        // 2. Pointed Dripstone / Speleothem (Stalactite pointing down)
+        if (aboveState.getBlock() instanceof SpeleothemBlock || aboveState.getBlock() instanceof PointedDripstoneBlock) {
+            if (aboveState.hasProperty(SpeleothemBlock.TIP_DIRECTION) && aboveState.getValue(SpeleothemBlock.TIP_DIRECTION) == Direction.DOWN) {
+                return true;
+            }
+        }
+
+        // 3. Hanging Lantern
+        if (aboveState.getBlock() instanceof LanternBlock) {
+            if (aboveState.hasProperty(LanternBlock.HANGING) && aboveState.getValue(LanternBlock.HANGING)) {
+                return true;
+            }
+        }
+
+        // 4. Iron Chains, Fences, Walls, and Leaves
+        if (aboveState.is(BlockTags.CHAINS) || 
+            aboveState.is(BlockTags.FENCES) || 
+            aboveState.is(BlockTags.WALLS) || 
+            aboveState.is(BlockTags.LEAVES)) {
+            return true;
+        }
+
+        return false;
+    }
+}

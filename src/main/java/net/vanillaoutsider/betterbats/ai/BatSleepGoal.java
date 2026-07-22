@@ -65,9 +65,9 @@ public class BatSleepGoal extends Goal {
         if (level.getBrightness(LightLayer.SKY, pos) > 0) return false;
         if (level.getBrightness(LightLayer.BLOCK, pos) > 7) return false;
         
-        // Ceiling check: Must be a solid block above
+        // Roost check: Solid ceiling, dripstone, chains, lanterns, fences, walls, leaves
         BlockPos above = pos.above();
-        return level.getBlockState(above).isRedstoneConductor(level, above);
+        return BatRoostHelper.isSuitableRoost(level, pos, above);
     }
 
     @Override

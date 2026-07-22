@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.18+26.2] - 2026-07-22
+
+### Added
+- **AI/Roosting**: Expanded Roost Hanging (Feature 7). Created `BatRoostHelper.java` to expand bat roosting capabilities beyond simple solid full blocks. Bats can now roost upside down beneath **Pointed Dripstone (stalactites)**, **Hanging Lanterns**, **Iron Chains**, **Fences**, **Walls**, **Tree Leaves**, and blocks with sturdy bottom faces (`isFaceSturdy`).
+
 ## [1.1.17+26.2] - 2026-07-22
 
 ### Changed
