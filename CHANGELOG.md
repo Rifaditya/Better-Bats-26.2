@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.19+26.2] - 2026-07-22
+
+### Added
+- **AI/Guano**: Physical Guano Harvest (Feature 8). Added dynamic boolean GameRule `better-bats:bat_drop_guano_item` (default `false`). When enabled, roosting bats drop physical Bone Meal item entities when resting over non-farmland blocks or when underlying crops are fully grown, enabling survival guano collector towers.
+- **Config & GUI**: Integrated `batDropGuanoItem` option into `BetterBatsConfig`, `ClothConfigScreenHelper`, and `en_us.json`.
+
 ## [1.1.18+26.2] - 2026-07-22
 
 ### Added

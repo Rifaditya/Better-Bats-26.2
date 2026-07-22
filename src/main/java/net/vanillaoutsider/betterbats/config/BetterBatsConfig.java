@@ -18,6 +18,7 @@ public class BetterBatsConfig {
     public int batCohesion = 5;
     public int batSeparation = 10;
     public int batSpawnWeight = 30;
+    public boolean batDropGuanoItem = false;
 
     public static synchronized void load(Path configDir) {
         CONFIG_PATH = configDir.resolve("better-bats.json");

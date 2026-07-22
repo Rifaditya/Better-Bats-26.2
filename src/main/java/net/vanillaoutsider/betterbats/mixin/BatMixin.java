@@ -233,6 +233,16 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                             }
                             if (!fertilized) {
                                 level.sendParticles(net.minecraft.core.particles.ParticleTypes.MYCELIUM, target.getX() + 0.5, target.getY() + 1.0, target.getZ() + 0.5, 3, 0.2, 0.1, 0.2, 0.01);
+                                if (net.dasik.social.api.gamerule.DynamicGameRuleManager.getBoolean(level, BetterBatsFabric.BAT_DROP_GUANO_ITEM)) {
+                                    net.minecraft.world.entity.item.ItemEntity itemEntity = new net.minecraft.world.entity.item.ItemEntity(
+                                        level,
+                                        target.getX() + 0.5,
+                                        target.getY() + 0.8,
+                                        target.getZ() + 0.5,
+                                        new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BONE_MEAL)
+                                    );
+                                    level.addFreshEntity(itemEntity);
+                                }
                             }
                             break;
                         }

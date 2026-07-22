@@ -16,6 +16,8 @@
   "gamerule.better-bats.bat_separation.description": "The steering weight (scale factor) that controls how aggressively bats avoid collision and push away from neighboring flock members. Higher values enforce wider personal space buffers, preventing overlapping models. Range: 0 to 100. Default: 10.",
   "gamerule.better-bats.bat_spawn_weight": "Bat Spawn Weight",
   "gamerule.better-bats.bat_spawn_weight.description": "Controls the spawn weight of bats in ambient spawn settings (Vanilla is 10). Set to 0 to disable spawning entirely. Default: 30.",
+  "gamerule.better-bats.bat_drop_guano_item": "Drop Guano Items",
+  "gamerule.better-bats.bat_drop_guano_item.description": "Determines whether roosting bats drop physical Bone Meal item entities when resting over non-farmland blocks or when crops are fully grown. Default: false.",
   "config.better-bats.title": "Better Bats Configuration",
   "config.better-bats.category.general": "General Settings",
   "config.better-bats.warning": "WARNING: Changes made here only affect the baseline defaults for NEW worlds. To configure your active/existing world, use the in-game /gamerule screen or command instead.",
@@ -25,5 +27,6 @@
   "config.better-bats.batAlignment": "Default Bat Alignment Weight",
   "config.better-bats.batCohesion": "Default Bat Cohesion Weight",
   "config.better-bats.batSeparation": "Default Bat Separation Weight",
-  "config.better-bats.batSpawnWeight": "Default Bat Spawn Weight"
+  "config.better-bats.batSpawnWeight": "Default Bat Spawn Weight",
+  "config.better-bats.batDropGuanoItem": "Default Drop Guano Items"
 }

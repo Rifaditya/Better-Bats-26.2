@@ -62,6 +62,11 @@ public class ClothConfigScreenHelper {
                 .setSaveConsumer(val -> config.batSpawnWeight = val)
                 .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.better-bats.batDropGuanoItem"), config.batDropGuanoItem)
+                .setDefaultValue(false)
+                .setSaveConsumer(val -> config.batDropGuanoItem = val)
+                .build());
+
         return builder.build();
     }
 }

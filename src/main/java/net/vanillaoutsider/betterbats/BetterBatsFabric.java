@@ -1,4 +1,4 @@
-// Verified against: GameRules.java (26.1.2)
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats;
 
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
@@ -23,6 +23,7 @@ public class BetterBatsFabric implements ModInitializer {
     public static GameRule<Integer> BAT_COHESION;
     public static GameRule<Integer> BAT_SEPARATION;
     public static GameRule<Integer> BAT_SPAWN_WEIGHT;
+    public static GameRule<Boolean> BAT_DROP_GUANO_ITEM;
 
     @Override
     public void onInitialize() {
@@ -82,10 +83,16 @@ public class BetterBatsFabric implements ModInitializer {
                         .range(0, 100)
                         .register();
 
+        BAT_DROP_GUANO_ITEM = 
+                DynamicGameRuleManager.booleanRule("better-bats:bat_drop_guano_item", BETTER_BATS, config.batDropGuanoItem)
+                        .name("Drop Guano Items")
+                        .description("If true, roosting bats drop physical Bone Meal items over non-farmland blocks or when crops below are fully grown. Default: false.")
+                        .register();
+
         String version = net.fabricmc.loader.api.FabricLoader.getInstance()
                 .getModContainer("better-bats")
                 .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse("1.1.5-26.1.2");
+                .orElse("1.1.18+26.2");
         LOGGER.info("Better Bats: Chioptera Enhancements Initialized (v" + version + ")");
     }
 }
