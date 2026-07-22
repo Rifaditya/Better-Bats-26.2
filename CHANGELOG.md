@@ -5,10 +5,19 @@ All notable changes to this project will be documented in this file.
 ## [1.1.17+26.2] - 2026-07-22
 
 ### Changed
-- **AI/Movement**: Overhauled `BatMixin.java` to cancel vanilla `Bat.customServerAiStep` random target movement when flying. This eliminates the movement conflict where vanilla random target coordinates were overwriting custom goals and Boids flocking vectors every tick.
-- **AI/Movement**: Replaced abrupt rotational snapping with smooth angular lerping (`Mth.approachDegrees`) for `yRot`, `yHeadRot`, and `yBodyRot` (max 12°/tick), producing smooth visual banking and turns.
-- **AI/Guano**: Enhanced guano fertilizing feedback. Roosting bats fertilizing farmland crops now trigger bone meal sound/particles (`levelEvent(2005)`) and `HAPPY_VILLAGER` particles. Unfertilized drops emit visual guano particles drifting down.
-- **Forward Compatibility & Version Guard**: Configured `fabric.mod.json` with `"minecraft": ">=26.2-"` for open-ended forward compatibility. Added zero-dependency `ModVersionGuard` check on startup to display human-readable guidance if an incompatible Minecraft API version is encountered.
+- **AI/Movement & Core Architectural Overhaul**:
+  - Re-engineered `@Inject(method = "customServerAiStep")` in `BatMixin.java` to inject at `@At("HEAD")` with `cancellable = true`.
+  - **Vanilla Flight Jitter Elimination**: Fixed a critical movement conflict where vanilla `Bat.customServerAiStep` ran every single tick when flying, randomly selecting target coordinates in a 7-block box and overriding `setDeltaMovement`. By cancelling vanilla's flying step (`ci.cancel()`), `BatFlightHelper` and active AI goals (`BatHuntLightGoal`, `BatDiveBombGoal`, `BatSleepGoal`, `BatPanicGoal`) now have 100% clean, unperturbed control over bat flight trajectories.
+  - **Vanilla Resting Waking Retained**: Preserved vanilla resting checks (waking up when a player is within 4 blocks, when the ceiling block breaks, or with a 1/200 random chance at night). Added a 1/100 random chance for flying bats to rest if a solid ceiling block (`isRedstoneConductor`) is detected above.
+- **AI/Rotation Smoothing**:
+  - Replaced instant 90° yaw snapping with smooth 3-axis rotational lerping using `Mth.approachDegrees(self.getYRot(), targetYaw, 12.0F)` (clamped to 12° per tick maximum).
+  - Synchronously updated `yRot`, `yHeadRot`, and `yBodyRot` on every tick, eliminating abrupt visual snapping and making turns and banking look completely organic.
+- **AI/Guano Production & Particle Polish**:
+  - Enhanced diegetic visual feedback during guano fertilization. When a roosting bat fertilizes a crop below, it now triggers both vanilla bone meal particles/sound (`levelEvent(2005)`) and a burst of green villager happy particles (`ParticleTypes.HAPPY_VILLAGER`).
+  - Added visual guano particle effects (`ParticleTypes.MYCELIUM`) drifting down from roosting spots when guano drops on non-crop or fully grown blocks, ensuring players can visually observe guano falling regardless of underlying block state.
+- **Forward Compatibility & Version Identity**:
+  - Configured `fabric.mod.json` with `"minecraft": ">=26.2-"` for open-ended forward compatibility across minor/patch releases.
+  - Integrated zero-dependency `ModVersionGuard.checkClass("Better Bats", "net.minecraft.world.entity.EntityTypes")` in `onInitialize()` to display human-readable guidance in the event of an API mismatch.
 
 ## [1.1.16-26.2] - 2026-06-20
 
