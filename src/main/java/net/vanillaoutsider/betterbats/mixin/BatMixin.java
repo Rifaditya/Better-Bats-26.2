@@ -140,6 +140,21 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                     if (!isSilent) {
                         level.levelEvent(null, 1025, pos, 0);
                     }
+                } else {
+                    // Check for nearby predators (Cats, Ocelots, Phantoms) within 10 blocks
+                    java.util.List<net.minecraft.world.entity.LivingEntity> restingPredators = level.getEntitiesOfClass(
+                        net.minecraft.world.entity.LivingEntity.class,
+                        self.getBoundingBox().inflate(10.0),
+                        e -> (e instanceof net.minecraft.world.entity.animal.feline.Cat ||
+                              e instanceof net.minecraft.world.entity.animal.feline.Ocelot ||
+                              e instanceof net.minecraft.world.entity.monster.Phantom) && e.isAlive()
+                    );
+                    if (!restingPredators.isEmpty()) {
+                        self.setResting(false);
+                        if (!isSilent) {
+                            level.levelEvent(null, 1025, pos, 0);
+                        }
+                    }
                 }
             } else {
                 self.setResting(false);

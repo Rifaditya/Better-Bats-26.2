@@ -81,6 +81,22 @@ public class BatFlightHelper {
             newVelocity = newVelocity.add(0.0, capForce, 0.0);
         }
 
+        // 2.7. Predator Avoidance (Cats, Ocelots, Phantoms) - ALWAYS APPLIED
+        List<net.minecraft.world.entity.LivingEntity> predators = level.getEntitiesOfClass(
+            net.minecraft.world.entity.LivingEntity.class,
+            bat.getBoundingBox().inflate(10.0),
+            e -> (e instanceof net.minecraft.world.entity.animal.feline.Cat ||
+                  e instanceof net.minecraft.world.entity.animal.feline.Ocelot ||
+                  e instanceof net.minecraft.world.entity.monster.Phantom) && e.isAlive()
+        );
+        if (!predators.isEmpty()) {
+            net.minecraft.world.entity.LivingEntity nearestPredator = predators.get(0);
+            Vec3 fleeDir = bat.position().subtract(nearestPredator.position());
+            if (fleeDir.lengthSqr() > 0.001) {
+                newVelocity = newVelocity.add(fleeDir.normalize().scale(0.25));
+            }
+        }
+
         // Check if the bat has an active custom goal or is panicked.
         boolean hasActiveGoal = false;
         if (bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
