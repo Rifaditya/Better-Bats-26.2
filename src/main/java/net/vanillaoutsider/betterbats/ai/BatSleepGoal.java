@@ -1,4 +1,4 @@
-// Verified against: Bat.java (26.1.2)
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats.ai;
 
 import net.minecraft.core.BlockPos;

@@ -1,4 +1,4 @@
-// Verified against: GameEventDispatcher.java (26.1.2)
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats.mixin;
 
 import net.minecraft.core.Holder;

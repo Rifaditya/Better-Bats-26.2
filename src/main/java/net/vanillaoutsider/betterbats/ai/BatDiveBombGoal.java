@@ -1,4 +1,4 @@
-// Verified against: Silverfish.java (26.1.2)
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats.ai;
 
 import net.minecraft.world.entity.ai.goal.Goal;

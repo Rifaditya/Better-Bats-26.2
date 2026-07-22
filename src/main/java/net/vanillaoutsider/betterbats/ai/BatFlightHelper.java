@@ -1,3 +1,4 @@
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats.ai;
 
 // Verified against: Level.java (26.2+), Bat.java (26.2+), Heightmap.java (26.2+)
@@ -290,7 +291,7 @@ public class BatFlightHelper {
         }
 
         // 7. Clamp velocity to maximum speed - ALWAYS APPLIED
-        double maxSpeed = 0.4;
+        double maxSpeed = 0.35;
         if (newVelocity.lengthSqr() > maxSpeed * maxSpeed) {
             newVelocity = newVelocity.normalize().scale(maxSpeed);
         }

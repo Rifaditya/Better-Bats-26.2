@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.17+26.2] - 2026-07-22
+
+### Changed
+- **AI/Movement**: Overhauled `BatMixin.java` to cancel vanilla `Bat.customServerAiStep` random target movement when flying. This eliminates the movement conflict where vanilla random target coordinates were overwriting custom goals and Boids flocking vectors every tick.
+- **AI/Movement**: Replaced abrupt rotational snapping with smooth angular lerping (`Mth.approachDegrees`) for `yRot`, `yHeadRot`, and `yBodyRot` (max 12°/tick), producing smooth visual banking and turns.
+- **AI/Guano**: Enhanced guano fertilizing feedback. Roosting bats fertilizing farmland crops now trigger bone meal sound/particles (`levelEvent(2005)`) and `HAPPY_VILLAGER` particles. Unfertilized drops emit visual guano particles drifting down.
+- **Forward Compatibility & Version Guard**: Configured `fabric.mod.json` with `"minecraft": ">=26.2-"` for open-ended forward compatibility. Added zero-dependency `ModVersionGuard` check on startup to display human-readable guidance if an incompatible Minecraft API version is encountered.
+
 ## [1.1.16-26.2] - 2026-06-20
 
 ### Changed

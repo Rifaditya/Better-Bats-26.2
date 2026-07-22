@@ -1,4 +1,4 @@
-// Verified against: Bat.java (26.1.2)
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats.mixin;
 
 import net.minecraft.core.BlockPos;
@@ -123,22 +123,55 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
         }
     }
 
-    @Inject(method = "customServerAiStep", at = @At("TAIL"))
-    private void betterbats$wakeUpAtNight(ServerLevel level, CallbackInfo ci) {
+    @Inject(method = "customServerAiStep", at = @At("HEAD"), cancellable = true)
+    private void betterbats$onCustomServerAiStep(ServerLevel level, CallbackInfo ci) {
         Bat self = (Bat)(Object)this;
-        if (self.isResting() && !level.isBrightOutside() && self.getRandom().nextInt(200) == 0) {
-            self.setResting(false);
-        }
-        if (!self.isResting()) {
-            net.vanillaoutsider.betterbats.ai.BatFlightHelper.applyFlightForces(self);
-            Vec3 newMovement = self.getDeltaMovement();
-            if (newMovement.lengthSqr() > 0.001) {
-                float yRotD = (float)(Mth.atan2(newMovement.z, newMovement.x) * 180.0F / (float)Math.PI) - 90.0F;
-                float rotDiff = Mth.wrapDegrees(yRotD - self.getYRot());
-                self.zza = 0.5F;
-                self.setYRot(self.getYRot() + rotDiff);
+        BlockPos pos = self.blockPosition();
+        BlockPos above = pos.above();
+
+        if (self.isResting()) {
+            boolean isSilent = self.isSilent();
+            if (level.getBlockState(above).isRedstoneConductor(level, pos)) {
+                if (self.getRandom().nextInt(200) == 0) {
+                    self.yHeadRot = self.getRandom().nextInt(360);
+                }
+                if (level.getNearestPlayer(net.minecraft.world.entity.ai.targeting.TargetingConditions.forNonCombat().range(4.0), self) != null) {
+                    self.setResting(false);
+                    if (!isSilent) {
+                        level.levelEvent(null, 1025, pos, 0);
+                    }
+                }
+            } else {
+                self.setResting(false);
+                if (!isSilent) {
+                    level.levelEvent(null, 1025, pos, 0);
+                }
             }
+            if (self.isResting() && !level.isBrightOutside() && self.getRandom().nextInt(200) == 0) {
+                self.setResting(false);
+            }
+            ci.cancel();
+            return;
         }
+
+        // Flying mode: override vanilla random target calculation completely
+        net.vanillaoutsider.betterbats.ai.BatFlightHelper.applyFlightForces(self);
+
+        Vec3 newMovement = self.getDeltaMovement();
+        if (newMovement.lengthSqr() > 0.001) {
+            float targetYaw = (float)(Mth.atan2(newMovement.z, newMovement.x) * (180.0 / Math.PI)) - 90.0F;
+            float newYaw = Mth.approachDegrees(self.getYRot(), targetYaw, 12.0F);
+            self.setYRot(newYaw);
+            self.setYHeadRot(newYaw);
+            self.setYBodyRot(newYaw);
+            self.zza = 0.5F;
+        }
+
+        if (self.getRandom().nextInt(100) == 0 && level.getBlockState(above).isRedstoneConductor(level, above)) {
+            self.setResting(true);
+        }
+
+        ci.cancel();
     }
 
     @Inject(method = "checkBatSpawnRules", at = @At("HEAD"), cancellable = true)
@@ -179,8 +212,9 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                 if (this.betterbats$guanoTicks >= threshold) {
                     this.betterbats$guanoTicks = 0;
                     BlockPos pos = self.blockPosition();
-                    net.minecraft.world.level.Level level = self.level();
+                    ServerLevel level = (ServerLevel) self.level();
                     
+                    boolean fertilized = false;
                     for (int i = 1; i < 20; i++) {
                         BlockPos target = pos.below(i);
                         net.minecraft.world.level.block.state.BlockState state = level.getBlockState(target);
@@ -190,10 +224,15 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                                 net.minecraft.world.level.block.state.BlockState cropState = level.getBlockState(cropPos);
                                 if (cropState.getBlock() instanceof BonemealableBlock crop) {
                                     if (crop.isValidBonemealTarget(level, cropPos, cropState)) {
-                                        crop.performBonemeal((ServerLevel)level, level.getRandom(), cropPos, cropState);
+                                        crop.performBonemeal(level, level.getRandom(), cropPos, cropState);
                                         level.levelEvent(2005, cropPos, 0);
+                                        level.sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER, cropPos.getX() + 0.5, cropPos.getY() + 0.5, cropPos.getZ() + 0.5, 5, 0.2, 0.2, 0.2, 0.05);
+                                        fertilized = true;
                                     }
                                 }
+                            }
+                            if (!fertilized) {
+                                level.sendParticles(net.minecraft.core.particles.ParticleTypes.MYCELIUM, target.getX() + 0.5, target.getY() + 1.0, target.getZ() + 0.5, 3, 0.2, 0.1, 0.2, 0.01);
                             }
                             break;
                         }

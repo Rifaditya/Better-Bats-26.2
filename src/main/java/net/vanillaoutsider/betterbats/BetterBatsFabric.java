@@ -26,6 +26,7 @@ public class BetterBatsFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        net.vanillaoutsider.betterbats.util.ModVersionGuard.checkClass("Better Bats", "net.minecraft.world.entity.EntityTypes");
         if (!net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("dasik-library")) {
             throw new RuntimeException("Better Bats requires 'dasik-library' to be loaded!");
         }
