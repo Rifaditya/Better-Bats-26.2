@@ -52,3 +52,20 @@ Via DasikLibrary, allowing for server performance tuning:
 - [x] Feature 5: Pest Control (Silverfish Dive-Bomb)
 - [x] Feature 6: Acoustic Panic (Vibration listener & sleep interrupt)
 - [x] Platform Docs updated (CurseForge/Modrinth)
+
+---
+
+## 🔮 Future Backlog
+
+### Feature 7: Expanded Roost Hanging (Dripstone, Chains, & Lanterns)
+- **Description**: Bats can roost upside down beneath Pointed Dripstone (stalactites), Iron Chains, Fences, and Hanging Lanterns in addition to solid full ceiling blocks.
+- **Implementation**: Expand `isSuitableRoost` check in `BatSleepGoal` and `BatMixin` to recognize `POINTED_DRIPSTONE`, `CHAIN`, `FENCE`, and `LANTERN` block states.
+
+### Feature 8: Physical Guano Item Harvest (GameRule: `better-bats:bat_drop_guano_item`)
+- **Description**: Adds an optional GameRule (default: `false`) enabling roosting bats to drop a physical Bone Meal item when resting over non-farmland blocks, allowing for survival guano collector towers.
+- **Implementation**: Register `better-bats:bat_drop_guano_item` boolean GameRule. When guano production threshold is met over non-farmland, spawn `Items.BONE_MEAL` item entity.
+
+### Feature 9: Predator Avoidance (Cats, Ocelots, & Phantoms)
+- **Description**: Bats panic and scatter if natural predators (`Cat`, `Ocelot`, `Phantom`) enter a 10-block radius.
+- **Implementation**: Scan for feline and phantom entities in `BatPanicGoal` / `BatFlightHelper` to trigger panic flight.
+
