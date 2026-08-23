@@ -24,6 +24,7 @@ public class BetterBatsFabric implements ModInitializer {
     public static GameRule<Integer> BAT_SEPARATION;
     public static GameRule<Integer> BAT_SPAWN_WEIGHT;
     public static GameRule<Boolean> BAT_DROP_GUANO_ITEM;
+    public static GameRule<Boolean> BAT_DEBUG_MODE;
 
     @Override
     public void onInitialize() {
@@ -88,6 +89,17 @@ public class BetterBatsFabric implements ModInitializer {
                         .name("Drop Guano Items")
                         .description("If true, roosting bats drop physical Bone Meal items over non-farmland blocks or when crops below are fully grown. Default: false.")
                         .register();
+
+        BAT_DEBUG_MODE = 
+                DynamicGameRuleManager.booleanRule("better-bats:debug_mode", BETTER_BATS, false)
+                        .name("Debug Mode")
+                        .description("Enable detailed diagnostic logging for Better Bats AI and behaviors. Resets to false on restart.")
+                        .register();
+
+        // Ensure Debug Mode resets to false on world/server startup (Default-OFF & Session-Transient Lifecycle Law)
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            server.getGameRules().set(BAT_DEBUG_MODE, false, server);
+        });
 
         // Register Animal Genetics for Bats (Scale/Wingspan, Flight Speed, Pest Attack Damage)
         net.dasik.social.api.genetics.EntityGeneticsRegistry.register(

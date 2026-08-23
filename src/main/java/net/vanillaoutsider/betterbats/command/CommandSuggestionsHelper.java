@@ -25,7 +25,8 @@ public class CommandSuggestionsHelper {
             "bat_cohesion", "cohesion", "better-bats:bat_cohesion",
             "bat_separation", "separation", "better-bats:bat_separation",
             "bat_spawn_weight", "spawn_weight", "better-bats:bat_spawn_weight",
-            "bat_drop_guano_item", "drop_guano_item", "better-bats:bat_drop_guano_item"
+            "bat_drop_guano_item", "drop_guano_item", "better-bats:bat_drop_guano_item",
+            "bat_debug_mode", "debug_mode", "better-bats:debug_mode"
     );
 
     public static String normalizeRuleName(String raw) {
@@ -47,7 +48,7 @@ public class CommandSuggestionsHelper {
     public static CompletableFuture<Suggestions> suggestValues(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         String ruleName = normalizeRuleName(context.getArgument("rule", String.class));
         
-        if (ruleName.equals("bat_pest_control") || ruleName.equals("bat_drop_guano_item")) {
+        if (ruleName.equals("bat_pest_control") || ruleName.equals("bat_drop_guano_item") || ruleName.equals("bat_debug_mode")) {
             return SharedSuggestionProvider.suggest(Arrays.asList("true", "false"), builder);
         }
         

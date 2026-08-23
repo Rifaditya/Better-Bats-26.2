@@ -9,12 +9,14 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * AI Goal for Bats to seek dark roosting spots during the day.
- * Verified against: Bat.java (26.1.2 Release)
+ * AI Goal for Bats to seek dark roosting spots during the day and storms, clustering with peers.
  */
 public class BatSleepGoal extends Goal {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatSleepGoal.class);
     private final Bat bat;
     private BlockPos roostPos;
 
@@ -109,6 +111,9 @@ public class BatSleepGoal extends Goal {
         if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             accessor.betterbats$setGoalActive(true);
         }
+        if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+            LOGGER.info("[BetterBats:BatSleepGoal] [Bat#{}] Seeking roost at {}", this.bat.getId(), this.roostPos);
+        }
     }
 
     @Override
@@ -120,6 +125,9 @@ public class BatSleepGoal extends Goal {
             double distSqr = dir.lengthSqr();
             if (distSqr < 1.0) {
                 this.bat.setResting(true);
+                if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+                    LOGGER.info("[BetterBats:BatSleepGoal] [Bat#{}] Successfully reached roost at {}", this.bat.getId(), this.roostPos);
+                }
             } else {
                 // Move towards the dark spot
                 this.bat.setDeltaMovement(this.bat.getDeltaMovement().add(dir.normalize().scale(0.08)));
@@ -129,6 +137,9 @@ public class BatSleepGoal extends Goal {
 
     @Override
     public void stop() {
+        if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+            LOGGER.info("[BetterBats:BatSleepGoal] [Bat#{}] Stopped sleep goal (Resting: {})", this.bat.getId(), this.bat.isResting());
+        }
         this.roostPos = null;
         if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             accessor.betterbats$setGoalActive(false);

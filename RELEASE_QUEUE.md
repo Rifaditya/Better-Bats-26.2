@@ -30,5 +30,6 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [ ] **`1.1.24+26.2`** (2026-08-09) - - **Performance & Build Polish**: Throttled resting predator entity lookup (`level.getEntitiesOfClass(...)`) to 1/sec (20 ticks) while roosting, eliminating unnecessary AABB allocations. Updated JDK 25 path in `gradle.properties`.
 - [ ] **`1.1.25+26.2`** (2026-08-09) - - **Automated Testing Suite**: Integrated JUnit 5 unit test suite for flight Boids math algorithms, velocity limits, altitude cap math, config defaults, and genetics trait bounds.
 - [ ] **`1.1.26+26.2`** (2026-08-24) - - **Commands**: In-game Brigadier command suite (/betterbats and /bb) with tab completion, 2-way GameRule and JSON config sync, and live debug diagnostics.
+- [ ] **`1.1.27+26.2`** (2026-08-24) - - **Diagnostics**: Dynamic session-transient `better-bats:debug_mode` GameRule, zero-allocation `BatDebugHelper`, dedicated SLF4J loggers across all AI helpers, and `/betterbats debug on|off` toggles.
 
 

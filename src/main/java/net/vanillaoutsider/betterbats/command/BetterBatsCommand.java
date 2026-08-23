@@ -32,6 +32,7 @@ public class BetterBatsCommand {
     static {
         registerBool("bat_pest_control", BetterBatsFabric.BAT_PEST_CONTROL, true);
         registerBool("bat_drop_guano_item", BetterBatsFabric.BAT_DROP_GUANO_ITEM, false);
+        registerBool("bat_debug_mode", BetterBatsFabric.BAT_DEBUG_MODE, false);
 
         registerInt("bat_swarm_size", BetterBatsFabric.BAT_SWARM_SIZE, 5);
         registerInt("bat_guano_threshold", BetterBatsFabric.BAT_GUANO_THRESHOLD, 12000);
@@ -80,7 +81,7 @@ public class BetterBatsCommand {
                         .then(Commands.argument("rule", StringArgumentType.word())
                                 .suggests(CommandSuggestionsHelper::suggestRules)
                                 .then(Commands.argument("value", StringArgumentType.word())
-                                        .suggests(CommandSuggestionsHelper::suggestValues)
+                                         .suggests(CommandSuggestionsHelper::suggestValues)
                                         .executes(context -> executeSet(
                                                 context.getSource(),
                                                 StringArgumentType.getString(context, "rule"),
@@ -94,6 +95,10 @@ public class BetterBatsCommand {
                         .executes(context -> executeReload(context.getSource())))
                 .then(Commands.literal("debug")
                         .requires(source -> Commands.LEVEL_GAMEMASTERS.check(source.permissions()))
+                        .then(Commands.literal("on")
+                                .executes(context -> executeToggleDebug(context.getSource(), true)))
+                        .then(Commands.literal("off")
+                                .executes(context -> executeToggleDebug(context.getSource(), false)))
                         .then(Commands.literal("inspect")
                                 .executes(context -> BatCommandHelper.inspectNearestBat(context.getSource())))
                         .then(Commands.literal("spawn_swarm")
@@ -113,6 +118,7 @@ public class BetterBatsCommand {
                 "§a/" + literalName + " set <rule> <val>§r - Modify a GameRule value & sync config (Gamemasters)\n" +
                 "§a/" + literalName + " reset§r - Reset all GameRules to defaults & sync config (Gamemasters)\n" +
                 "§a/" + literalName + " reload§r - Reload JSON config and sync active GameRules (Gamemasters)\n" +
+                "§a/" + literalName + " debug on|off§r - Toggle real-time diagnostic logging (Gamemasters)\n" +
                 "§a/" + literalName + " debug inspect§r - Inspect nearest bat traits & physics (Gamemasters)\n" +
                 "§a/" + literalName + " debug spawn_swarm [count]§r - Spawn test murmuration flock (Gamemasters)"
         ), false);
@@ -137,7 +143,10 @@ public class BetterBatsCommand {
                 .append(" §7| Pest Control: ").append(formatBool(DynamicGameRuleManager.getBoolean(level, BetterBatsFabric.BAT_PEST_CONTROL))).append("\n");
 
         sb.append("§e[World Spawning]§r\n");
-        sb.append(" §7Bat Spawn Weight: §a").append(DynamicGameRuleManager.getInt(level, BetterBatsFabric.BAT_SPAWN_WEIGHT)).append("§r §7(Vanilla is 10)§r");
+        sb.append(" §7Bat Spawn Weight: §a").append(DynamicGameRuleManager.getInt(level, BetterBatsFabric.BAT_SPAWN_WEIGHT)).append("§r §7(Vanilla is 10)§r\n");
+
+        sb.append("§e[Diagnostics]§r\n");
+        sb.append(" §7Debug Mode: ").append(formatBool(DynamicGameRuleManager.getBoolean(level, BetterBatsFabric.BAT_DEBUG_MODE)));
 
         source.sendSuccess(() -> Component.literal(sb.toString()), false);
         return 1;
@@ -248,6 +257,7 @@ public class BetterBatsCommand {
         server.getGameRules().set(BetterBatsFabric.BAT_SEPARATION, 10, server);
         server.getGameRules().set(BetterBatsFabric.BAT_SPAWN_WEIGHT, 30, server);
         server.getGameRules().set(BetterBatsFabric.BAT_DROP_GUANO_ITEM, false, server);
+        server.getGameRules().set(BetterBatsFabric.BAT_DEBUG_MODE, false, server);
 
         config.batSwarmSize = 5;
         config.batGuanoThreshold = 12000;
@@ -270,8 +280,8 @@ public class BetterBatsCommand {
             return 0;
         }
 
-        BetterBatsConfig.load(FabricLoader.getInstance().getConfigDir());
         BetterBatsConfig config = BetterBatsConfig.get();
+        BetterBatsConfig.load(FabricLoader.getInstance().getConfigDir());
 
         server.getGameRules().set(BetterBatsFabric.BAT_SWARM_SIZE, config.batSwarmSize, server);
         server.getGameRules().set(BetterBatsFabric.BAT_GUANO_THRESHOLD, config.batGuanoThreshold, server);
@@ -283,6 +293,19 @@ public class BetterBatsCommand {
         server.getGameRules().set(BetterBatsFabric.BAT_DROP_GUANO_ITEM, config.batDropGuanoItem, server);
 
         source.sendSuccess(() -> Component.literal("§a[Better Bats] Reloaded configuration from disk and synchronized active GameRules."), true);
+        return 1;
+    }
+
+    private static int executeToggleDebug(CommandSourceStack source, boolean enable) {
+        MinecraftServer server = source.getServer();
+        if (server == null) {
+            source.sendFailure(Component.literal("§c[Better Bats] Server is unavailable."));
+            return 0;
+        }
+        server.getGameRules().set(BetterBatsFabric.BAT_DEBUG_MODE, enable, server);
+        source.sendSuccess(() -> Component.literal(
+                "§6[Better Bats]§r Diagnostic debug logging is now " + formatBool(enable) + "§r (session-transient)."
+        ), true);
         return 1;
     }
 

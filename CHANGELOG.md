@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.27+26.2] - 2026-08-24
+
+### Added
+- **Diagnostic Tracing & Debug Logging (`better-bats:debug_mode`)**:
+  - Implemented dynamic session-transient `better-bats:debug_mode` GameRule and zero-allocation runtime gating via `BatDebugHelper`.
+  - Registered dedicated SLF4J loggers across all AI helpers and goals (`BatFlightHelper`, `BatRoostHelper`, `BatSleepGoal`, `BatDiveBombGoal`, `BatHuntLightGoal`, `BatPanicGoal`, `BatMixin`).
+  - Added throttled trace logging for flight altitude caps, predator flee steering, pest dive-bomb strikes, light source orbiting, roost acquisition, and guano fertilization cycles.
+  - Added `/betterbats debug on` and `/betterbats debug off` commands to toggle diagnostic logging at runtime.
+  - Added `ServerLifecycleEvents.SERVER_STARTING` listener resetting `debug_mode` to `false` on world/server start.
+
 ## [1.1.26+26.2] - 2026-08-24
 
 ### Added

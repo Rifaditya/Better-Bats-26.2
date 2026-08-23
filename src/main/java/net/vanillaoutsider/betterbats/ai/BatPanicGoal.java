@@ -17,11 +17,14 @@ import net.minecraft.world.phys.Vec3;
 import net.vanillaoutsider.betterbats.BatStateAccessor;
 
 import java.util.EnumSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * AI Goal for Bats to scatter in panic away from sound/vibration sources.
  */
 public class BatPanicGoal extends Goal {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatPanicGoal.class);
     private final Bat bat;
     private final BatStateAccessor accessor;
 
@@ -45,11 +48,21 @@ public class BatPanicGoal extends Goal {
         // Play panic sounds (mixed takeoff and low-pitch flap)
         this.bat.playSound(net.minecraft.sounds.SoundEvents.BAT_TAKEOFF, 0.8f, 1.0f);
         this.bat.playSound(net.minecraft.sounds.SoundEvents.PHANTOM_FLAP, 0.5f, 0.6f);
+        if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+            LOGGER.info("[BetterBats:BatPanicGoal] [Bat#{}] Panicked! Fleeing disturbance source at {}", this.bat.getId(), this.accessor.betterbats$getPanicSource());
+        }
     }
 
     @Override
     public boolean canContinueToUse() {
         return this.accessor.betterbats$isPanicked();
+    }
+
+    @Override
+    public void stop() {
+        if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+            LOGGER.info("[BetterBats:BatPanicGoal] [Bat#{}] Panic state cleared", this.bat.getId());
+        }
     }
 
     @Override

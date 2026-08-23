@@ -9,12 +9,16 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.SpeleothemBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Centralized helper for checking if a block position is a valid roosting spot for bats.
  * Supports solid ceilings, pointed dripstone (stalactites), hanging lanterns, chains, fences, walls, and leaves.
  */
 public class BatRoostHelper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatRoostHelper.class);
 
     public static boolean isSuitableRoost(Level level, BlockPos pos, BlockPos above) {
         if (!level.isEmptyBlock(pos)) {

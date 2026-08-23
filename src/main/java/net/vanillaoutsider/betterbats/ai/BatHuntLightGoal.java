@@ -20,6 +20,8 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * AI Goal: At night, bats seek out and circle nearby light sources (lanterns, torches, etc.).
@@ -31,6 +33,7 @@ import java.util.EnumSet;
  * - Vertical sine-wave bobbing during orbit
  */
 public class BatHuntLightGoal extends Goal {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatHuntLightGoal.class);
     private final Bat bat;
     private BlockPos targetLight;
     private int circlingTicks;
@@ -94,6 +97,9 @@ public class BatHuntLightGoal extends Goal {
         if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             accessor.betterbats$setGoalActive(true);
         }
+        if (this.targetLight != null && net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+            LOGGER.info("[BetterBats:BatHuntLightGoal] [Bat#{}] Circling light source at {}", this.bat.getId(), this.targetLight);
+        }
     }
 
     @Override
@@ -106,6 +112,9 @@ public class BatHuntLightGoal extends Goal {
 
     @Override
     public void stop() {
+        if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(this.bat.level())) {
+            LOGGER.info("[BetterBats:BatHuntLightGoal] [Bat#{}] Completed light circling after {} ticks", this.bat.getId(), this.circlingTicks);
+        }
         this.targetLight = null;
         // Cooldown: 10 to 20 seconds before hunting another light
         this.nextAllowedTick = this.bat.tickCount + 200 + this.bat.getRandom().nextInt(200);

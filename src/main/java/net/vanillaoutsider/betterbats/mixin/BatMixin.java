@@ -30,9 +30,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Mixin(Bat.class)
 public abstract class BatMixin implements GroupMember, BatStateAccessor {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatMixin.class);
 
     @Unique
     private FlockType betterbats$flockType = FlockType.AERIAL;
@@ -135,6 +139,9 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
         if (!net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.hasGenetics(self)) {
             net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.rollStats(self, "better-bats:bat");
             net.dasik.social.api.genetics.GeneticsEngine.applyGeneticsModifiers(self);
+            if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(level)) {
+                LOGGER.info("[BetterBats:BatMixin] [Bat#{}] Animal genetics applied (Scale: {})", self.getId(), self.getScale());
+            }
         }
 
         BlockPos pos = self.blockPosition();
@@ -247,6 +254,9 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                     this.betterbats$guanoTicks = 0;
                     BlockPos pos = self.blockPosition();
                     ServerLevel level = (ServerLevel) self.level();
+                    if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(level)) {
+                        LOGGER.info("[BetterBats:BatMixin] [Bat#{}] Guano fertilization cycle triggered at {}", self.getId(), pos);
+                    }
                     
                     boolean fertilized = false;
                     for (int i = 1; i < 20; i++) {

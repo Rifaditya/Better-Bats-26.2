@@ -19,7 +19,8 @@ public class BetterBatsCommandTest {
             "bat_cohesion", "cohesion", "better-bats:bat_cohesion",
             "bat_separation", "separation", "better-bats:bat_separation",
             "bat_spawn_weight", "spawn_weight", "better-bats:bat_spawn_weight",
-            "bat_drop_guano_item", "drop_guano_item", "better-bats:bat_drop_guano_item"
+            "bat_drop_guano_item", "drop_guano_item", "better-bats:bat_drop_guano_item",
+            "bat_debug_mode", "debug_mode", "better-bats:debug_mode"
     );
 
     @Test
@@ -30,6 +31,9 @@ public class BetterBatsCommandTest {
         assertTrue(EXPECTED_RULES.contains("swarm_size"), "Must contain swarm_size alias");
         assertTrue(EXPECTED_RULES.contains("better-bats:bat_swarm_size"), "Must contain full namespaced rule");
         assertTrue(EXPECTED_RULES.contains("bat_drop_guano_item"), "Must contain bat_drop_guano_item");
+        assertTrue(EXPECTED_RULES.contains("bat_debug_mode"), "Must contain bat_debug_mode");
+        assertTrue(EXPECTED_RULES.contains("debug_mode"), "Must contain debug_mode alias");
+        assertTrue(EXPECTED_RULES.contains("better-bats:debug_mode"), "Must contain full namespaced debug_mode rule");
     }
 
     @Test

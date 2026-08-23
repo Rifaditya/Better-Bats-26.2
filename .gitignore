@@ -66,3 +66,7 @@ build_log_utf8.txt
 Doc/Marketing/
 *hype_*
 
+
+Archive/
+Archive Jar of all versions/
+*.jar

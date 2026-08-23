@@ -13,6 +13,8 @@ import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 import net.vanillaoutsider.betterbats.BetterBatsFabric;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to calculate and apply environmental forces and individual BOIDs flocking to bats.
@@ -20,6 +22,8 @@ import java.util.List;
  * and 1.1.16 organic twilight funneling.
  */
 public class BatFlightHelper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatFlightHelper.class);
 
     /** Maximum blocks above terrain surface a bat may fly (hard cap). */
     private static final int MAX_ALTITUDE_ABOVE_SURFACE = 30;
@@ -79,6 +83,9 @@ public class BatFlightHelper {
             // Strong proportional downward force — scales with distance above cap
             double capForce = -Math.min(0.25, excess * 0.05);
             newVelocity = newVelocity.add(0.0, capForce, 0.0);
+            if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(level) && bat.tickCount % 20 == 0) {
+                LOGGER.info("[BetterBats:BatFlightHelper] [Bat#{}] Altitude cap enforced at Y={} (Surface Y={}, Cap force: {})", bat.getId(), (int)currentY, surfaceY, capForce);
+            }
         }
 
         // 2.7. Predator Avoidance (Cats, Ocelots, Phantoms) - ALWAYS APPLIED
@@ -94,6 +101,9 @@ public class BatFlightHelper {
             Vec3 fleeDir = bat.position().subtract(nearestPredator.position());
             if (fleeDir.lengthSqr() > 0.001) {
                 newVelocity = newVelocity.add(fleeDir.normalize().scale(0.25));
+                if (net.vanillaoutsider.betterbats.util.BatDebugHelper.isDebug(level) && bat.tickCount % 20 == 0) {
+                    LOGGER.info("[BetterBats:BatFlightHelper] [Bat#{}] Fleeing predator {} at distance {} blocks", bat.getId(), nearestPredator.getType().getDescription().getString(), String.format("%.2f", Math.sqrt(bat.distanceToSqr(nearestPredator))));
+                }
             }
         }
 
