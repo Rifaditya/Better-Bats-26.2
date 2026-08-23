@@ -46,6 +46,11 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     private boolean betterbats$goalActive = false;
 
     @Override
+    public int betterbats$getGuanoTicks() {
+        return this.betterbats$guanoTicks;
+    }
+
+    @Override
     public boolean betterbats$isGoalActive() {
         return this.betterbats$goalActive;
     }
@@ -126,6 +131,12 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     @Inject(method = "customServerAiStep", at = @At("HEAD"), cancellable = true)
     private void betterbats$onCustomServerAiStep(ServerLevel level, CallbackInfo ci) {
         Bat self = (Bat)(Object)this;
+
+        if (!net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.hasGenetics(self)) {
+            net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.rollStats(self, "better-bats:bat");
+            net.dasik.social.api.genetics.GeneticsEngine.applyGeneticsModifiers(self);
+        }
+
         BlockPos pos = self.blockPosition();
         BlockPos above = pos.above();
 
@@ -140,8 +151,8 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                     if (!isSilent) {
                         level.levelEvent(null, 1025, pos, 0);
                     }
-                } else {
-                    // Check for nearby predators (Cats, Ocelots, Phantoms) within 10 blocks
+                } else if (self.getRandom().nextInt(20) == 0) {
+                    // Check for nearby predators (Cats, Ocelots, Phantoms) within 10 blocks (throttled to 1/sec)
                     java.util.List<net.minecraft.world.entity.LivingEntity> restingPredators = level.getEntitiesOfClass(
                         net.minecraft.world.entity.LivingEntity.class,
                         self.getBoundingBox().inflate(10.0),
@@ -171,6 +182,14 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
 
         // Flying mode: override vanilla random target calculation completely
         net.vanillaoutsider.betterbats.ai.BatFlightHelper.applyFlightForces(self);
+
+        // Pitch-dark cave echolocation click & subtle sonic pulse
+        if (level.getBrightness(LightLayer.SKY, pos) == 0 && level.getBrightness(LightLayer.BLOCK, pos) < 4) {
+            if (self.getRandom().nextInt(90) == 0) {
+                level.playSound(null, pos, net.minecraft.sounds.SoundEvents.BAT_AMBIENT, net.minecraft.sounds.SoundSource.NEUTRAL, 0.35F, 1.8F + self.getRandom().nextFloat() * 0.3F);
+                level.sendParticles(net.minecraft.core.particles.ParticleTypes.SCULK_SOUL, self.getX(), self.getY() + 0.1, self.getZ(), 2, 0.08, 0.08, 0.08, 0.02);
+            }
+        }
 
         Vec3 newMovement = self.getDeltaMovement();
         if (newMovement.lengthSqr() > 0.001) {

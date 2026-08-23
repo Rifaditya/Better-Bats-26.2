@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.26+26.2] - 2026-08-24
+
+### Added
+- **Brigadier Command Suite**: Implemented `/betterbats` and `/bb` command suites with full tab completion:
+  - `/<cmd> help`: Formatted command syntax reference and color legend.
+  - `/<cmd> status`: Categorized overview of active GameRules (Swarm Dynamics, Ecology & Fertilizer, Spawning).
+  - `/<cmd> get <rule>`: Tab-completed GameRule queries supporting flexible short names (`bat_swarm_size`, `swarm_size`) and full names.
+  - `/<cmd> set <rule> <val>`: Live GameRule modification with automatic 2-way synchronization to `config/better-bats.json` (Gamemasters).
+  - `/<cmd> reset`: Resets all GameRules to factory defaults and synchronizes JSON configuration (Gamemasters).
+  - `/<cmd> reload`: Reloads `config/better-bats.json` from disk and applies settings to the active world (Gamemasters).
+  - `/<cmd> debug inspect`: Diagnostic raycast to inspect target bat wingspan scale, flight state, velocity, and guano ticks (Gamemasters).
+  - `/<cmd> debug spawn_swarm [count]`: Spawns a coordinated bat murmuration flock for live testing (Gamemasters).
+
+## [1.1.25+26.2] - 2026-08-09
+
+### Added
+- **Automated Testing Suite**: Integrated a JUnit 5 test suite in `src/test/java/net/vanillaoutsider/betterbats/test/` to verify flight Boids math algorithms, velocity limits, altitude cap math, configuration defaults, and genetics trait bounds.
+- **Build Infrastructure**: Configured JUnit Platform integration in `build.gradle` for automated execution via `./gradlew test`.
+
+## [1.1.24+26.2] - 2026-08-09
+
+### Fixed & Optimized
+- **Performance**: Throttled resting predator entity lookup (`level.getEntitiesOfClass(...)`) to once every 20 ticks (1 sec) instead of every tick while bats are roosting, eliminating unnecessary AABB allocations during long sleep cycles.
+- **Build Infrastructure**: Updated `org.gradle.java.home` configuration in `gradle.properties` to align with JDK 25 path requirements (`E:/JDK25`).
+
+## [1.1.23+26.2] - 2026-08-01
+
+### Added
+- **Animal Genetics API Integration**: Integrated `DasikAnimalGeneticsAPI` and `GeneticsEngine` from `dasik-library`. Bats now possess individual genetic traits:
+  - `scale`: Variable wingspan and entity size scaling (`0.75x` microbats to `1.30x` giant cave bats).
+  - `movement_speed`: Genetic flight speed modifiers.
+  - `attack_damage`: Pest dive-bomb damage scaling against Silverfish and Endermites.
+
+## [1.1.22+26.2] - 2026-08-01
+
+### Added
+- **AI/Ambience & Echolocation**: Pitch-Dark Cave Echolocation (Feature 10). Flying bats in total darkness (Sky Light 0, Block Light < 4) periodically emit high-pitched ambient clicks and subtle `SCULK_SOUL` sonic pulse particles, providing atmospheric cave depth.
+- **AI/Roosting**: Roost Clustering (Feature 11). Sleep-seeking bats now actively scan for existing resting bats within a 16-block radius and prioritize ceiling blocks adjacent to their roosting peers, forming natural bat colonies hanging from cave ceilings.
+- **AI/Weather**: Storm Shelter Seeking (Feature 12). Flying bats exposed to open rain or thunderstorms (`isRaining() && canSeeSky()`) now actively seek dark overhangs, tree canopies, or cave entrances to take shelter and roost until the weather clears.
+
 ## [1.1.20+26.2] - 2026-07-22
 
 ### Added

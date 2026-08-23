@@ -7,6 +7,7 @@ import net.minecraft.world.phys.Vec3;
  * Accessor interface implemented by BatMixin to share transient panic and guano states.
  */
 public interface BatStateAccessor {
+    int betterbats$getGuanoTicks();
     void betterbats$resetGuanoTicks();
     void betterbats$panic(Vec3 source);
     boolean betterbats$isPanicked();

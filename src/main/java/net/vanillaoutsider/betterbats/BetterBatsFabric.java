@@ -89,6 +89,36 @@ public class BetterBatsFabric implements ModInitializer {
                         .description("If true, roosting bats drop physical Bone Meal items over non-farmland blocks or when crops below are fully grown. Default: false.")
                         .register();
 
+        // Register Animal Genetics for Bats (Scale/Wingspan, Flight Speed, Pest Attack Damage)
+        net.dasik.social.api.genetics.EntityGeneticsRegistry.register(
+                net.minecraft.world.entity.EntityTypes.BAT,
+                new net.dasik.social.api.genetics.GeneticsConfig(
+                        java.util.Map.of(
+                                "scale", new net.dasik.social.api.genetics.TraitConfig(
+                                        "scale", "minecraft:generic.scale", "ADD_VALUE", 0.0f, 1.0f, 0.75f, 1.30f
+                                ),
+                                "movement_speed", new net.dasik.social.api.genetics.TraitConfig(
+                                        "movement_speed", "minecraft:generic.movement_speed", "ADD_MULTIPLIED_BASE", 0.0f, 1.0f, -0.04f, 0.08f
+                                ),
+                                "attack_damage", new net.dasik.social.api.genetics.TraitConfig(
+                                        "attack_damage", "minecraft:generic.attack_damage", "ADD_VALUE", 0.0f, 1.0f, 1.0f, 4.0f
+                                )
+                        ),
+                        java.util.Map.of(
+                                "default", java.util.Map.of(
+                                        "scale", new net.dasik.social.api.genetics.MutationRule("uniform", 0.75f, 1.30f),
+                                        "movement_speed", new net.dasik.social.api.genetics.MutationRule("uniform", -0.04f, 0.08f),
+                                        "attack_damage", new net.dasik.social.api.genetics.MutationRule("uniform", 1.0f, 4.0f)
+                                )
+                        )
+                )
+        );
+
+        // Register in-game Brigadier Command Suite (/betterbats and /bb)
+        net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            net.vanillaoutsider.betterbats.command.BetterBatsCommand.register(dispatcher);
+        });
+
         String version = net.fabricmc.loader.api.FabricLoader.getInstance()
                 .getModContainer("better-bats")
                 .map(container -> container.getMetadata().getVersion().getFriendlyString())

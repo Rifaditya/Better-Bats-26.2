@@ -69,7 +69,9 @@ public class BatDiveBombGoal extends Goal {
             double dist = dir.length();
             
             if (dist < 1.0) {
-                this.targetPest.hurt(this.bat.damageSources().mobAttack(this.bat), 20.0f);
+                float attackDamageTrait = net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.getTrait(this.bat, "attack_damage", 2.0f);
+                float damage = 10.0f * attackDamageTrait;
+                this.targetPest.hurt(this.bat.damageSources().mobAttack(this.bat), damage);
                 this.bat.playSound(net.minecraft.sounds.SoundEvents.BAT_AMBIENT, 1.0f, 0.5f); 
                 this.targetPest = null;
             } else {

@@ -10,9 +10,9 @@
     <img src="https://img.shields.io/badge/Minecraft-26.1+-brightgreen?style=for-the-badge" alt="Minecraft 26.1+">
 </p>
 
-# 🦇 Better Bats: The "Acoustic & Sleep" Update (v1.1.16)
+# ?? Better Bats: The "Acoustic & Sleep" Update (v1.1.16)
 
-**No Backports:** I will **NOT** backport this mod to older versions (1.21, 1.20, etc.). Please do not ask.
+**Active Version Policy:** I build **1 JAR for 1 Version**. I only update and maintain the latest active Minecraft version (e.g. when 26.3 is released, 26.2 is retired). No backports or legacy version maintenance. Please do not ask.
 
 **The Vanilla Problem:** In vanilla Minecraft, bats are purely cosmetic, chaotic, ambient entities that offer no interactive value to the player's world. They fly aimlessly, spawn in complete darkness, and drop absolutely nothing, rendering them essentially useless.
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 🎥 Showcase Video
+## ?? Showcase Video
 
 <!-- For Modrinth (HTML Iframe) -->
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -29,51 +29,51 @@
 
 ---
 
-## ✨ Features
+## ? Features
 
-### 🌪️ Hive Mind (Social Swarms / Murmuration)
+### ??? Hive Mind (Social Swarms / Murmuration)
 
 Bats no longer fly in erratic, individual patterns. They organize into coordinated, leaderless swarms (murmurations) using a dynamic Boids flocking strategy. Each bat behaves independently, adjusting its flight to stick close to, align with, and avoid colliding with its immediate neighbors. During dusk and dawn, the swarm funnels tightly together, creating breathtaking cinematic streams as they exit and return to their caves!
 
 > [!NOTE]
 > **Boids Steering**: Swarm flight is powered by a dynamic Boids murmuration algorithm.  
-> Flocking Range: **12 blocks** — Cohesion, alignment, and separation steer bats naturally without any designated leader.
+> Flocking Range: **12 blocks** � Cohesion, alignment, and separation steer bats naturally without any designated leader.
 
-### 💩 Guano Fertility (Natural Growth)
+### ?? Guano Fertility (Natural Growth)
 
 While roosting upside down in the dark, bats slowly accumulate guano. Every 10 minutes, they drop guano to fertilize soil and crops far below.
 
 > [!TIP]
 > **Farmland Enrichment**: If a bat roosts above crops, it scans up to **20 blocks down** to apply a bone meal growth tick.
 
-### 💡 Phototaxis (Lantern Hunting)
+### ?? Phototaxis (Lantern Hunting)
 
-During the night, bats are dynamically attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches using smooth curved approaches and vertical bobbing, simulating the hunting of insects attracted to the glow. Rather than getting stuck forever, they exhibit a natural "Moth Effect"—circling for a brief period before getting bored and hopping to a new light source!
+During the night, bats are dynamically attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches using smooth curved approaches and vertical bobbing, simulating the hunting of insects attracted to the glow. Rather than getting stuck forever, they exhibit a natural "Moth Effect"�circling for a brief period before getting bored and hopping to a new light source!
 
 > [!NOTE]
 > **Insect Feeding**: Bats will dynamically track light sources with a brightness level **>8** within a 10-block radius, emitting `crit` particles to represent feeding before flying off to find their next meal.
 
-### 🛡️ Pest Control (Symbiotic Defense)
+### ??? Pest Control (Symbiotic Defense)
 
 Bats are natural allies in pest management. They will aggressively dive-bomb and one-shot crawling pests that enter their vicinity.
 
 > [!TIP]
 > **Predatory Prey**: Bats target **Silverfish** and **Endermites** in a **10-block radius** and instantly defeat them.
 
-### 📢 Acoustic Panic
+### ?? Acoustic Panic
 
 Caves are quiet for a reason. Loud noises (sprinting players, block mining, explosions) nearby will wake sleeping bat swarms instantly, sending them into a frantic, high-speed scatter and resetting their guano timers.
 
 > [!WARNING]
 > **Sleep Interruption**: Noise events within **16 blocks** trigger immediate panic flight and clear the bat's flocking state.
 
-### ⚖️ Multiplayer
+### ?? Multiplayer
 
 Better Bats is fully compatible with multiplayer environments. The flocking and guano algorithms run entirely server-side, ensuring vanilla clients can connect without issues.
 
 ---
 
-## 🎭 Behavior Scenarios
+## ?? Behavior Scenarios
 
 Here is how bats naturally react in various environmental and player-driven scenarios:
 
@@ -88,8 +88,13 @@ Here is how bats naturally react in various environmental and player-driven scen
 
 ---
 
-## ⚙️ Config
+## ?? Config
 
+
+> [!IMPORTANT]
+> **Config vs. In-Game GameRules:**
+> The global configuration file only defines **default values for new worlds** at creation time.
+> If you have **already created/opened a world**, changing the config file will have no effect. You must change the settings in-game using the **Edit Game Rules** UI screen or the /gamerule command.
 The mod works out of the box with zero setup.
 
 * **Global Template**: `config/better-bats.json` (Sets defaults for new worlds)
@@ -107,41 +112,41 @@ The mod works out of the box with zero setup.
 
 ---
 
-## 🧩 Suggested Mods
+## ?? Suggested Mods
 
 For the best experience, we recommend installing:
 * **[Collapsible Game Rules](https://modrinth.com/mod/collapsible-gamerules)**: Prevents the GameRules menu from becoming cluttered.
 
 ---
 
-## 📦 Installation & Environment
+## ?? Installation & Environment
 
-### 🖥️ Environment Support
+### ??? Environment Support
 * [ ] **Client-side only**: All functionality is done client-side and is compatible with vanilla servers.
 * [x] **Server-side only**: All functionality is done server-side and is compatible with vanilla clients.
   * [x] Works in singleplayer too
   * [ ] Dedicated server only
 * [ ] **Client and server**: Has some functionality on both the client and server.
 
-### 📥 Install Instructions
+### ?? Install Instructions
 1. Install **[Fabric API](https://modrinth.com/mod/fabric-api)**.
 2. Install **[DasikLibrary](https://modrinth.com/mod/dasik-library)**.
 3. Download `better-bats-1.1.1+build.4.jar` and place it in your `mods` folder.
 
 ---
 
-## 🧩 Compatibility
+## ?? Compatibility
 
 | Feature | Fabric (26.1+) |
 | :--- | :---: |
-| Singleplayer | ✅ |
-| Multiplayer (LAN/Server) | ✅ |
-| **VO: Better Dogs** | ✅ |
-| Empty Dimensions | ✅ |
+| Singleplayer | ? |
+| Multiplayer (LAN/Server) | ? |
+| **VO: Better Dogs** | ? |
+| Empty Dimensions | ? |
 
 ---
 
-## ☕ Support
+## ? Support
 
 If you enjoy **Better Bats** and the **Vanilla Outsider** philosophy, consider fueling the next update with a coffee!
 
@@ -154,7 +159,7 @@ If you enjoy **Better Bats** and the **Vanilla Outsider** philosophy, consider f
 
 ---
 
-## 📜 Credits
+## ?? Credits
 
 | Role | Author |
 | :--- | :--- |
@@ -176,7 +181,7 @@ If you enjoy **Better Bats** and the **Vanilla Outsider** philosophy, consider f
 
 <div align="center">
 
-**Made with ❤️ for the Minecraft community**
+**Made with ?? for the Minecraft community**
 
 *Part of the Vanilla Outsider Collection*
 
