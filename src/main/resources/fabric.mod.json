@@ -3,10 +3,16 @@
     "id": "better-bats",
     "version": "${version}",
     "name": "Better Bats",
-    "description": "Chioptera enhancements. Flocking, Guano, Phototaxis.",
+    "description": "Chiroptera enhancements. Flocking, Guano, Phototaxis.",
     "authors": [
         "Dasik (Rifaditya)"
     ],
+    "custom": {
+        "modrinth": {
+            "projectId": "better-bats",
+            "slug": "better-bats"
+        }
+    },
     "contact": {
         "homepage": "https://modrinth.com/mod/better-bats",
         "sources": "https://github.com/Dasik/better-bats"

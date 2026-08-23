@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.28+26.2] - 2026-08-24
+
+### Added
+- **Platform Metadata**: Added `"custom": { "modrinth": { "projectId": "better-bats", "slug": "better-bats" } }` block to `fabric.mod.json` for automatic Modrinth identification.
+
+### Fixed
+- **Documentation**: Corrected description spelling from `"Chioptera"` to `"Chiroptera"` in `fabric.mod.json`.
+
 ## [1.1.27+26.2] - 2026-08-24
 
 ### Added
