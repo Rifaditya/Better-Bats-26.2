@@ -41,5 +41,6 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [ ] **`1.1.35+26.2`** (2026-08-24) - - **Performance**: Cached static `PREDATOR_PREDICATE` in `BatFlightHelper.java` to eliminate flight lambda allocations.
 - [ ] **`1.1.36+26.2`** (2026-08-24) - - **Performance**: 4-tier fast-fail waterfall for daytime cave-seeking raycasts with surface height filter and early exit.
 - [ ] **`1.1.37+26.2`** (2026-08-24) - - **Performance**: Streamlined nighttime cave-exit pathfinding probes with open sky early exit.
+- [ ] **`1.1.38+26.2`** (2026-08-24) - - **Performance**: Tightened phototaxis light search bounds (8 horizontal, 6 vertical) reducing scanned volume by 59.4%.
 
 

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.38+26.2] - 2026-08-24
+
+### Performance
+- **Spatial Fast-Fail Optimization**: Tightened deterministic light search radius in `BatHuntLightGoal.java` (8 horizontal, 6 vertical), reducing scanned voxel volume by 59.4% (from 9,261 down to 3,757 voxels).
+
 ## [1.1.37+26.2] - 2026-08-24
 
 ### Performance

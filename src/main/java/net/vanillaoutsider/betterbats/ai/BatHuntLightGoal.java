@@ -72,8 +72,8 @@ public class BatHuntLightGoal extends Goal {
             return true;
         }
         
-        // Native deterministic search (10 block Manhattan radius)
-        this.targetLight = BlockPos.findClosestMatch(pos, 10, 10, 
+        // Native deterministic search with tight spatial bounds (8 horizontal, 6 vertical)
+        this.targetLight = BlockPos.findClosestMatch(pos, 8, 6, 
             checkPos -> level.getBrightness(LightLayer.BLOCK, checkPos) > LIGHT_DETECT_THRESHOLD
         ).orElse(null);
 
