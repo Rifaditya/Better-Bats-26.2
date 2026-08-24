@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.34+26.2] - 2026-08-24
+
+### Performance
+- **Spatial Fast-Fail Optimization**: Reordered `BatSleepGoal.canUse()` to evaluate resting state and 1/20 random tick probability before computing world weather and raycast sky visibility, fast-failing 95% of goal evaluation ticks.
+
 ## [1.1.33+26.2] - 2026-08-24
 
 ### Performance

@@ -27,14 +27,16 @@ public class BatSleepGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (this.bat.isResting() || this.bat.getRandom().nextInt(20) != 0) {
+            return false;
+        }
+
         Level level = this.bat.level();
         if (level.isClientSide()) return false;
 
         BlockPos pos = this.bat.blockPosition();
         boolean shouldSleep = level.isBrightOutside() || (level.isRaining() && level.canSeeSky(pos));
-
-        // Only trigger during daytime or storms if not already resting
-        if (this.bat.isResting() || !shouldSleep || this.bat.getRandom().nextInt(20) != 0) {
+        if (!shouldSleep) {
             return false;
         }
 
