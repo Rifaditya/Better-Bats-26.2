@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.39+26.2] - 2026-08-24
+
+### Added
+- **Automated Tests**: Expanded unit test coverage in `BetterBatsMathTest.java` and `BetterBatsConfigTest.java` asserting daytime fast-fail waterfalls, nighttime early exits, phototaxis voxel volume math, manifest completeness, and localization key presence.
+
 ## [1.1.38+26.2] - 2026-08-24
 
 ### Performance

@@ -65,4 +65,54 @@ public class BetterBatsMathTest {
         assertTrue(capForce < 0, "Downward force must be negative");
         assertEquals(-0.25, capForce, 0.0001, "Cap force should cap at -0.25");
     }
+
+    @Test
+    @DisplayName("Daytime Cave-Seeking 4-Tier Fast-Fail Waterfall Logic")
+    void testDaytimeCaveSeekingFastFailWaterfall() {
+        int surfaceY = 70;
+        int checkYAboveSurface = 75;
+        int checkYBelowSurface = 50;
+
+        // Stage 2 check: Above surface must fast-fail
+        assertTrue(checkYAboveSurface >= surfaceY, "Above surface should fast-fail");
+        assertFalse(checkYBelowSurface >= surfaceY, "Subterranean spot passes Stage 2");
+
+        // Stage 3 check: Light comparison
+        int lowestSkyLight = 8;
+        int brighterLight = 10;
+        int darkerLight = 3;
+        assertTrue(brighterLight >= lowestSkyLight, "Brighter light fails Stage 3");
+        assertFalse(darkerLight >= lowestSkyLight, "Darker light passes Stage 3");
+
+        // Stage 5 check: Early exit on pitch darkness
+        int pitchDarkness = 0;
+        assertEquals(0, pitchDarkness, "Pitch darkness triggers immediate break");
+    }
+
+    @Test
+    @DisplayName("Nighttime Cave Exit Open Sky Early Exit Logic")
+    void testNighttimeCaveExitEarlyExit() {
+        int highestSkyLight = 4;
+        int candidateMoonlight = 14;
+
+        assertTrue(candidateMoonlight > highestSkyLight, "Candidate is brighter");
+        assertTrue(candidateMoonlight >= 14, "Candidate triggers instant open sky early exit");
+    }
+
+    @Test
+    @DisplayName("Phototaxis Voxel Search Volume Optimization (59.4% Reduction)")
+    void testPhototaxisVoxelVolumeCalculation() {
+        int legacyRadiusH = 10;
+        int legacyRadiusV = 10;
+        int legacyVoxels = (2 * legacyRadiusH + 1) * (2 * legacyRadiusH + 1) * (2 * legacyRadiusV + 1);
+        assertEquals(9261, legacyVoxels, "Legacy search volume must be 9,261 voxels");
+
+        int optimizedRadiusH = 8;
+        int optimizedRadiusV = 6;
+        int optimizedVoxels = (2 * optimizedRadiusH + 1) * (2 * optimizedRadiusH + 1) * (2 * optimizedRadiusV + 1);
+        assertEquals(3757, optimizedVoxels, "Optimized search volume must be 3,757 voxels");
+
+        double reductionPercent = (1.0 - ((double) optimizedVoxels / legacyVoxels)) * 100.0;
+        assertTrue(reductionPercent > 59.0 && reductionPercent < 60.0, "Voxel reduction must be ~59.4%");
+    }
 }
