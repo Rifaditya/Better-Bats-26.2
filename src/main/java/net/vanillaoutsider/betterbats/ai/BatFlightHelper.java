@@ -37,6 +37,12 @@ public class BatFlightHelper {
     /** Below this height above surface, daytime bats switch from descending to cave-probing. */
     private static final int DAY_PROBE_THRESHOLD = 15;
 
+    /** Cached predator predicate to eliminate per-tick lambda allocations. */
+    private static final java.util.function.Predicate<net.minecraft.world.entity.LivingEntity> PREDATOR_PREDICATE =
+            e -> (e instanceof net.minecraft.world.entity.animal.feline.Cat ||
+                  e instanceof net.minecraft.world.entity.animal.feline.Ocelot ||
+                  e instanceof net.minecraft.world.entity.monster.Phantom) && e.isAlive();
+
     public static void applyFlightForces(Bat bat) {
         if (bat.level().isClientSide() || bat.isResting()) {
             return;
@@ -92,9 +98,7 @@ public class BatFlightHelper {
         List<net.minecraft.world.entity.LivingEntity> predators = level.getEntitiesOfClass(
             net.minecraft.world.entity.LivingEntity.class,
             bat.getBoundingBox().inflate(10.0),
-            e -> (e instanceof net.minecraft.world.entity.animal.feline.Cat ||
-                  e instanceof net.minecraft.world.entity.animal.feline.Ocelot ||
-                  e instanceof net.minecraft.world.entity.monster.Phantom) && e.isAlive()
+            PREDATOR_PREDICATE
         );
         if (!predators.isEmpty()) {
             net.minecraft.world.entity.LivingEntity nearestPredator = predators.get(0);

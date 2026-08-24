@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.35+26.2] - 2026-08-24
+
+### Performance
+- **Zero-Allocation Optimization**: Cached static `PREDATOR_PREDICATE` in `BatFlightHelper.java` to eliminate per-tick lambda closure instantiations during flight predator avoidance calculations.
+
 ## [1.1.34+26.2] - 2026-08-24
 
 ### Performance

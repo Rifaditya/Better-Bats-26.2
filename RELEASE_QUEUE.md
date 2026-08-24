@@ -38,5 +38,6 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [ ] **`1.1.32+26.2`** (2026-08-24) - - **Localization**: Added translation strings for `gamerule.better-bats.debug_mode` in `en_us.json`.
 - [ ] **`1.1.33+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of cave echolocation random checks before voxel light engine queries.
 - [ ] **`1.1.34+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of diurnal sleep goal random checks before weather/sky queries.
+- [ ] **`1.1.35+26.2`** (2026-08-24) - - **Performance**: Cached static `PREDATOR_PREDICATE` in `BatFlightHelper.java` to eliminate flight lambda allocations.
 
 
