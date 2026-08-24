@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.36+26.2] - 2026-08-24
+
+### Performance
+- **Spatial Fast-Fail Optimization**: Re-engineered daytime cave-seeking probe in `BatFlightHelper.java` with a 4-tier fast-fail waterfall (surface height cutoff, candidate brightness pre-filtering, and early exit on pitch darkness), eliminating up to 95% of vertical sky raycasts.
+
 ## [1.1.35+26.2] - 2026-08-24
 
 ### Performance

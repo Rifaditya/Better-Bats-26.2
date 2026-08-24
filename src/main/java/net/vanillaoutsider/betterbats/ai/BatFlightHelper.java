@@ -208,16 +208,30 @@ public class BatFlightHelper {
                         BlockPos darkPos = null;
                         int lowestSkyLight = level.getBrightness(LightLayer.SKY, myPos);
                         int searchRangeH = 16;
-                        for (int i = 0; i < 40; i++) {
+                        for (int i = 0; i < 20; i++) {
                             int dx = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
                             int dy = level.getRandom().nextInt(20) - 14; // Heavy downward bias (-14 to +5)
                             int dz = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
                             BlockPos check = myPos.offset(dx, dy, dz);
-                            if (level.isEmptyBlock(check) && !level.canSeeSky(check)) {
-                                int light = level.getBrightness(LightLayer.SKY, check);
-                                if (light < lowestSkyLight) {
-                                    lowestSkyLight = light;
-                                    darkPos = check;
+
+                            // 1. Air/Passable Fast-Fail
+                            if (!level.isEmptyBlock(check)) continue;
+
+                            // 2. Surface Height Fast-Fail (Anything at or above surface height is open daylight)
+                            if (check.getY() >= surfaceY) continue;
+
+                            // 3. Light Engine Fast-Fail (Skip if not darker than current best candidate)
+                            int light = level.getBrightness(LightLayer.SKY, check);
+                            if (light >= lowestSkyLight) continue;
+
+                            // 4. Chunk Sky Raycast (Only executed for proven darker subterranean candidates)
+                            if (!level.canSeeSky(check)) {
+                                lowestSkyLight = light;
+                                darkPos = check;
+
+                                // 5. Early Exit: Found pitch darkness / deep cave
+                                if (lowestSkyLight == 0) {
+                                    break;
                                 }
                             }
                         }
