@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.30+26.2] - 2026-08-24
+
+### Added
+- **GUI Suggestions**: Added standard `"yet-another-config-lib"` and `"yet_another_config_lib_v3"` optional dependency suggestions to `fabric.mod.json`.
+
 ## [1.1.29+26.2] - 2026-08-24
 
 ### Changed

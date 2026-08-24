@@ -33,5 +33,6 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [ ] **`1.1.27+26.2`** (2026-08-24) - - **Diagnostics**: Dynamic session-transient `better-bats:debug_mode` GameRule, zero-allocation `BatDebugHelper`, dedicated SLF4J loggers across all AI helpers, and `/betterbats debug on|off` toggles.
 - [ ] **`1.1.28+26.2`** (2026-08-24) - - **Metadata & Documentation**: Added `"custom"` Modrinth block and corrected Chiroptera spelling in `fabric.mod.json`.
 - [ ] **`1.1.29+26.2`** (2026-08-24) - - **Metadata**: Updated `contact` sources and issues repository URLs in `fabric.mod.json`.
+- [ ] **`1.1.30+26.2`** (2026-08-24) - - **GUI Suggestions**: Added standard `yet-another-config-lib` and `yet_another_config_lib_v3` suggestions in `fabric.mod.json`.
 
 
