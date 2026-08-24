@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.29+26.2] - 2026-08-24
+
+### Changed
+- **Contact & Repository URLs**: Updated `fabric.mod.json` contact block with verified GitHub repository sources (`https://github.com/Rifaditya/Better-Bats-26.2`) and issue tracker links.
+
 ## [1.1.28+26.2] - 2026-08-24
 
 ### Added

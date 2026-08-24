@@ -15,7 +15,8 @@
     },
     "contact": {
         "homepage": "https://modrinth.com/mod/better-bats",
-        "sources": "https://github.com/Dasik/better-bats"
+        "sources": "https://github.com/Rifaditya/Better-Bats-26.2",
+        "issues": "https://github.com/Rifaditya/Better-Bats-26.2/issues"
     },
     "license": "GPL-3.0-or-later",
     "icon": "assets/better-bats/icon.png",
