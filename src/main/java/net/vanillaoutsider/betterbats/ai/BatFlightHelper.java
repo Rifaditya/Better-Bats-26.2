@@ -264,21 +264,25 @@ public class BatFlightHelper {
                 boolean canSeeSky = level.canSeeSky(myPos);
 
                 if (!canSeeSky) {
-                    // Underground / in cave — seek exit
+                    // Underground / in cave — seek exit (optimized fast-fail)
                     int mySkyLight = level.getBrightness(LightLayer.SKY, myPos);
                     BlockPos brightPos = null;
                     int highestSkyLight = mySkyLight;
                     int searchRangeH = 24;
-                    for (int i = 0; i < 60; i++) {
+                    for (int i = 0; i < 25; i++) {
                         int dx = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
                         int dy = level.getRandom().nextInt(25) - 8; // Bias search upwards (-8 to +16)
                         int dz = level.getRandom().nextInt(searchRangeH * 2 + 1) - searchRangeH;
                         BlockPos check = myPos.offset(dx, dy, dz);
-                        if (level.isEmptyBlock(check)) {
-                            int light = level.getBrightness(LightLayer.SKY, check);
-                            if (light > highestSkyLight) {
-                                highestSkyLight = light;
-                                brightPos = check;
+                        if (!level.isEmptyBlock(check)) continue;
+
+                        int light = level.getBrightness(LightLayer.SKY, check);
+                        if (light > highestSkyLight) {
+                            highestSkyLight = light;
+                            brightPos = check;
+                            // Early Exit: Found open sky / cave opening
+                            if (highestSkyLight >= 14) {
+                                break;
                             }
                         }
                     }

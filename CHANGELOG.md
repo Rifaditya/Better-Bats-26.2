@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.37+26.2] - 2026-08-24
+
+### Performance
+- **Spatial Fast-Fail Optimization**: Optimized nighttime subterranean cave-exit pathfinding in `BatFlightHelper.java` by reducing probe iterations and introducing an instant early exit upon detecting open sky.
+
 ## [1.1.36+26.2] - 2026-08-24
 
 ### Performance
