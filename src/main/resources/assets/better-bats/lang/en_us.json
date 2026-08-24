@@ -18,6 +18,8 @@
   "gamerule.better-bats.bat_spawn_weight.description": "Controls the spawn weight of bats in ambient spawn settings (Vanilla is 10). Set to 0 to disable spawning entirely. Default: 30.",
   "gamerule.better-bats.bat_drop_guano_item": "Drop Guano Items",
   "gamerule.better-bats.bat_drop_guano_item.description": "Determines whether roosting bats drop physical Bone Meal item entities when resting over non-farmland blocks or when crops are fully grown. Default: false.",
+  "gamerule.better-bats.debug_mode": "Debug Mode",
+  "gamerule.better-bats.debug_mode.description": "Enable detailed diagnostic logging for Better Bats AI and behaviors. Resets to false on restart.",
   "config.better-bats.title": "Better Bats Configuration",
   "config.better-bats.category.general": "General Settings",
   "config.better-bats.warning": "WARNING: Changes made here only affect the baseline defaults for NEW worlds. To configure your active/existing world, use the in-game /gamerule screen or command instead.",

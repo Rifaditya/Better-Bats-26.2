@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.32+26.2] - 2026-08-24
+
+### Added
+- **Localization**: Added translation strings for `gamerule.better-bats.debug_mode` title and description in `en_us.json` for vanilla world creation and pause GameRules menus.
+
 ## [1.1.31+26.2] - 2026-08-24
 
 ### Performance
