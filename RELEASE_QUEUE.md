@@ -36,5 +36,6 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [ ] **`1.1.30+26.2`** (2026-08-24) - - **GUI Suggestions**: Added standard `yet-another-config-lib` and `yet_another_config_lib_v3` suggestions in `fabric.mod.json`.
 - [ ] **`1.1.31+26.2`** (2026-08-24) - - **Performance**: Cached static `NEARBY_PLAYER_AWAKE` constant in `BatMixin.java` for zero-allocation player distance checking.
 - [ ] **`1.1.32+26.2`** (2026-08-24) - - **Localization**: Added translation strings for `gamerule.better-bats.debug_mode` in `en_us.json`.
+- [ ] **`1.1.33+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of cave echolocation random checks before voxel light engine queries.
 
 

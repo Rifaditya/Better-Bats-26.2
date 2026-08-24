@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.33+26.2] - 2026-08-24
+
+### Performance
+- **Spatial Fast-Fail Optimization**: Reordered cave echolocation check in `BatMixin.java` to evaluate 1/90 random chance before calling the voxel light engine, fast-failing 98.9% of flying ticks.
+
 ## [1.1.32+26.2] - 2026-08-24
 
 ### Added

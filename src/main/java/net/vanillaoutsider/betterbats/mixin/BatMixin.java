@@ -192,12 +192,10 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
         // Flying mode: override vanilla random target calculation completely
         net.vanillaoutsider.betterbats.ai.BatFlightHelper.applyFlightForces(self);
 
-        // Pitch-dark cave echolocation click & subtle sonic pulse
-        if (level.getBrightness(LightLayer.SKY, pos) == 0 && level.getBrightness(LightLayer.BLOCK, pos) < 4) {
-            if (self.getRandom().nextInt(90) == 0) {
-                level.playSound(null, pos, net.minecraft.sounds.SoundEvents.BAT_AMBIENT, net.minecraft.sounds.SoundSource.NEUTRAL, 0.35F, 1.8F + self.getRandom().nextFloat() * 0.3F);
-                level.sendParticles(net.minecraft.core.particles.ParticleTypes.SCULK_SOUL, self.getX(), self.getY() + 0.1, self.getZ(), 2, 0.08, 0.08, 0.08, 0.02);
-            }
+        // Pitch-dark cave echolocation click & subtle sonic pulse (fast-fail: random check first)
+        if (self.getRandom().nextInt(90) == 0 && level.getBrightness(LightLayer.SKY, pos) == 0 && level.getBrightness(LightLayer.BLOCK, pos) < 4) {
+            level.playSound(null, pos, net.minecraft.sounds.SoundEvents.BAT_AMBIENT, net.minecraft.sounds.SoundSource.NEUTRAL, 0.35F, 1.8F + self.getRandom().nextFloat() * 0.3F);
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.SCULK_SOUL, self.getX(), self.getY() + 0.1, self.getZ(), 2, 0.08, 0.08, 0.08, 0.02);
         }
 
         Vec3 newMovement = self.getDeltaMovement();
