@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 public abstract class BatMixin implements GroupMember, BatStateAccessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BatMixin.class);
+    private static final net.minecraft.world.entity.ai.targeting.TargetingConditions NEARBY_PLAYER_AWAKE =
+            net.minecraft.world.entity.ai.targeting.TargetingConditions.forNonCombat().range(4.0);
 
     @Unique
     private FlockType betterbats$flockType = FlockType.AERIAL;
@@ -153,7 +155,7 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
                 if (self.getRandom().nextInt(200) == 0) {
                     self.yHeadRot = self.getRandom().nextInt(360);
                 }
-                if (level.getNearestPlayer(net.minecraft.world.entity.ai.targeting.TargetingConditions.forNonCombat().range(4.0), self) != null) {
+                if (level.getNearestPlayer(NEARBY_PLAYER_AWAKE, self) != null) {
                     self.setResting(false);
                     if (!isSilent) {
                         level.levelEvent(null, 1025, pos, 0);

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.31+26.2] - 2026-08-24
+
+### Performance
+- **Zero-Allocation Hot Paths**: Cached static `NEARBY_PLAYER_AWAKE` (`TargetingConditions.forNonCombat().range(4.0)`) in `BatMixin.java` to eliminate per-tick heap allocations while bats are roosting.
+
 ## [1.1.30+26.2] - 2026-08-24
 
 ### Added
