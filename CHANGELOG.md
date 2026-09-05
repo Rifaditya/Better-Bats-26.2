@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.43+26.2] - 2026-09-05
+
+### Changed
+- **Player Agency & True Sandbox Freedom Restoration**: Unlocked `BAT_SWARM_SIZE` from `Integer.MIN_VALUE` to `Integer.MAX_VALUE`, allowing players to create swarms of any size or negative values in accordance with the Player Agency & Anti-Nanny Invariant.
+- **Crash Guard Preservation**: Maintained lower bound `1` on `BAT_GUANO_THRESHOLD` to prevent fatal JVM crashes in Java's random number generator (`bound must be positive`), while unlocking its upper bound to `Integer.MAX_VALUE`.
+
+## [1.1.42]
+
+### Fixed
+- **Per-Tick Item Dropping Spam Elimination**: Added strict `.range(1, 100000)` bounds to `BAT_GUANO_THRESHOLD`, preventing resting bats from executing 20-block vertical sweeps and dropping items on every tick when set <= 0.
+- **GameRule Bounds Clamping**: Added `.range(0, 50)` bounds to `BAT_SWARM_SIZE`.
+- **Config Validation**: Added automatic range clamping to `BetterBatsConfig` upon loading.
+
 ## [1.1.39+26.2] - 2026-08-24
 
 ### Added

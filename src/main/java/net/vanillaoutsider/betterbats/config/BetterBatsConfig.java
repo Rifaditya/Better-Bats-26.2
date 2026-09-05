@@ -1,4 +1,4 @@
-// Verified against: BetterDogsConfig.java (26.1.2+)
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.vanillaoutsider.betterbats.config;
 
 import java.nio.file.Path;
@@ -20,6 +20,10 @@ public class BetterBatsConfig {
     public int batSpawnWeight = 30;
     public boolean batDropGuanoItem = false;
 
+    public void validate() {
+        batGuanoThreshold = Math.max(batGuanoThreshold, 1);
+    }
+
     public static synchronized void load(Path configDir) {
         CONFIG_PATH = configDir.resolve("better-bats.json");
         org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("Better Bats");
@@ -33,6 +37,7 @@ public class BetterBatsConfig {
                 "/better-bats.json",
                 logger
         );
+        INSTANCE.validate();
     }
 
     public static synchronized void save() {

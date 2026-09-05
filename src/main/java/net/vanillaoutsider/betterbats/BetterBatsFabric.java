@@ -42,12 +42,14 @@ public class BetterBatsFabric implements ModInitializer {
                 DynamicGameRuleManager.integerRule("better-bats:bat_swarm_size", BETTER_BATS, config.batSwarmSize)
                         .name("Bat Swarm Size")
                         .description("Controls the maximum size of bat flocks. When this threshold is met or exceeded, bats will no longer recruit new members into their murmuration. Set to 0 to disable flocking entirely. Default: 5.")
+                        .range(Integer.MIN_VALUE, Integer.MAX_VALUE)
                         .register();
                         
         BAT_GUANO_THRESHOLD = 
                 DynamicGameRuleManager.integerRule("better-bats:bat_guano_threshold", BETTER_BATS, config.batGuanoThreshold)
                         .name("Guano Production Speed")
                         .description("Ticks required for a resting bat to produce guano (Lower is faster).")
+                        .range(1, Integer.MAX_VALUE)
                         .register();
                         
         BAT_PEST_CONTROL = 
