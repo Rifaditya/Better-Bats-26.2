@@ -11,6 +11,12 @@
         "modrinth": {
             "projectId": "better-bats",
             "slug": "better-bats"
+        },
+        "modmenu": {
+            "links": {
+                "modmenu.donate": "https://ko-fi.com/dasikigaijin",
+                "modmenu.kofi": "https://ko-fi.com/dasikigaijin"
+            }
         }
     },
     "contact": {
