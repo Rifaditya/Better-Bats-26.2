@@ -30,5 +30,8 @@
   "config.better-bats.batCohesion": "Default Bat Cohesion Weight",
   "config.better-bats.batSeparation": "Default Bat Separation Weight",
   "config.better-bats.batSpawnWeight": "Default Bat Spawn Weight",
-  "config.better-bats.batDropGuanoItem": "Default Drop Guano Items"
+  "config.better-bats.batDropGuanoItem": "Default Drop Guano Items",
+
+  "dasiklibrary.support.kofi.button": "☕ Support Solo Dev on Ko-fi",
+  "dasiklibrary.support.kofi.tooltip": "Enjoying the mod? Support solo development on Ko-fi!"
 }
