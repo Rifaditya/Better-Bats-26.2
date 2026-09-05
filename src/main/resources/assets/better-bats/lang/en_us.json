@@ -22,7 +22,7 @@
   "gamerule.better-bats.debug_mode.description": "Enable detailed diagnostic logging for Better Bats AI and behaviors. Resets to false on restart.",
   "config.better-bats.title": "Better Bats Configuration",
   "config.better-bats.category.general": "General Settings",
-  "config.better-bats.warning": "WARNING: Changes made here only affect the baseline defaults for NEW worlds. To configure your active/existing world, use the in-game /gamerule screen or command instead.",
+  "config.better-bats.warning": "Configure global default settings. Active worlds can be adjusted in-game via Game Rules.",
   "config.better-bats.batSwarmSize": "Default Bat Swarm Size",
   "config.better-bats.batGuanoThreshold": "Default Guano Production Speed",
   "config.better-bats.batPestControl": "Default Enable Pest Control",
