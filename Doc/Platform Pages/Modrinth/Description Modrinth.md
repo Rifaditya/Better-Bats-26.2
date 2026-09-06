@@ -37,7 +37,7 @@ Bats no longer fly in erratic, individual patterns. They organize into coordinat
 
 > [!NOTE]
 > **Boids Steering**: Swarm flight is powered by a dynamic Boids murmuration algorithm.  
-> Flocking Range: **12 blocks** � Cohesion, alignment, and separation steer bats naturally without any designated leader.
+> Flocking Range: **12 blocks**  Cohesion, alignment, and separation steer bats naturally without any designated leader.
 
 ### ?? Guano Fertility (Natural Growth)
 
@@ -48,7 +48,7 @@ While roosting upside down in the dark, bats slowly accumulate guano. Every 10 m
 
 ### ?? Phototaxis (Lantern Hunting)
 
-During the night, bats are dynamically attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches using smooth curved approaches and vertical bobbing, simulating the hunting of insects attracted to the glow. Rather than getting stuck forever, they exhibit a natural "Moth Effect"�circling for a brief period before getting bored and hopping to a new light source!
+During the night, bats are dynamically attracted to bright artificial light sources. They break from their swarms to circle lanterns and torches using smooth curved approaches and vertical bobbing, simulating the hunting of insects attracted to the glow. Rather than getting stuck forever, they exhibit a natural "Moth Effect"circling for a brief period before getting bored and hopping to a new light source!
 
 > [!NOTE]
 > **Insect Feeding**: Bats will dynamically track light sources with a brightness level **>8** within a 10-block radius, emitting `crit` particles to represent feeding before flying off to find their next meal.
@@ -173,9 +173,13 @@ If you enjoy **Better Bats** and the **Vanilla Outsider** philosophy, consider f
 > This mod is part of the **Vanilla Outsider** collection. You are free to use it in modpacks, videos, and servers.
 >
 > > [!IMPORTANT]
-> > **Modpack Permissions:** You are free to include this mod in modpacks, **provided the modpack is hosted on the same platform** (e.g. Modrinth).
-> >
-> > **Cross-platform distribution is not permitted.** If you download this mod from Modrinth, your modpack must also be published on Modrinth.
+> > [!IMPORTANT]
+> **📦 Modpack Permissions & Distribution:**<br>
+> You are fully welcome to include this mod in any modpack on any platform! However, the mod file must be downloaded directly through official distribution channels (**Modrinth** or **CurseForge**). Re-uploading, mirroring, or redistributing the original mod JAR to third-party mirror sites, scraper portals, or unauthorized launchers is strictly prohibited.
+> <br><br>
+> **⚖️ License & Fork Guidelines (No Zero-Change Re-uploads):**<br>
+> This project is open-source under the **GNU GPLv3**. You are fully encouraged to inspect the code, learn from it, and fork the repository to create genuine modifications, substantial feature expansions, or community ports—provided your project remains open-source under GPLv3 with proper attribution.<br>
+> **However, straight 1:1 re-uploads, clone forks with no meaningful functional changes, or re-publishing identical builds under different project names (e.g. to farm downloads or rewards) are strictly forbidden.**
 
 ---
 

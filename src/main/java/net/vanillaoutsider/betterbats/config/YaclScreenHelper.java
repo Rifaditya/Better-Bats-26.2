@@ -8,7 +8,10 @@ import dev.isxander.yacl3.gui.controllers.slider.IntegerSliderController;
 import net.dasik.social.api.config.DasikSupportHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
+@Environment(EnvType.CLIENT)
 public class YaclScreenHelper {
     public static ConfigScreenFactory<?> createScreen() {
         return YaclScreenHelper::buildScreen;

@@ -1,3 +1,4 @@
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 // Verified against: Mob.java (26.1.2)
 package net.vanillaoutsider.betterbats.mixin;
 
