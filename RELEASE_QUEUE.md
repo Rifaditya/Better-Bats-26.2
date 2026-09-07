@@ -6,7 +6,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 ## 🚀 Published & Backlog Queue
 
 - [ ] **`1.1.41+26.2`** (2026-09-05) - Clean up config warning description in localization.
-- [ ] **`1.1.40+26.2`** (2026-09-05) - - **YACL v3 Migration**: Migrated in-game configuration GUI from legacy Cloth Config to YetAnotherConfigLib v3 (YACL). - - **Creator Support**: Integrated top-pinned Ko-fi support button into General configuration category. - - **Dependency Alignment**: Upgraded DasikLibrary dependency to 1.8.38.
+- [x] **`1.1.40+26.2`** (2026-09-05) - - **YACL v3 Migration**: Migrated in-game configuration GUI from legacy Cloth Config to YetAnotherConfigLib v3 (YACL). - - **Creator Support**: Integrated top-pinned Ko-fi support button into General configuration category. - - **Dependency Alignment**: Upgraded DasikLibrary dependency to 1.8.38.
 - [x] **`1.1.0+build.1`** (2026-04-20) - - **Custom GameRule Category**: Added a dedicated `Better Bats` category in the world settings menu for better organization. - - **Dynamic Config**: Implemented real-time, server-side configuration via GameRules:
 - [x] **`1.1.1+build.1`** (2026-05-12) - - **Standard Core Migration**: Fully refactored GameRule management to use `DynamicGameRuleManager` from DasikLibrary 1.7.0. - - **Boids Murmuration**: Implemented `BatFollowLeaderGoal` with dynamic `Alignment`, `Cohesion`, and `Separation` weights tunable at runtime via GameRules.
 - [x] **`1.1.1+build.2`** (2026-05-12) - - **Diurnal Roosting (The Sleep)**: Bats now actively seek dark spots (Sky Light 0) during the day to roost. - - **Light Avoidance**: Bats will no longer be attracted to artificial light sources during the day.
