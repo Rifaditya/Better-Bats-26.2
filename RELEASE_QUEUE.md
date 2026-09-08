@@ -5,7 +5,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
-- [ ] **`1.1.41+26.2`** (2026-09-05) - Clean up config warning description in localization.
+- [x] **`1.1.41+26.2`** (2026-09-05) - Clean up config warning description in localization.
 - [x] **`1.1.40+26.2`** (2026-09-05) - - **YACL v3 Migration**: Migrated in-game configuration GUI from legacy Cloth Config to YetAnotherConfigLib v3 (YACL). - - **Creator Support**: Integrated top-pinned Ko-fi support button into General configuration category. - - **Dependency Alignment**: Upgraded DasikLibrary dependency to 1.8.38.
 - [x] **`1.1.0+build.1`** (2026-04-20) - - **Custom GameRule Category**: Added a dedicated `Better Bats` category in the world settings menu for better organization. - - **Dynamic Config**: Implemented real-time, server-side configuration via GameRules:
 - [x] **`1.1.1+build.1`** (2026-05-12) - - **Standard Core Migration**: Fully refactored GameRule management to use `DynamicGameRuleManager` from DasikLibrary 1.7.0. - - **Boids Murmuration**: Implemented `BatFollowLeaderGoal` with dynamic `Alignment`, `Cohesion`, and `Separation` weights tunable at runtime via GameRules.
@@ -34,16 +34,16 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [x] **`1.1.26+26.2`** (2026-08-24) - - **Commands**: In-game Brigadier command suite (/betterbats and /bb) with tab completion, 2-way GameRule and JSON config sync, and live debug diagnostics.
 - [x] **`1.1.27+26.2`** (2026-08-24) - - **Diagnostics**: Dynamic session-transient `better-bats:debug_mode` GameRule, zero-allocation `BatDebugHelper`, dedicated SLF4J loggers across all AI helpers, and `/betterbats debug on|off` toggles.
 - [x] **`1.1.28+26.2`** (2026-08-24) - - **Metadata & Documentation**: Added `"custom"` Modrinth block and corrected Chiroptera spelling in `fabric.mod.json`.
-- [ ] **`1.1.29+26.2`** (2026-08-24) - - **Metadata**: Updated `contact` sources and issues repository URLs in `fabric.mod.json`.
-- [ ] **`1.1.30+26.2`** (2026-08-24) - - **GUI Suggestions**: Added standard `yet-another-config-lib` and `yet_another_config_lib_v3` suggestions in `fabric.mod.json`.
-- [ ] **`1.1.31+26.2`** (2026-08-24) - - **Performance**: Cached static `NEARBY_PLAYER_AWAKE` constant in `BatMixin.java` for zero-allocation player distance checking.
-- [ ] **`1.1.32+26.2`** (2026-08-24) - - **Localization**: Added translation strings for `gamerule.better-bats.debug_mode` in `en_us.json`.
-- [ ] **`1.1.33+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of cave echolocation random checks before voxel light engine queries.
-- [ ] **`1.1.34+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of diurnal sleep goal random checks before weather/sky queries.
-- [ ] **`1.1.35+26.2`** (2026-08-24) - - **Performance**: Cached static `PREDATOR_PREDICATE` in `BatFlightHelper.java` to eliminate flight lambda allocations.
-- [ ] **`1.1.36+26.2`** (2026-08-24) - - **Performance**: 4-tier fast-fail waterfall for daytime cave-seeking raycasts with surface height filter and early exit.
-- [ ] **`1.1.37+26.2`** (2026-08-24) - - **Performance**: Streamlined nighttime cave-exit pathfinding probes with open sky early exit.
-- [ ] **`1.1.38+26.2`** (2026-08-24) - - **Performance**: Tightened phototaxis light search bounds (8 horizontal, 6 vertical) reducing scanned volume by 59.4%.
-- [ ] **`1.1.39+26.2`** (2026-08-24) - - **Tests**: Expanded test suite asserting daytime waterfalls, nighttime early exits, voxel math, manifest, and localization.
+- [x] **`1.1.29+26.2`** (2026-08-24) - - **Metadata**: Updated `contact` sources and issues repository URLs in `fabric.mod.json`.
+- [x] **`1.1.30+26.2`** (2026-08-24) - - **GUI Suggestions**: Added standard `yet-another-config-lib` and `yet_another_config_lib_v3` suggestions in `fabric.mod.json`.
+- [x] **`1.1.31+26.2`** (2026-08-24) - - **Performance**: Cached static `NEARBY_PLAYER_AWAKE` constant in `BatMixin.java` for zero-allocation player distance checking.
+- [x] **`1.1.32+26.2`** (2026-08-24) - - **Localization**: Added translation strings for `gamerule.better-bats.debug_mode` in `en_us.json`.
+- [x] **`1.1.33+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of cave echolocation random checks before voxel light engine queries.
+- [x] **`1.1.34+26.2`** (2026-08-24) - - **Performance**: Fast-fail reordering of diurnal sleep goal random checks before weather/sky queries.
+- [x] **`1.1.35+26.2`** (2026-08-24) - - **Performance**: Cached static `PREDATOR_PREDICATE` in `BatFlightHelper.java` to eliminate flight lambda allocations.
+- [x] **`1.1.36+26.2`** (2026-08-24) - - **Performance**: 4-tier fast-fail waterfall for daytime cave-seeking raycasts with surface height filter and early exit.
+- [x] **`1.1.37+26.2`** (2026-08-24) - - **Performance**: Streamlined nighttime cave-exit pathfinding probes with open sky early exit.
+- [x] **`1.1.38+26.2`** (2026-08-24) - - **Performance**: Tightened phototaxis light search bounds (8 horizontal, 6 vertical) reducing scanned volume by 59.4%.
+- [x] **`1.1.39+26.2`** (2026-08-24) - - **Tests**: Expanded test suite asserting daytime waterfalls, nighttime early exits, voxel math, manifest, and localization.
 
 
