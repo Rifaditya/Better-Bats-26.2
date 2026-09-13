@@ -1,0 +1,75 @@
+# gradle
+
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+
+*.launch
+
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+
+*.DS_Store
+
+# fabric
+
+run/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+
+# Artifacts
+releases/
+*.log
+
+# Logging and archives
+*.log
+*.log.gz
+*.log.txt
+*.log.zip
+*.log.7z
+*.log.rar
+*.log.tar
+*.log.tar.gz
+*.log.tar.bz2
+*.log.tar.xz
+*.log.tar.zst
+*.log.tar.lz4
+*.log.tar.lzo
+*.log.tar.zstd
+# Build Logs
+build_log.txt
+build_log_utf8.txt
+*.log
+
+# Hype & Marketing Exclusion
+Doc/Marketing/
+*hype_*
+
+
+Archive/
+Archive Jar of all versions/
+*.jar
+# Platform Publisher API Token Security Vault
+*platform_tokens.json
+.agents/config/platform_tokens.json

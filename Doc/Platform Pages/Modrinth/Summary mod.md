@@ -1,0 +1,1 @@
+Better Bats overhauls the vanilla Bat into a dynamic, ecosystem-driven entity with swarming behaviors, guano fertilization, and pest control mechanics. Built for Minecraft 26.1+ with DasikLibrary integration.
