@@ -2,20 +2,17 @@
 package net.vanillaoutsider.betterbats.mixin;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 import net.vanillaoutsider.betterbats.BetterBatsFabric;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,7 +26,7 @@ public class NaturalSpawnerMixin {
     @Inject(method = "mobsAt", at = @At("RETURN"), cancellable = true)
     private static void betterbats$onMobsAt(
             ServerLevel level, StructureManager structureManager, ChunkGenerator generator, 
-            MobCategory mobCategory, BlockPos pos, @Nullable Holder<Biome> biome, 
+            MobCategory mobCategory, BlockPos pos, 
             CallbackInfoReturnable<WeightedList<MobSpawnSettings.SpawnerData>> cir) {
         
         if (mobCategory == MobCategory.AMBIENT) {
