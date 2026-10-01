@@ -49,7 +49,7 @@ public class BetterBatsConfigTest {
         String content = new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         assertTrue(content.contains("\"id\": \"better-bats\""), "Must declare correct mod id");
         assertTrue(content.contains("\"modrinth\""), "Must declare modrinth custom block");
-        assertTrue(content.contains("\"projectId\": \"better-bats\""), "Must declare modrinth projectId");
+        assertTrue(content.contains("\"projectId\": \"du6Wwf6d\""), "Must declare modrinth projectId");
         assertTrue(content.contains("\"GPL-3.0-or-later\""), "Must declare GPL-3.0-or-later license");
         assertTrue(content.contains("\"yet-another-config-lib\""), "Must suggest YACL");
         assertTrue(content.contains("\"yet_another_config_lib_v3\""), "Must suggest YACL v3");
