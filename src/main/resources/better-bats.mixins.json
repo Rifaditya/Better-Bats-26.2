@@ -1,0 +1,17 @@
+{
+    "required": true,
+    "refmap": "better-bats-refmap.json",
+    "package": "net.vanillaoutsider.betterbats.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "BatMixin",
+        "GameEventDispatcherMixin",
+        "MobAccessor",
+        "NaturalSpawnerMixin"
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

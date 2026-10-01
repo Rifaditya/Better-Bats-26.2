@@ -1,0 +1,20 @@
+.gradle/
+build/
+bin/
+out/
+.idea/
+*.iml
+*.iws
+*.ipr
+Archive/
+Archive Jar of all versions/
+*.jar
+Doc/Marketing/
+*hype_*
+.DS_Store
+Thumbs.db
+logs/
+
+# Platform Publisher API Token Security Vault
+*platform_tokens.json
+.agents/config/platform_tokens.json

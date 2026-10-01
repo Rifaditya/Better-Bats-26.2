@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "better-bats",
+  "version": "${version}",
+  "name": "Better Bats",
+  "description": "Chiroptera enhancements. Flocking, Guano, Phototaxis.",
+  "authors": [
+    "Dasik (Rifaditya)"
+  ],
+  "custom": {
+    "modrinth": {
+      "projectId": "du6Wwf6d",
+      "slug": "vo-better-bats"
+    },
+    "modmenu": {
+      "links": {
+        "modmenu.donate": "https://ko-fi.com/dasikigaijin",
+        "modmenu.kofi": "https://ko-fi.com/dasikigaijin"
+      }
+    }
+  },
+  "contact": {
+    "homepage": "https://modrinth.com/mod/vo-better-bats",
+    "sources": "https://github.com/Rifaditya/Better-Bats-26.2",
+    "issues": "https://github.com/Rifaditya/Better-Bats-26.2/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "icon": "assets/better-bats/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.vanillaoutsider.betterbats.BetterBatsFabric"
+    ],
+    "client": [
+      "net.vanillaoutsider.betterbats.BetterBatsFabricClient"
+    ],
+    "modmenu": [
+      "net.vanillaoutsider.betterbats.config.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "better-bats.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*",
+    "dasik-library": ">=1.1.0"
+  },
+  "suggests": {
+    "yet-another-config-lib": "*",
+    "yet_another_config_lib_v3": "*",
+    "modmenu": "*"
+  }
+}
