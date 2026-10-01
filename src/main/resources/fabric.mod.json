@@ -9,8 +9,8 @@
     ],
     "custom": {
         "modrinth": {
-            "projectId": "better-bats",
-            "slug": "better-bats"
+            "projectId": "du6Wwf6d",
+            "slug": "vo-better-bats"
         },
         "modmenu": {
             "links": {
@@ -20,7 +20,7 @@
         }
     },
     "contact": {
-        "homepage": "https://modrinth.com/mod/better-bats",
+        "homepage": "https://modrinth.com/mod/vo-better-bats",
         "sources": "https://github.com/Rifaditya/Better-Bats-26.2",
         "issues": "https://github.com/Rifaditya/Better-Bats-26.2/issues"
     },
