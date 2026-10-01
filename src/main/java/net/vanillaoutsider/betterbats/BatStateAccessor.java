@@ -1,0 +1,20 @@
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
+// Verified against: Bat.java (1.21.11)
+package net.vanillaoutsider.betterbats;
+
+import net.minecraft.world.phys.Vec3;
+
+/**
+ * Accessor interface implemented by BatMixin to share transient panic and guano states.
+ */
+public interface BatStateAccessor {
+    int betterbats$getGuanoTicks();
+    void betterbats$resetGuanoTicks();
+    void betterbats$panic(Vec3 source);
+    boolean betterbats$isPanicked();
+    int betterbats$getPanicTicks();
+    void betterbats$setPanicTicks(int ticks);
+    Vec3 betterbats$getPanicSource();
+    boolean betterbats$isGoalActive();
+    void betterbats$setGoalActive(boolean active);
+}
