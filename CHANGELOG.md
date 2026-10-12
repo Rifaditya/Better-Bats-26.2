@@ -1,5 +1,10 @@
 # 🦇 Better Bats — MC 1.20.1 Changelog
 
+## [1.0.1+1.20.1] - 2026-10-12
+### Fixed
+- **Knot ClassLoader Reflection Safety**: Purged unremapped runtime reflection call (`Class.forName`) in `BetterBatsFabric.onInitialize()`, eliminating potential `ClassNotFoundException` under production Fabric Knot ClassLoader environments.
+- **Runtime Stability**: Standardized initialization lifecycle and multi-era dependency gating for MC 1.20.1.
+
 ## [1.0.0+1.20.1] — 2026-10-01
 ### Added
 - **MC 1.20.1 Multi-Era Port**: First release of Better Bats for Minecraft 1.20.1.
