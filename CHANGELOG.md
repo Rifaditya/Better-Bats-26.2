@@ -1,5 +1,10 @@
 # 🦇 Better Bats — MC 1.21.1 Changelog
 
+## [1.0.1+1.21.1] - 2026-10-12
+### Fixed
+- **BatMixin Descriptor Mismatch**: Resolved `customServerAiStep` injection descriptor mismatch on Minecraft 1.21.1 by removing inapplicable parameter and resolving level dynamically from entity.
+- **Knot ClassLoader Runtime Safety**: Purged string-based class reflection check during mod initialization to prevent runtime classloading failures in production environments.
+
 ## [1.0.0+1.21.1] — 2026-10-01
 ### Added
 - **MC 1.21.1 Multi-Era Port**: First release of Better Bats for Minecraft 1.21.1.

@@ -147,8 +147,9 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     }
 
     @Inject(method = "customServerAiStep", at = @At("HEAD"), cancellable = true)
-    private void betterbats$onCustomServerAiStep(ServerLevel level, CallbackInfo ci) {
+    private void betterbats$onCustomServerAiStep(CallbackInfo ci) {
         Bat self = (Bat)(Object)this;
+        ServerLevel level = (ServerLevel) self.level();
 
         if (!net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.hasGenetics(self)) {
             net.dasik.social.api.genetics.DasikAnimalGeneticsAPI.rollStats(self, "better-bats:bat");
