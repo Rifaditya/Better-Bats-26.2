@@ -1,4 +1,5 @@
 <p align="center">
+  <a href="https://discord.gg/EV99bgAFqb"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord"></a>
   <a href="https://modrinth.com/mod/fabric-api"><img src="https://img.shields.io/badge/Requires-Fabric_API-blue?style=for-the-badge&logo=fabric" alt="Requires Fabric API"></a>
   <a href="https://modrinth.com/mod/dasik-library"><img src="https://img.shields.io/badge/Requires-Dasik_Library-8A2BE2?style=for-the-badge" alt="Requires Dasik Library"></a>
   <img src="https://img.shields.io/badge/Language-Java_25-orange?style=for-the-badge&logo=java" alt="Java 25">
@@ -6,7 +7,7 @@
   <img src="https://img.shields.io/badge/Minecraft-26.2+-brightgreen?style=for-the-badge" alt="Minecraft 26.2+">
 </p>
 
-# 🦇 Better Bats
+# Better Bats
 
 > **"From useless cave annoyance to essential ecological companions."**
 
@@ -15,89 +16,89 @@
 > <br><br>
 > **Dependency Requirement:** For modern Minecraft 26.x releases (26.1.2, 26.2, 26.3+), this mod requires both **Fabric API** and **Dasik Library** (`v1.8.15+`). Legacy builds (1.20.1, 1.21.x) are self-contained and only require Fabric API.
 
-In vanilla Minecraft, bats are purely cosmetic, erratic, ambient entities that offer no mechanical purpose or interactive value. They fly aimlessly into lava pits, spawn in pitch darkness, drop zero items or XP, and chirp in annoying loops before vanishing into thin air.
+In vanilla Minecraft, bats are purely cosmetic, erratic ambient entities that offer no mechanical purpose or interactive value. They fly aimlessly into lava pits, spawn in pitch darkness, drop zero items or XP, and chirp in repetitive loops before despawning into thin air.
 
-**Better Bats** transforms bats into living, intelligent, and symbiotic cave fauna. Using a true Boids murmuration algorithm, bats organize into fluid, leaderless aerial flocks. They roost upside down on dripstone, chains, and lanterns, drop natural guano fertilizer onto crops below, hunt annoying insect pests (silverfish, endermites) with lethal dive-bomb attacks, navigate pitch-dark caverns using sonic echolocation pulses, swarm toward lanterns at night like moths, and panic dynamically from loud explosions or stalking feline predators.
+**Better Bats** transforms bats into living, intelligent, and symbiotic cave fauna. Using a true 3D Boids murmuration algorithm, bats organize into fluid, leaderless aerial flocks. They roost upside down on dripstone, chains, and lanterns, drop natural guano fertilizer onto crops below, hunt annoying insect pests (silverfish, endermites) with lethal dive-bomb attacks, navigate pitch-dark caverns using sonic echolocation pulses, swarm toward lanterns at night like moths, and panic dynamically from loud explosions or stalking feline predators.
 
 Part of the **Vanilla Outsider Collection** — mods that refine vanilla mechanics with modern engineering standards.
 
 ---
 
-## ✨ Features
+## Key Mechanics & Features
 
-### 🐝 Murmuration: Boids Aerial Flocking
+### Murmuration: Boids Aerial Flocking
 Bats no longer fly in erratic, chaotic solo paths:
 - **Leaderless Swarms**: Organized via a true 3D Boids flocking algorithm (Cohesion, Alignment, and Separation). Each bat adjusts its flight dynamically based on nearby flock mates.
 - **Configurable Swarm Caps**: Swarm recruitment caps out cleanly at `bat_swarm_size` (default: 5 members), preventing overcrowded clusters while maintaining organic murmurations.
 - **Twilight Funneling**: At dusk (12,000-14,000 ticks) and dawn (22,000-24,000 ticks), cohesion and alignment scale up by 2.5x while separation tightens, causing swarms to funnel together dramatically as they exit or enter cavern mouths.
 
-### 💩 Guano Fertility & Renewable Bone Meal
+### Guano Fertility & Renewable Bone Meal
 Bats actively enrich subterranean farms and surface crops:
 - **Roosting Guano Accumulation**: Resting bats quietly accumulate guano while roosting upside down. Once the threshold is met (`bat_guano_threshold`, default 12,000 ticks / ~10 minutes), the bat discharges a guano fertilization cycle.
-- **Deep Crop Enrichment**: The bat scans up to **20 blocks straight down**. If farmland with crops is detected, it triggers a bone meal growth spurt accompanied by bright green **Happy Villager** particles and falling mycelium cues.
+- **Deep Crop Enrichment**: The bat scans up to **20 blocks straight down**. If farmland with crops is detected, it triggers a bone meal growth spurt accompanied by green Happy Villager particles and falling mycelium cues.
 - **Physical Guano Harvest**: Toggle `better-bats:bat_drop_guano_item true` so roosting bats drop physical **Bone Meal item entities** whenever resting over non-farmland blocks or when crops below are already fully matured.
 
-### 🦟 Symbiotic Pest Control (Silverfish & Endermite Defense)
+### Pest Control: Silverfish & Endermite Defense
 Bats become valuable allies against underground infestations:
 - **Aggressive Dive-Bombing**: When bats detect **Silverfish** or **Endermites** within a **10-block radius**, they break flock formation and perform high-speed dive-bomb attacks.
 - **Lethal Strikes**: Bats deal scalable attack damage (1.0 to 4.0 damage) inherited through genetic traits, quickly exterminating creeping stone pests before they swarm the player.
 
-### 🦇 Pitch-Dark Cavern Echolocation
-Deep underground where light levels drop to absolute zero, bats utilize biological sonar:
+### Cavern Echolocation & Navigation
+Deep underground where light levels drop to zero, bats utilize biological sonar:
 - **Acoustic Pulses**: When flying in pitch darkness (Sky Light 0, Block Light < 4), bats emit periodic high-pitched echolocation clicks.
-- **Sonic Ring Particles**: Each click emits subtle **Sculk Soul** particles, giving explorers a visible hint of cavern ceilings and bat roosts far above.
+- **Sonic Ring Particles**: Each click emits subtle Sculk Soul particles, giving explorers a visible hint of cavern ceilings and bat roosts far above.
 
-### 🪔 Phototaxis: The Moth Effect
+### Phototaxis: Attraction to Light
 During nighttime, bats exhibit natural attraction to bright artificial illumination:
 - **Lantern Circling**: Bats break away from swarms to investigate light sources with brightness > 8 (torches, lanterns, campfires).
 - **Smooth Banking Flight**: Approaches lanterns with a smooth curved banking maneuver and circles with a gentle vertical sine-wave bobbing motion.
 - **Cooldown Dissipation**: After 10-30 seconds of feeding on ambient insects around the light, bats disperse and resume normal flocking.
 
-### 😱 Acoustic Panic & Predator Avoidance
+### Acoustic Panic & Predator Avoidance
 Living creatures with sensitive hearing and natural survival instincts:
-- **Acoustic Disruption**: Loud acoustic disturbances (sprinting players, mining blocks, explosions) within **16 blocks** instantly wake roosting bats, triggering frantic high-speed scatter flight and resetting guano timers.
+- **Acoustic Disruption**: Loud disturbances (sprinting players, mining blocks, explosions) within **16 blocks** instantly wake roosting bats, triggering frantic high-speed scatter flight and resetting guano timers.
 - **Feline & Phantom Avoidance**: Bats continuously scan for natural predators (**Cats**, **Ocelots**, **Phantoms**) within a 10-block radius. Resting bats wake immediately, and flying bats receive powerful directional flee vectors pushing them away from danger.
 
-### 🏠 Universal Roosting Anchors
+### Universal Roosting Anchors
 Bats can now hang upside down from authentic environmental perches:
 - **Pointed Dripstone**: Stalactites hanging from cavern ceilings.
 - **Iron Chains & Hanging Lanterns**: Industrial and dungeon fixtures.
 - **Fences, Stone Walls & Tree Foliage**: Surface forest and village roosts.
 - **Slabs & Stairs**: Any solid underside surface.
 
-### 🧬 Dasik Animal Genetics Integration
+### Animal Genetics Integration
 Powered by the DasikLibrary Animal Genetics API:
 - **Wingspan / Scale**: Natural physical variation from **0.75x to 1.30x** scale.
 - **Movement Speed**: Flight velocities vary from **-4% to +8%** based on genetic roll.
 - **Attack Power**: Dive-bomb pest damage scales organically from **1.0 to 4.0**.
 
-### 🧩 Compatibility & HUD Integration
-- **100% Server-Side Compatible**: Runs entirely on the server. Vanilla clients can join modded servers without downloading anything locally.
-- **ModMenu + YACL Screen**: Comprehensive client config screen in singleplayer to customize swarm sizes and guano rates visually.
+### Compatibility & HUD Integration
+- **Server-Side Compatible**: Runs entirely on the server. Vanilla clients can join modded servers without downloading anything locally.
+- **ModMenu + YACL Screen**: Client config screen in singleplayer to customize swarm sizes and guano rates visually.
 - **Zero NBT Pollution**: State accessors operate safely in memory with seamless world save upgrades.
 
 ---
 
-## 📊 Quick Reference & Mechanics Matrix
+## Quick Reference & Mechanics Matrix
 
 | Gameplay Aspect | Vanilla Minecraft | Better Bats (Modern 26.2+) |
-| :--- | :---: | :---: |
-| **Flight Pattern** | Erratic, chaotic, solitary random drift | **Organized Boids Murmuration** (Cohesion + Alignment) |
-| **Swarm Mechanics** | ❌ None (Solo entities only) | ✅ **5-member flocks** with twilight dawn/dusk funneling |
-| **Resting / Roosting** | Solid ceiling blocks only | ✅ **Dripstone, chains, lanterns, leaves, walls, slabs** |
-| **Farmland Interaction** | ❌ None | ✅ **Guano fertilization** scans 20 blocks down onto crops |
-| **Physical Bone Meal Drops** | ❌ None | ✅ **Configurable item drops** (`bat_drop_guano_item`) |
-| **Pest Control** | Passive / ignores mobs | ✅ **Dive-bombs Silverfish & Endermites** (1-4 damage) |
-| **Cavern Navigation** | Silent random drift | ✅ **Echolocation clicks & Sculk Soul particles** |
-| **Reaction to Lanterns** | Ignores light | ✅ **Phototaxis moth effect** (circles lights at night) |
-| **Disturbance & Noise** | Only wakes on direct bump | ✅ **16-block acoustic panic** from mining, sprints, blasts |
-| **Predator Reaction** | Ignores cats and ocelots | ✅ **10-block directional flee response** from felines |
+| :--- | :--- | :--- |
+| **Flight Pattern** | Erratic, chaotic solo drift | **Organized Boids Murmuration** (Cohesion + Alignment) |
+| **Swarm Mechanics** | None (Solo entities only) | **5-member flocks** with twilight dawn/dusk funneling |
+| **Resting / Roosting** | Solid ceiling blocks only | **Dripstone, chains, lanterns, leaves, walls, slabs** |
+| **Farmland Interaction** | None | **Guano fertilization** scans 20 blocks down onto crops |
+| **Physical Bone Meal Drops** | None | **Configurable item drops** (`bat_drop_guano_item`) |
+| **Pest Control** | Passive / ignores mobs | **Dive-bombs Silverfish & Endermites** (1-4 damage) |
+| **Cavern Navigation** | Silent random drift | **Echolocation clicks & Sculk Soul particles** |
+| **Reaction to Lanterns** | Ignores light | **Phototaxis moth effect** (circles lights at night) |
+| **Disturbance & Noise** | Only wakes on direct bump | **16-block acoustic panic** from mining, sprints, blasts |
+| **Predator Reaction** | Ignores cats and ocelots | **10-block directional flee response** from felines |
 
 ---
 
-## 🚀 In-Game Commands & Quick Start
+## In-Game Commands
 
-Better Bats features a dedicated, full-featured Brigadier command suite accessible via `/betterbats` or the compact alias `/bb`:
+Better Bats features a dedicated Brigadier command suite accessible via `/betterbats` or the alias `/bb`:
 
 | Command Syntax | Permission Level | Description |
 | :--- | :---: | :--- |
@@ -112,10 +113,10 @@ Better Bats features a dedicated, full-featured Brigadier command suite accessib
 
 ---
 
-## ⚙️ Configuration (Native GameRules)
+## Configuration & GameRules
 
 > [!IMPORTANT]
-> **💡 Config vs. In-Game GameRules:** The global configuration file (`config/better-bats.json`) only defines default values for newly created worlds. In existing worlds, change settings in-game via the **Edit Game Rules** UI screen, the `/betterbats set` command, or the `/gamerule` command.
+> **Config vs. In-Game GameRules:** The global configuration file (`config/better-bats.json`) only defines default values for newly created worlds. In existing worlds, change settings in-game via the **Edit Game Rules** UI screen, the `/betterbats set` command, or the `/gamerule` command.
 
 | GameRule Name | Type | Default | Valid Range | Description |
 | :--- | :---: | :---: | :---: | :--- |
@@ -131,7 +132,7 @@ Better Bats features a dedicated, full-featured Brigadier command suite accessib
 
 ---
 
-## 📖 In-Depth How-To & Operational Playbook
+## Operational Playbook & Farming Guide
 
 ### 1. Designing Natural Bat Roosts in Crop Greenhouses
 - Build a subterranean greenhouse with high ceilings (8 to 15 blocks tall).
@@ -157,21 +158,33 @@ Better Bats features a dedicated, full-featured Brigadier command suite accessib
 
 ---
 
-## 🧩 Recommended Sister Mods
+## Recommended Sister Mods
 
 If you enjoy **Better Bats**, these companion mods from the **Vanilla Outsider Collection** plug in seamlessly:
 
-* 🌾 [**Agrarian Reform**](https://modrinth.com/mod/vanilla-outsider-agrarian-reform): Offline crop growth simulation, smart trample protection, and deep irrigation that reward bat guano fertilization.
-* 🛏️ [**True Sleep**](https://modrinth.com/mod/vanilla-outsider-true-sleep): Real-time night acceleration where bat swarms awaken and hunt while you rest.
-* 🐕 [**Better Dogs**](https://modrinth.com/mod/better-dogs): Deep canine companion behaviors, guard post patrol modes, genetic traits, and vehicle riding.
+- [**Agrarian Reform**](https://modrinth.com/mod/vanilla-outsider-agrarian-reform): Offline crop growth simulation, smart trample protection, and deep irrigation that reward bat guano fertilization.
+- [**True Sleep**](https://modrinth.com/mod/vanilla-outsider-true-sleep): Real-time night acceleration where bat swarms awaken and hunt while you rest.
+- [**Better Dogs**](https://modrinth.com/mod/better-dogs): Deep canine companion behaviors, guard post patrol modes, genetic traits, and vehicle riding.
 
-> 🌟 *Explore the full [**Vanilla Outsider Collection**](https://modrinth.com/collection/vanilla-outsider) for more vanilla enhancements.*
+> *Explore the full [**Vanilla Outsider Collection**](https://modrinth.com/collection/vanilla-outsider) for more vanilla enhancements.*
 
 ---
 
-## ☕ Support
+### Community & Support
 
-If you enjoy the **Vanilla Outsider Collection**, consider fueling future development!
+Looking for help, want to test early beta builds, or discuss upcoming features? Join the official Discord community:
+
+<p align="center">
+  <a href="https://discord.gg/EV99bgAFqb">
+    <img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Official Discord">
+  </a>
+</p>
+
+---
+
+## Support
+
+If you enjoy **Better Bats** and the **Vanilla Outsider Collection**, consider fueling future updates!
 
 <p align="center">
   <a href="https://ko-fi.com/dasikigaijin/tip"><img src="https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-fi"></a>
@@ -180,36 +193,36 @@ If you enjoy the **Vanilla Outsider Collection**, consider fueling future develo
 </p>
 
 > [!NOTE]
-> **🇮🇩 Indonesian Users:** SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
-
-> [!TIP]
-> **Dedicated Server Hosting Partner:**
-> Looking for a reliable server to play with friends? Check out **BisectHosting** for 1-click modpack installations, automated backups, and 24/7 dedicated customer support.
+> **Indonesian Users:** SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
 
 ---
 
-## 📜 Credits & Modpack Permissions
+## Credits & Modpack Permissions
 
 | Property | Information |
 | :--- | :--- |
 | **Creator / Author** | **Dasik** (Rifaditya) |
-| **Collection** | Vanilla Outsider Collection |
+| **Community** | [Official Discord](https://discord.gg/EV99bgAFqb) |
+| **Collection** | Vanilla Outsider |
 | **License** | [GNU General Public License v3.0 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.html) |
-| **Source Code** | [GitHub - Rifaditya/Better-Bats-26.2](https://github.com/Rifaditya/Better-Bats-26.2) |
-| **Issue Tracker** | [GitHub Issues](https://github.com/Rifaditya/Better-Bats-26.2/issues) |
-| **Documentation / Wiki** | [GitHub Wiki](https://github.com/Rifaditya/Better-Bats-26.2/wiki) |
+| **Source Code** | [GitHub - Rifaditya/Better-Bats-26.1](https://github.com/Rifaditya/Better-Bats-26.1) |
+| **Issue Tracker** | [GitHub Issues](https://github.com/Rifaditya/Better-Bats-26.1/issues) |
+| **Documentation / Wiki** | [GitHub Wiki](https://github.com/Rifaditya/Better-Bats-26.1/wiki) |
 
 > [!IMPORTANT]
-> **📦 Modpack Permissions & Distribution:**<br>
+> **Modpack Permissions & Distribution:**<br>
 > You are fully welcome to include this mod in any modpack on any platform! However, the mod file must be downloaded directly through official distribution channels (**Modrinth** or **CurseForge**). Re-uploading, mirroring, or redistributing the original mod JAR to third-party mirror sites, scraper portals, or unauthorized launchers is strictly prohibited.
 > <br><br>
-> **⚖️ License & Fork Guidelines (No Zero-Change Re-uploads):**<br>
+> **License & Fork Guidelines:**<br>
 > This project is open-source under the **GNU GPLv3**. You are fully encouraged to inspect the code, learn from it, and fork the repository to create genuine modifications, substantial feature expansions, or community ports—provided your project remains open-source under GPLv3 with proper attribution.<br>
 > **However, straight 1:1 re-uploads, clone forks with no meaningful functional changes, or re-publishing identical builds under different project names (e.g. to farm downloads or rewards) are strictly forbidden.**
 
 ---
 
-<p align="center">
-  <strong>Made with ❤️ for the Minecraft community</strong><br>
-  <em>Part of the Vanilla Outsider Collection</em>
-</p>
+<div align="center">
+
+**Made with ❤️ for the Minecraft community**
+
+*Part of the Vanilla Outsider Collection*
+
+</div>
