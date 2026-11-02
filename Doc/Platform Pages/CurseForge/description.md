@@ -1,14 +1,14 @@
 <p align="center">
   <a href="https://discord.gg/EV99bgAFqb"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord"></a>
-  <a href="https://modrinth.com/mod/fabric-api"><img src="https://img.shields.io/badge/Requires-Fabric_API-blue?style=for-the-badge&amp;logo=fabric" alt="Requires Fabric API"></a>
-  <a href="https://modrinth.com/mod/dasik-library"><img src="https://img.shields.io/badge/Requires-Dasik_Library-8A2BE2?style=for-the-badge" alt="Requires Dasik Library"></a>
-  <img src="https://img.shields.io/badge/Language-Java_25-orange?style=for-the-badge&amp;logo=java" alt="Java 25">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img src="https://img.shields.io/badge/Requires-Fabric_API-blue?style=for-the-badge&amp;logo=fabric" alt="Requires Fabric API"></a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/dasik-library"><img src="https://img.shields.io/badge/Requires-Dasik_Library-8A2BE2?style=for-the-badge" alt="Requires Dasik Library"></a>
+  <img src="https://img.shields.io/badge/Language-Java-orange?style=for-the-badge&amp;logo=java" alt="Java">
   <img src="https://img.shields.io/badge/License-GPLv3-green?style=for-the-badge&amp;logo=license" alt="License GPLv3">
-  <img src="https://img.shields.io/badge/Minecraft-26.2+-brightgreen?style=for-the-badge" alt="Minecraft 26.2+">
+  <img src="https://img.shields.io/badge/Minecraft-1.20.1_to_26.x-brightgreen?style=for-the-badge" alt="Minecraft 1.20.1 to 26.x">
 </p>
 <h2>Better Bats</h2>
 <blockquote><p><strong>"From useless cave annoyance to essential ecological companions."</strong></p></blockquote>
-<blockquote><p><strong>1 Jar 1 Version Policy:</strong> I build <strong>1 dedicated JAR for each Minecraft version</strong> (e.g. MC 26.2, MC 26.3). Please download the exact build that matches your Minecraft installation. <br><br> <strong>Dependency Requirement:</strong> For modern Minecraft 26.x releases (26.1.2, 26.2, 26.3+), this mod requires both <strong>Fabric API</strong> and <strong>Dasik Library</strong> (<code>v1.8.15+</code>). Legacy builds (1.20.1, 1.21.x) are self-contained and only require Fabric API.</p></blockquote>
+<blockquote><p><strong>1 Jar 1 Version Policy:</strong> I build <strong>1 dedicated JAR for each Minecraft version</strong> (e.g. MC 1.20.1, MC 1.21.1, MC 1.21.11, MC 26.2, MC 26.3). Please download the exact build that matches your Minecraft installation.<br><br><strong>Dependency Requirement:</strong> This mod requires both <strong><a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api" target="_blank" rel="noopener">Fabric API</a></strong> and <strong><a href="https://www.curseforge.com/minecraft/mc-mods/dasik-library" target="_blank" rel="noopener">Dasik Library</a></strong> across all supported versions.</p></blockquote>
 <p>In vanilla Minecraft, bats are purely cosmetic, erratic ambient entities that offer no mechanical purpose or interactive value. They fly aimlessly into lava pits, spawn in pitch darkness, drop zero items or XP, and chirp in repetitive loops before despawning into thin air.</p>
 <p><strong>Better Bats</strong> transforms bats into living, intelligent, and symbiotic cave fauna. Using a true 3D Boids murmuration algorithm, bats organize into fluid, leaderless aerial flocks. They roost upside down on dripstone, chains, and lanterns, drop natural guano fertilizer onto crops below, hunt annoying insect pests (silverfish, endermites) with lethal dive-bomb attacks, navigate pitch-dark caverns using sonic echolocation pulses, swarm toward lanterns at night like moths, and panic dynamically from loud explosions or stalking feline predators.</p>
 <p>Part of the <strong>Vanilla Outsider Collection</strong> — mods that refine vanilla mechanics with modern engineering standards.</p>
@@ -51,7 +51,7 @@
 <p>Living creatures with sensitive hearing and natural survival instincts:</p>
 <ul>
   <li><strong>Acoustic Disruption</strong>: Loud disturbances (sprinting players, mining blocks, explosions) within <strong>16 blocks</strong> instantly wake roosting bats, triggering frantic high-speed scatter flight and resetting guano timers.</li>
-  <li><strong>Feline &amp; Phantom Avoidance</strong>: Bats continuously scan for natural predators (<strong>Cats</strong>, <strong>Ocelots</strong>, <strong>Phantoms</strong>) within a 10-block radius. Resting bats wake immediately, and flying bats receive directional flee vectors pushing them away from danger.</li>
+  <li><strong>Feline &amp; Phantom Avoidance</strong>: Bats continuously scan for natural predators (<strong>Cats</strong>, <strong>Ocelots</strong>, <strong>Phantoms</strong>) within a 10-block radius. Resting bats wake immediately, and flying bats receive powerful directional flee vectors pushing them away from danger.</li>
 </ul>
 <h3>Universal Roosting Anchors</h3>
 <p>Bats can now hang upside down from authentic environmental perches:</p>
@@ -68,11 +68,11 @@
   <li><strong>Movement Speed</strong>: Flight velocities vary from <strong>-4% to +8%</strong> based on genetic roll.</li>
   <li><strong>Attack Power</strong>: Dive-bomb pest damage scales organically from <strong>1.0 to 4.0</strong>.</li>
 </ul>
-<h3>Compatibility &amp; HUD Integration</h3>
+<h3>Compatibility &amp; Architecture</h3>
 <ul>
   <li><strong>Server-Side Compatible</strong>: Runs entirely on the server. Vanilla clients can join modded servers without downloading anything locally.</li>
-  <li><strong>ModMenu + YACL Screen</strong>: Client config screen in singleplayer to customize swarm sizes and guano rates visually.</li>
-  <li><strong>Zero NBT Pollution</strong>: State accessors operate safely in memory with seamless world save upgrades.</li>
+  <li><strong>ModMenu + YACL Screen</strong>: Optional client configuration screen in singleplayer to customize swarm sizes and guano rates visually.</li>
+  <li><strong>Zero Save Bloat</strong>: State accessors operate cleanly in memory with resilient world save upgrades.</li>
 </ul>
 <hr>
 <h2>Quick Reference &amp; Mechanics Matrix</h2>
@@ -81,7 +81,7 @@
     <tr>
       <th>Gameplay Aspect</th>
       <th>Vanilla Minecraft</th>
-      <th>Better Bats (Modern 26.2+)</th>
+      <th>Better Bats</th>
     </tr>
   </thead>
   <tbody>
@@ -178,6 +178,11 @@
       <td><code>/betterbats reload</code></td>
       <td>Gamemasters (Level 2)</td>
       <td>Reloads JSON config from disk and synchronizes active world state.</td>
+    </tr>
+    <tr>
+      <td><code>/betterbats debug on|off</code></td>
+      <td>Gamemasters (Level 2)</td>
+      <td>Toggles real-time diagnostic logging.</td>
     </tr>
     <tr>
       <td><code>/betterbats debug inspect</code></td>
@@ -303,11 +308,11 @@
 <h2>Recommended Sister Mods</h2>
 <p>If you enjoy <strong>Better Bats</strong>, these companion mods from the <strong>Vanilla Outsider Collection</strong> plug in seamlessly:</p>
 <ul>
-  <li><a href="https://modrinth.com/mod/vanilla-outsider-agrarian-reform" target="_blank" rel="noopener"><strong>Agrarian Reform</strong></a>: Offline crop growth simulation, smart trample protection, and deep irrigation that reward bat guano fertilization.</li>
-  <li><a href="https://modrinth.com/mod/vanilla-outsider-true-sleep" target="_blank" rel="noopener"><strong>True Sleep</strong></a>: Real-time night acceleration where bat swarms awaken and hunt while you rest.</li>
-  <li><a href="https://modrinth.com/mod/better-dogs" target="_blank" rel="noopener"><strong>Better Dogs</strong></a>: Deep canine companion behaviors, guard post patrol modes, genetic traits, and vehicle riding.</li>
+  <li><a href="https://www.curseforge.com/minecraft/mc-mods/vanilla-outsider-agrarian-reform" target="_blank" rel="noopener"><strong>Agrarian Reform</strong></a>: Offline crop growth simulation, smart trample protection, and deep irrigation that reward bat guano fertilization.</li>
+  <li><a href="https://www.curseforge.com/minecraft/mc-mods/vanilla-outsider-true-sleep" target="_blank" rel="noopener"><strong>True Sleep</strong></a>: Real-time night acceleration where bat swarms awaken and hunt while you rest.</li>
+  <li><a href="https://www.curseforge.com/minecraft/mc-mods/better-dogs" target="_blank" rel="noopener"><strong>Better Dogs</strong></a>: Deep canine companion behaviors, guard post patrol modes, genetic traits, and vehicle riding.</li>
 </ul>
-<blockquote><p><em>Explore the full <a href="https://modrinth.com/collection/vanilla-outsider" target="_blank" rel="noopener"><strong>Vanilla Outsider Collection</strong></a> for more vanilla enhancements.</em></p></blockquote>
+<blockquote><p><em>Explore the full <a href="https://www.curseforge.com/members/rifaditya/projects" target="_blank" rel="noopener"><strong>Vanilla Outsider Collection</strong></a> for more vanilla enhancements.</em></p></blockquote>
 <hr>
 <h3>Community &amp; Support</h3>
 <p>Looking for help, want to test early beta builds, or discuss upcoming features? Join the official Discord community:</p>
@@ -353,15 +358,15 @@
     </tr>
     <tr>
       <td><strong>Source Code</strong></td>
-      <td><a href="https://github.com/Rifaditya/Better-Bats-26.1" target="_blank" rel="noopener">GitHub - Rifaditya/Better-Bats-26.1</a></td>
+      <td><a href="https://github.com/Rifaditya/Better-Bats-26.2" target="_blank" rel="noopener">GitHub - Rifaditya/Better-Bats-26.2</a></td>
     </tr>
     <tr>
       <td><strong>Issue Tracker</strong></td>
-      <td><a href="https://github.com/Rifaditya/Better-Bats-26.1/issues" target="_blank" rel="noopener">GitHub Issues</a></td>
+      <td><a href="https://github.com/Rifaditya/Better-Bats-26.2/issues" target="_blank" rel="noopener">GitHub Issues</a></td>
     </tr>
     <tr>
       <td><strong>Documentation / Wiki</strong></td>
-      <td><a href="https://github.com/Rifaditya/Better-Bats-26.1/wiki" target="_blank" rel="noopener">GitHub Wiki</a></td>
+      <td><a href="https://dasik-mc-studio.pages.dev/vo-better-bats/" target="_blank" rel="noopener">Documentation Portal</a></td>
     </tr>
   </tbody>
 </table>

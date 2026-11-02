@@ -2,9 +2,9 @@
   <a href="https://discord.gg/EV99bgAFqb"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord"></a>
   <a href="https://modrinth.com/mod/fabric-api"><img src="https://img.shields.io/badge/Requires-Fabric_API-blue?style=for-the-badge&logo=fabric" alt="Requires Fabric API"></a>
   <a href="https://modrinth.com/mod/dasik-library"><img src="https://img.shields.io/badge/Requires-Dasik_Library-8A2BE2?style=for-the-badge" alt="Requires Dasik Library"></a>
-  <img src="https://img.shields.io/badge/Language-Java_25-orange?style=for-the-badge&logo=java" alt="Java 25">
+  <img src="https://img.shields.io/badge/Language-Java-orange?style=for-the-badge&logo=java" alt="Java">
   <img src="https://img.shields.io/badge/License-GPLv3-green?style=for-the-badge" alt="License GPLv3">
-  <img src="https://img.shields.io/badge/Minecraft-26.2+-brightgreen?style=for-the-badge" alt="Minecraft 26.2+">
+  <img src="https://img.shields.io/badge/Minecraft-1.20.1_to_26.x-brightgreen?style=for-the-badge" alt="Minecraft 1.20.1 to 26.x">
 </p>
 
 # Better Bats
@@ -12,9 +12,9 @@
 > **"From useless cave annoyance to essential ecological companions."**
 
 > [!NOTE]
-> **1 Jar 1 Version Policy:** I build **1 dedicated JAR for each Minecraft version** (e.g. MC 26.2, MC 26.3). Please download the exact build that matches your Minecraft installation.
+> **1 Jar 1 Version Policy:** I build **1 dedicated JAR for each Minecraft version** (e.g. MC 1.20.1, MC 1.21.1, MC 1.21.11, MC 26.2, MC 26.3). Please download the exact build that matches your Minecraft installation.
 > <br><br>
-> **Dependency Requirement:** For modern Minecraft 26.x releases (26.1.2, 26.2, 26.3+), this mod requires both **Fabric API** and **Dasik Library** (`v1.8.15+`). Legacy builds (1.20.1, 1.21.x) are self-contained and only require Fabric API.
+> **Dependency Requirement:** This mod requires both **[Fabric API](https://modrinth.com/mod/fabric-api)** and **[Dasik Library](https://modrinth.com/mod/dasik-library)** across all supported versions.
 
 In vanilla Minecraft, bats are purely cosmetic, erratic ambient entities that offer no mechanical purpose or interactive value. They fly aimlessly into lava pits, spawn in pitch darkness, drop zero items or XP, and chirp in repetitive loops before despawning into thin air.
 
@@ -72,16 +72,16 @@ Powered by the DasikLibrary Animal Genetics API:
 - **Movement Speed**: Flight velocities vary from **-4% to +8%** based on genetic roll.
 - **Attack Power**: Dive-bomb pest damage scales organically from **1.0 to 4.0**.
 
-### Compatibility & HUD Integration
+### Compatibility & Architecture
 - **Server-Side Compatible**: Runs entirely on the server. Vanilla clients can join modded servers without downloading anything locally.
-- **ModMenu + YACL Screen**: Client config screen in singleplayer to customize swarm sizes and guano rates visually.
-- **Zero NBT Pollution**: State accessors operate safely in memory with seamless world save upgrades.
+- **ModMenu + YACL Screen**: Optional client configuration screen in singleplayer to customize swarm sizes and guano rates visually.
+- **Zero Save Bloat**: State accessors operate cleanly in memory with resilient world save upgrades.
 
 ---
 
 ## Quick Reference & Mechanics Matrix
 
-| Gameplay Aspect | Vanilla Minecraft | Better Bats (Modern 26.2+) |
+| Gameplay Aspect | Vanilla Minecraft | Better Bats |
 | :--- | :--- | :--- |
 | **Flight Pattern** | Erratic, chaotic solo drift | **Organized Boids Murmuration** (Cohesion + Alignment) |
 | **Swarm Mechanics** | None (Solo entities only) | **5-member flocks** with twilight dawn/dusk funneling |
@@ -108,6 +108,7 @@ Better Bats features a dedicated Brigadier command suite accessible via `/better
 | `/betterbats set <rule> <val>` | Gamemasters (Level 2) | Modifies a GameRule live in-game and synchronizes to config. |
 | `/betterbats reset` | Gamemasters (Level 2) | Resets all Better Bats GameRules to factory defaults. |
 | `/betterbats reload` | Gamemasters (Level 2) | Reloads JSON config from disk and synchronizes active world state. |
+| `/betterbats debug on|off` | Gamemasters (Level 2) | Toggles real-time diagnostic logging. |
 | `/betterbats debug inspect` | Gamemasters (Level 2) | Inspects genetic traits, scale, and guano ticks of the nearest bat. |
 | `/betterbats debug spawn_swarm [count]` | Gamemasters (Level 2) | Spawns a coordinated test flock of bats (default: 5, up to 30). |
 
@@ -205,9 +206,9 @@ If you enjoy **Better Bats** and the **Vanilla Outsider Collection**, consider f
 | **Community** | [Official Discord](https://discord.gg/EV99bgAFqb) |
 | **Collection** | Vanilla Outsider |
 | **License** | [GNU General Public License v3.0 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.html) |
-| **Source Code** | [GitHub - Rifaditya/Better-Bats-26.1](https://github.com/Rifaditya/Better-Bats-26.1) |
-| **Issue Tracker** | [GitHub Issues](https://github.com/Rifaditya/Better-Bats-26.1/issues) |
-| **Documentation / Wiki** | [GitHub Wiki](https://github.com/Rifaditya/Better-Bats-26.1/wiki) |
+| **Source Code** | [GitHub - Rifaditya/Better-Bats-26.2](https://github.com/Rifaditya/Better-Bats-26.2) |
+| **Issue Tracker** | [GitHub Issues](https://github.com/Rifaditya/Better-Bats-26.2/issues) |
+| **Documentation / Wiki** | [Documentation Portal](https://dasik-mc-studio.pages.dev/vo-better-bats/) |
 
 > [!IMPORTANT]
 > **Modpack Permissions & Distribution:**<br>
