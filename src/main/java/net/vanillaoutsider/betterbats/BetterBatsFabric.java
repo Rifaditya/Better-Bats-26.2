@@ -99,8 +99,10 @@ public class BetterBatsFabric implements ModInitializer {
                         .register();
 
         // Ensure Debug Mode resets to false on world/server startup (Default-OFF & Session-Transient Lifecycle Law)
-        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            server.overworld().getGameRules().set(BAT_DEBUG_MODE, false, server);
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            if (server.overworld() != null) {
+                server.overworld().getGameRules().set(BAT_DEBUG_MODE, false, server);
+            }
         });
 
         // Register Animal Genetics for Bats (Scale/Wingspan, Flight Speed, Pest Attack Damage)

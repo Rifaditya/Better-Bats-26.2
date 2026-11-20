@@ -46,8 +46,8 @@ public class BatDiveBombGoal extends Goal {
 
     @Override
     public void start() {
-        if (this.bat instanceof net.dasik.social.api.ai.GroupMember gm) {
-            gm.setLeader(false); 
+        if (this.bat instanceof net.dasik.social.api.group.GroupMember gm) {
+            gm.setLeader(null); 
         }
         if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             accessor.betterbats$setGoalActive(true);

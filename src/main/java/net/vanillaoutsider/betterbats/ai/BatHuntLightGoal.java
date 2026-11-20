@@ -82,8 +82,8 @@ public class BatHuntLightGoal extends Goal {
         // Orbit for 10 to 30 seconds
         this.maxCirclingTicks = 200 + this.bat.getRandom().nextInt(400);
 
-        if (this.bat instanceof net.dasik.social.api.ai.GroupMember gm) {
-            gm.setLeader(false); 
+        if (this.bat instanceof net.dasik.social.api.group.GroupMember gm) {
+            gm.setLeader(null); 
         }
         if (this.targetLight != null) {
             this.targetCenterX = this.targetLight.getX() + 0.5;

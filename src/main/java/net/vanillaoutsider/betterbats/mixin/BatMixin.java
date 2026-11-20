@@ -16,7 +16,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.util.Mth;
-import net.dasik.social.api.ai.GroupMember;
+import net.dasik.social.api.group.GroupMember;
+import net.dasik.social.api.group.FlockType;
+import net.dasik.social.core.group.FlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -39,6 +41,8 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     private static final net.minecraft.world.entity.ai.targeting.TargetingConditions NEARBY_PLAYER_AWAKE =
             net.minecraft.world.entity.ai.targeting.TargetingConditions.forNonCombat().range(4.0);
 
+    @Unique
+    private FlockType betterbats$flockType = FlockType.AERIAL;
     @Unique
     private int betterbats$guanoTicks = 0;
     @Unique
@@ -64,27 +68,35 @@ public abstract class BatMixin implements GroupMember, BatStateAccessor {
     }
 
     @Override
-    public Vec3 getPosition() {
-        return ((Bat)(Object)this).position();
+    public LivingEntity getLeader() {
+        return null;
     }
 
     @Override
-    public Vec3 getVelocity() {
-        return ((Bat)(Object)this).getDeltaMovement();
-    }
-
-    @Override
-    public String getGroupType() {
-        return "better-bats:bat";
-    }
-
-    @Override
-    public boolean isLeader() {
+    public boolean hasLeader() {
         return false;
     }
 
     @Override
-    public void setLeader(boolean leader) {}
+    public void setLeader(LivingEntity leader) {}
+
+    @Override
+    public int getGroupSize() {
+        return 1;
+    }
+
+    @Override
+    public FlockType getFlockType() {
+        return this.betterbats$flockType;
+    }
+
+    @Override
+    public FlockState getFlockState() {
+        return null;
+    }
+
+    @Override
+    public void setFlockState(FlockState state) {}
 
     public int getMaxSpawnClusterSize() {
         Bat self = (Bat)(Object)this;

@@ -107,8 +107,8 @@ public class BatSleepGoal extends Goal {
     @Override
     public void start() {
         // Leave any active swarm to find a personal roost
-        if (this.bat instanceof net.dasik.social.api.ai.GroupMember gm) {
-            gm.setLeader(false);
+        if (this.bat instanceof net.dasik.social.api.group.GroupMember gm) {
+            gm.setLeader(null);
         }
         if (this.bat instanceof net.vanillaoutsider.betterbats.BatStateAccessor accessor) {
             accessor.betterbats$setGoalActive(true);

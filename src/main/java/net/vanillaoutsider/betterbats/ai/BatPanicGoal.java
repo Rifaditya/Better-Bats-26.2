@@ -33,8 +33,8 @@ public class BatPanicGoal extends Goal {
     @Override
     public void start() {
         // Disperse from group when panicked
-        if (this.bat instanceof net.dasik.social.api.ai.GroupMember gm) {
-            gm.setLeader(false);
+        if (this.bat instanceof net.dasik.social.api.group.GroupMember gm) {
+            gm.setLeader(null);
         }
         // Play panic sounds (mixed takeoff and low-pitch flap)
         this.bat.playSound(net.minecraft.sounds.SoundEvents.BAT_TAKEOFF, 0.8f, 1.0f);

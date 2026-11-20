@@ -132,6 +132,19 @@ public class SimulatedEntity {
 
     public void setPanicked(boolean panicked) {
         this.panicked = panicked;
+        if (panicked) {
+            this.resting = false;
+            this.guanoTicks = 0;
+            if (this.panicTicks <= 0) {
+                this.panicTicks = 100;
+            }
+            this.activeSignal = "panic";
+        } else {
+            this.panicTicks = 0;
+            if ("panic".equals(this.activeSignal)) {
+                this.activeSignal = null;
+            }
+        }
     }
 
     public int getPanicTicks() {
@@ -139,8 +152,15 @@ public class SimulatedEntity {
     }
 
     public void setPanicTicks(int panicTicks) {
-        this.panicTicks = panicTicks;
-        this.panicked = panicTicks > 0;
+        this.panicTicks = Math.max(0, panicTicks);
+        this.panicked = this.panicTicks > 0;
+        if (this.panicked) {
+            this.resting = false;
+            this.guanoTicks = 0;
+            this.activeSignal = "panic";
+        } else if ("panic".equals(this.activeSignal)) {
+            this.activeSignal = null;
+        }
     }
 
     public double getPanicSourceX() {
@@ -188,6 +208,9 @@ public class SimulatedEntity {
 
     public void setInCombat(boolean inCombat) {
         this.inCombat = inCombat;
+        if (inCombat && this.resting) {
+            wakeUp();
+        }
     }
 
     public boolean isPredatorNearby() {
@@ -297,9 +320,10 @@ public class SimulatedEntity {
 
     /**
      * Checks if entity is eligible to roost on a cave ceiling.
+     * Disqualified if dead, panicked, already resting, missing solid ceiling, in combat, or threatened by predator or awake player.
      */
     public boolean isAvailableForRoosting() {
-        return !dead && !panicked && !resting && hasSolidCeilingAbove;
+        return !dead && !panicked && !resting && hasSolidCeilingAbove && !predatorNearby && !playerAwakeNearby && !inCombat;
     }
 
     /**
@@ -395,16 +419,23 @@ public class SimulatedEntity {
     }
 
     /**
+     * Attempts to transition into resting state on cave ceiling using existing ceiling state.
+     */
+    public boolean triggerRoost() {
+        return triggerRoost(this.hasSolidCeilingAbove);
+    }
+
+    /**
      * Attempts to transition into resting state on cave ceiling.
-     * Requires sturdy ceiling above; rejected if dead or panicked.
+     * Requires sturdy ceiling above; rejected if dead, panicked, in combat, or threatened by predator/player.
      */
     public boolean triggerRoost(boolean hasCeiling) {
-        if (this.dead || this.panicked || !hasCeiling) {
+        if (this.dead || this.panicked || !hasCeiling || this.predatorNearby || this.playerAwakeNearby || this.inCombat) {
             return false;
         }
         abortBehavior();
         this.resting = true;
-        this.hasSolidCeilingAbove = true;
+        this.hasSolidCeilingAbove = hasCeiling;
         this.activeSignal = "roosting";
         this.vx = 0.0;
         this.vy = 0.0;
@@ -445,7 +476,7 @@ public class SimulatedEntity {
         }
 
         // Threat Check: Nearby predator or awake player wakes resting bats
-        if (resting && (predatorNearby || playerAwakeNearby)) {
+        if (resting && (predatorNearby || playerAwakeNearby || inCombat)) {
             wakeUp();
         }
 
@@ -545,15 +576,57 @@ public class SimulatedEntity {
         this.cooldownTicks = 0;
         this.activeSignal = null;
         this.pitch = 1.0f;
+        if (this.panicked) {
+            this.panicked = false;
+            this.panicTicks = 0;
+            this.vx = 0.0;
+            this.vy = 0.0;
+            this.vz = 0.0;
+        }
     }
 
     /**
      * Calculates 3D Euclidean distance to another entity.
      */
     public double distanceTo(SimulatedEntity other) {
+        return Math.sqrt(distanceToSqr(other));
+    }
+
+    /**
+     * Calculates squared 3D Euclidean distance to another entity (allocation and sqrt free).
+     */
+    public double distanceToSqr(SimulatedEntity other) {
+        Objects.requireNonNull(other, "other entity cannot be null");
         double dx = this.x - other.x;
         double dy = this.y - other.y;
         double dz = this.z - other.z;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return dx * dx + dy * dy + dz * dz;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimulatedEntity that = (SimulatedEntity) o;
+        return Objects.equals(uuid, that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
+    }
+
+    @Override
+    public String toString() {
+        return "SimulatedEntity{" +
+                "role='" + role + '\'' +
+                ", uuid=" + uuid +
+                ", state=" + state +
+                ", resting=" + resting +
+                ", panicked=" + panicked +
+                ", x=" + String.format("%.2f", x) +
+                ", y=" + String.format("%.2f", y) +
+                ", z=" + String.format("%.2f", z) +
+                '}';
     }
 }

@@ -34,6 +34,12 @@ public class SimulatedEntityGroup {
      * and N followers positioned radially at the specified spacing radius.
      */
     public static SimulatedEntityGroup create(int followerCount, double followerSpacing) {
+        if (followerCount < 0) {
+            throw new IllegalArgumentException("followerCount cannot be negative: " + followerCount);
+        }
+        if (followerSpacing < 0) {
+            throw new IllegalArgumentException("followerSpacing cannot be negative: " + followerSpacing);
+        }
         SimulatedEntity init = new SimulatedEntity(UUID.randomUUID(), "initiator_bat", 0.0, 64.0, 0.0);
         List<SimulatedEntity> followers = new ArrayList<>();
         for (int i = 0; i < followerCount; i++) {
@@ -95,6 +101,11 @@ public class SimulatedEntityGroup {
             int activeDuration,
             int cooldownAfter
     ) {
+        Objects.requireNonNull(source, "source cannot be null");
+        Objects.requireNonNull(signal, "signal cannot be null");
+        if (radius < 0) {
+            return 0;
+        }
         int acceptedCount = 0;
         int followerIdx = 0;
         for (SimulatedEntity entity : allEntities) {
@@ -118,13 +129,17 @@ public class SimulatedEntityGroup {
      * All entities within radius receive panic, wake from roost if resting, and scatter.
      */
     public int broadcastPanic(double sourceX, double sourceY, double sourceZ, double radius) {
+        if (radius < 0) {
+            return 0;
+        }
         int count = 0;
+        double radiusSqr = radius * radius;
         for (SimulatedEntity entity : allEntities) {
             double dx = entity.getX() - sourceX;
             double dy = entity.getY() - sourceY;
             double dz = entity.getZ() - sourceZ;
-            double dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            if (dist <= radius && !entity.isDead()) {
+            double distSqr = dx * dx + dy * dy + dz * dz;
+            if (distSqr <= radiusSqr && !entity.isDead()) {
                 entity.panic(sourceX, sourceY, sourceZ);
                 count++;
             }
