@@ -1,5 +1,9 @@
 # 🦇 Better Bats — MC 1.21.11 Changelog
 
+## [1.0.2+1.21.11] - 2026-11-21
+### Fixed
+- **Server Startup Lifecycle Safety ([BL-BB-010])**: Migrated transient debug mode reset from `SERVER_STARTING` to `SERVER_STARTED` with an explicit `server.overworld()` null-check, resolving a `NullPointerException` during server tick initialization and world loading.
+
 ## [1.0.1+1.21.11] - 2026-10-12
 ### Fixed
 - **Knot ClassLoader Runtime Safety**: Purged string-based class reflection check during mod initialization to prevent runtime classloading failures in production environments.
